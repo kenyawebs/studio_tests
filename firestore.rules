@@ -1,43 +1,42 @@
+
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Users can only read their own profile, create it if it doesn't exist,
-    // and update it. They cannot change their own UID.
+    
+    // Users can only read and write to their own profile.
     match /users/{userId} {
       allow read, update: if request.auth != null && request.auth.uid == userId;
-      allow create: if request.auth != null && request.auth.uid == userId;
-    }
-    
-    // Any authenticated user can read posts.
-    // Users can only create posts for themselves.
-    // Users can only update their own posts.
-    match /posts/{postId} {
-      allow read: if request.auth != null;
-      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
-      allow update: if request.auth != null && request.resource.data.userId == request.auth.uid;
-      // Deletion rule can be added here if needed
-      // allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null;
     }
 
-    // Any authenticated user can read prayer requests.
-    // Users can only create requests for themselves.
-    // Users can only update their own requests.
+    // Any authenticated user can read posts. Users can create, update, and delete their own posts.
+    match /posts/{postId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    // Rules for counter shards used by the prayer count extension.
+    match /posts/{postId}/counter_shards/{shardId} {
+      allow write: if request.auth != null;
+    }
+
+    // Any authenticated user can read prayer requests. Users can create, update, and delete their own requests.
     match /prayerRequests/{requestId} {
       allow read: if request.auth != null;
-      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
-      allow update: if request.auth != null && resource.data.userId == request.auth.uid;
-      
-      // Rules for the distributed counter extension
-      match /counter_shards/{shardId} {
-        allow create: if request.auth != null;
-      }
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
     }
     
-    // Journal entries are private and can only be accessed by the owner.
+    // Rules for counter shards used by the prayer count extension.
+    match /prayerRequests/{requestId}/counter_shards/{shardId} {
+      allow write: if request.auth != null;
+    }
+
+    // Users can only manage their own journal entries.
     match /journalEntries/{entryId} {
-       allow read, create, update, delete: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow read, create, update, delete: if request.auth != null && request.resource.data.userId == request.auth.uid;
     }
-    
-    // Add other collections with proper rules here in the future
   }
 }
