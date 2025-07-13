@@ -1,32 +1,31 @@
 # Change Log for Index/Permission Debugging
 
-This file tracks temporary changes made to the codebase to resolve Firestore index and permission issues. It will serve as a checklist for reverting the application to a production-ready state.
+This file tracks the temporary changes made to the codebase to resolve Firestore index and permission issues. The debugging process is complete, and this file serves as a record.
 
 ## 1. `package.json` Modifications
 
 **Original `dev` script:**
 ```json
-"dev": "next dev --turbopack -p 9003" 
+"dev": "NODE_OPTIONS='--inspect' next dev --turbopack -p 9002"
 ```
-*(Note: Original port was 9002, but was changed to 9003 due to EADDRINUSE errors).*
 
 **Temporary Changes Made:**
+- Changed port from `9002` to `9003` to resolve `EADDRINUSE` errors.
 - Removed `NODE_OPTIONS='--inspect'` flag to simplify process logging and avoid debugger port conflicts.
 
-**Final State Target:**
+**Final State:**
 ```json
 "dev": "next dev --turbopack -p 9003"
 ```
-*(The simplified script is stable and can be kept).*
+*(The simplified script is stable and has been kept).*
 
 ---
 
 ## 2. `firestore.rules` Evolution
 
 1.  **Initial State:** Rules only defined for `/users/{userId}`.
-2.  **Problem:** This caused `permission-denied` errors for `posts`, `prayerRequests`, and `journalEntries` collections, including for `count` queries.
-3.  **Attempt 1 & 2:** Added rules for other collections, but they were too complex or had logical errors for `list` and `count` queries.
-4.  **Temporary State (Used for Debugging):** Used wide-open rules for any authenticated user to unblock index creation.
+2.  **Problem:** This caused `permission-denied` errors for all other collections. Subsequent attempts to add rules were too complex and also failed, particularly for `count` queries.
+3.  **Temporary State (Used for Debugging):** Used wide-open rules to unblock the app and allow for index creation links to be generated from the terminal.
     ```
     rules_version = '2';
     service cloud.firestore {
@@ -37,7 +36,7 @@ This file tracks temporary changes made to the codebase to resolve Firestore ind
       }
     }
     ```
-5.  **Final State (Production-Ready):** Deployed the final, secure ruleset once indexes were created.
+4.  **Final State (Production-Ready):** Deployed the final, secure ruleset once all necessary indexes were created via the generated links.
 
 ---
 
@@ -45,4 +44,4 @@ This file tracks temporary changes made to the codebase to resolve Firestore ind
 
 - [x] Deploy final, secure `firestore.rules`.
 - [x] Confirm `package.json` `dev` script is stable.
-- [ ] Delete `FIREBASE_DEBUG_CHANGES.md`.
+- [ ] Delete `FIREBASE_DEBUG_CHANGES.md` (This can be done in a future step now that its purpose is served).

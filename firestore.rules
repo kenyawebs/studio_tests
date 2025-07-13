@@ -1,37 +1,36 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Users can only read and write to their own document.
+
+    // Users: Can read/write their own profile
     match /users/{userId} {
-      allow read, update: if request.auth != null && request.auth.uid == userId;
-      // Allow user creation
+      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
       allow create: if request.auth != null;
     }
 
-    // Any authenticated user can read the public social feed.
-    // Users can only create, update, or delete their own posts.
+    // Posts: Any authenticated user can read. Can only write/delete their own.
     match /posts/{postId} {
       allow read: if request.auth != null;
       allow create, update, delete: if request.auth != null && request.auth.uid == request.resource.data.userId;
+
+      // Allow liking (updating a specific field) by any authenticated user
+      allow update: if request.auth != null
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes', 'likedBy', 'comments']);
     }
-    
-    // Any authenticated user can read the public prayer wall.
-    // Users can only create, update, or delete their own prayer requests.
+
+    // Prayer Requests: Any authenticated user can read. Can only write/delete their own.
     match /prayerRequests/{requestId} {
       allow read: if request.auth != null;
       allow create, update, delete: if request.auth != null && request.auth.uid == request.resource.data.userId;
 
-      // Allow the distributed counter to update prayCount
-      match /counter_shards/{shardId} {
-        allow write: if request.auth != null;
-      }
+       // Allow updating prayer count and comments by any authenticated user
+      allow update: if request.auth != null
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['prayCount', 'comments']);
     }
-
-    // Journal entries are private and can only be accessed by the owner.
+    
+    // Journal Entries: Can only be accessed by the user who created them.
     match /journalEntries/{entryId} {
       allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
     }
   }
 }
