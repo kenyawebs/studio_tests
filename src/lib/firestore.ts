@@ -1,4 +1,5 @@
 
+
 import { doc, setDoc, serverTimestamp, collection, addDoc, getDoc, updateDoc, runTransaction, arrayUnion, arrayRemove, increment, Timestamp, query, where, getCountFromServer, orderBy, limit, startAfter, getDocs, DocumentSnapshot } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { db } from "./firebase";
@@ -369,9 +370,9 @@ export const getSocialFeedPosts = async (postsLimit: number, lastVisible: Docume
     const postsCollection = collection(db, "posts");
 
     if (lastVisible) {
-        q = query(postsCollection, orderBy("timestamp", "desc"), startAfter(lastVisible), limit(postsLimit));
+        q = query(postsCollection, /*orderBy("timestamp", "desc"),*/ startAfter(lastVisible), limit(postsLimit));
     } else {
-        q = query(postsCollection, orderBy("timestamp", "desc"), limit(postsLimit));
+        q = query(postsCollection, /*orderBy("timestamp", "desc"),*/ limit(postsLimit));
     }
 
     const documentSnapshots = await getDocs(q);
@@ -401,7 +402,7 @@ export const getPrayerRequests = async (reqsLimit: number, lastVisible: Document
     const reqsCollection = collection(db, "prayerRequests");
     let q;
 
-    const constraints = [orderBy("timestamp", "desc"), limit(reqsLimit)];
+    const constraints = [/*orderBy("timestamp", "desc"),*/ limit(reqsLimit)];
     if (typeFilter) {
         constraints.unshift(where("type", "==", typeFilter));
     }
@@ -422,3 +423,4 @@ export const getPrayerRequests = async (reqsLimit: number, lastVisible: Document
 
     return { requests, lastVisible: newLastVisible };
 };
+
