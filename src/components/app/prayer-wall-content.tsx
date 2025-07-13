@@ -29,7 +29,7 @@ const REQUESTS_PER_PAGE = 5;
 const PrayerWallSkeleton = () => (
     <div className="space-y-4 mt-4">
         {[...Array(3)].map((_, i) => (
-            <Card key={i}>
+            <Card key={`skeleton-${i}`}>
                 <CardContent className="p-4 flex gap-4">
                     <Skeleton className="h-12 w-12 rounded-full" />
                     <div className="flex-grow space-y-2">
@@ -90,14 +90,18 @@ export function PrayerWallContent() {
         try {
             const { requests: newRequests, lastVisible: newLastVisible } = await getPrayerRequests(REQUESTS_PER_PAGE, feeds[tab].lastVisible, typeFilter);
             
-            setFeeds(prevFeeds => ({
-                ...prevFeeds,
-                [tab]: {
-                    items: [...prevFeeds[tab].items, ...newRequests],
-                    lastVisible: newLastVisible,
-                    hasMore: newRequests.length === REQUESTS_PER_PAGE
+            setFeeds(prevFeeds => {
+                const existingIds = new Set(prevFeeds[tab].items.map(item => item.id));
+                const uniqueNewItems = newRequests.filter(item => !existingIds.has(item.id));
+                return {
+                    ...prevFeeds,
+                    [tab]: {
+                        items: [...prevFeeds[tab].items, ...uniqueNewItems],
+                        lastVisible: newLastVisible,
+                        hasMore: newRequests.length === REQUESTS_PER_PAGE
+                    }
                 }
-            }));
+            });
             
         } catch (error) {
             console.error("Error fetching prayer requests for tab", tab, error);
@@ -310,7 +314,7 @@ export function PrayerWallContent() {
                 </Card>
             </div>
         </div>
-    )
+    );
 }
 
 function PrayerCard({ id, name, avatar, aiHint, request, prayCount, timestamp, comments, type }: PrayerRequest) {
@@ -394,5 +398,5 @@ function PrayerCard({ id, name, avatar, aiHint, request, prayCount, timestamp, c
                 </Collapsible>
             </CardFooter>
         </Card>
-    )
+    );
 }
