@@ -24,9 +24,9 @@ This file tracks temporary changes made to the codebase to resolve Firestore ind
 ## 2. `firestore.rules` Evolution
 
 1.  **Initial State:** Rules only defined for `/users/{userId}`.
-2.  **Problem:** This caused `permission-denied` errors for `posts`, `prayerRequests`, and `journalEntries` collections.
+2.  **Problem:** This caused `permission-denied` errors for `posts`, `prayerRequests`, and `journalEntries` collections, including for `count` queries.
 3.  **Attempt 1 & 2:** Added rules for other collections, but they were too complex or had logical errors for `list` and `count` queries.
-4.  **Current State (Temporary):** Using wide-open rules for any authenticated user to unblock index creation.
+4.  **Temporary State (Used for Debugging):** Used wide-open rules for any authenticated user to unblock index creation.
     ```
     rules_version = '2';
     service cloud.firestore {
@@ -37,12 +37,12 @@ This file tracks temporary changes made to the codebase to resolve Firestore ind
       }
     }
     ```
-5.  **Final State Target:** Deploy the final, secure ruleset once indexes are created.
+5.  **Final State (Production-Ready):** Deployed the final, secure ruleset once indexes were created.
 
 ---
 
 ## Revert Checklist
 
-- [ ] Deploy final, secure `firestore.rules`.
-- [ ] Confirm `package.json` `dev` script is stable.
+- [x] Deploy final, secure `firestore.rules`.
+- [x] Confirm `package.json` `dev` script is stable.
 - [ ] Delete `FIREBASE_DEBUG_CHANGES.md`.

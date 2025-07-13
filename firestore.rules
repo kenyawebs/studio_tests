@@ -1,14 +1,37 @@
-// WARNING: TEMPORARY DEVELOPMENT RULES - NOT FOR PRODUCTION
-// These rules are intentionally open to allow the application to run
-// so that Firebase can generate the required index-creation links in the terminal.
-// Once the indexes are created, these MUST be replaced with the final, secure rules.
-
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Allow any authenticated user to read and write to any document.
-    match /{document=**} {
-      allow read, write: if request.auth != null;
+    // Users can only read and write to their own document.
+    match /users/{userId} {
+      allow read, update: if request.auth != null && request.auth.uid == userId;
+      // Allow user creation
+      allow create: if request.auth != null;
+    }
+
+    // Any authenticated user can read the public social feed.
+    // Users can only create, update, or delete their own posts.
+    match /posts/{postId} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+    
+    // Any authenticated user can read the public prayer wall.
+    // Users can only create, update, or delete their own prayer requests.
+    match /prayerRequests/{requestId} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if request.auth != null && request.auth.uid == request.resource.data.userId;
+
+      // Allow the distributed counter to update prayCount
+      match /counter_shards/{shardId} {
+        allow write: if request.auth != null;
+      }
+    }
+
+    // Journal entries are private and can only be accessed by the owner.
+    match /journalEntries/{entryId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
     }
   }
 }
