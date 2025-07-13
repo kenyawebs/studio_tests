@@ -1,42 +1,36 @@
-
 rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // Users can only read and write to their own profile.
+
+    // Users can only read and modify their own profile.
     match /users/{userId} {
       allow read, update: if request.auth != null && request.auth.uid == userId;
       allow create: if request.auth != null;
     }
 
-    // Any authenticated user can read posts. Users can create, update, and delete their own posts.
-    match /posts/{postId} {
-      allow read: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
-    }
-
-    // Rules for counter shards used by the prayer count extension.
-    match /posts/{postId}/counter_shards/{shardId} {
-      allow write: if request.auth != null;
-    }
-
-    // Any authenticated user can read prayer requests. Users can create, update, and delete their own requests.
-    match /prayerRequests/{requestId} {
-      allow read: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update, delete: if request.auth != null && resource.data.userId == request.auth.uid;
-    }
-    
-    // Rules for counter shards used by the prayer count extension.
-    match /prayerRequests/{requestId}/counter_shards/{shardId} {
-      allow write: if request.auth != null;
-    }
-
-    // Users can only manage their own journal entries.
+    // Journal entries are private. Users can only manage their own entries.
     match /journalEntries/{entryId} {
-      allow read, create, update, delete: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow read, list, count, create, update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
+
+    // Social feed posts can be read by any authenticated user.
+    // Users can only create, update, or delete their own posts.
+    match /posts/{postId} {
+      allow read, list, count: if request.auth != null;
+      allow create, update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
+
+    // Prayer requests can be read by any authenticated user.
+    // Users can only create, update, or delete their own requests.
+    match /prayerRequests/{requestId} {
+      allow read, list, count: if request.auth != null;
+      allow create, update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+
+      // Allow any authenticated user to trigger the prayer count increment.
+      match /counter_shards/{shardId} {
+        allow create: if request.auth != null;
+      }
     }
   }
 }
