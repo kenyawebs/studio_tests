@@ -370,7 +370,7 @@ function PostCard({ postData, timeAgo }: { postData: Post, timeAgo: (date: Times
                     </div>
                     <CollapsibleContent>
                         <div className="bg-secondary/50 p-4 space-y-4">
-                            {Array.isArray(post.comments) && post.comments.sort((a, b) => a.timestamp.toMillis() - b.timestamp.toMillis()).map((comment) => (
+                            {post.comments?.sort((a, b) => a.timestamp.toMillis() - b.timestamp.toMillis()).map((comment) => (
                                 <div key={comment.id} className="flex gap-2 text-sm">
                                     <Avatar className="h-8 w-8">
                                         <AvatarImage src={comment.avatar} />
@@ -405,4 +405,3 @@ function PostCard({ postData, timeAgo }: { postData: Post, timeAgo: (date: Times
         </Card>
     );
 }
-
