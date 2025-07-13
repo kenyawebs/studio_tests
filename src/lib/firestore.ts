@@ -31,6 +31,16 @@ export type JournalEntryData = {
     timestamp: any; // serverTimestamp()
 };
 
+// Shape for a single comment
+export type Comment = {
+  id: string;
+  userId: string;
+  name: string;
+  avatar: string;
+  text: string;
+  timestamp: Timestamp;
+};
+
 // Shape for Post data, aligning with social-feed-content
 export type Post = {
     id: string;
@@ -40,7 +50,7 @@ export type Post = {
     timestamp: Timestamp;
     likes: number;
     likedBy: string[];
-    comments: number;
+    comments: Comment[];
     type: 'testimony' | 'image' | 'prayer_request' | 'text';
     imageUrl?: string;
     aiHint?: string;
@@ -264,7 +274,7 @@ export const createSocialPost = async (user: User, content: string) => {
         type: postType,
         likes: 0,
         likedBy: [] as string[],
-        comments: 0,
+        comments: [] as Comment[],
         ...(postType === 'prayer_request' && { prayCount: 0 })
     };
 
@@ -275,6 +285,38 @@ export const createSocialPost = async (user: User, content: string) => {
         throw new Error("Could not create post.");
     }
 };
+
+/**
+ * Adds a comment to a specific post.
+ * @param postId The ID of the post to add a comment to.
+ * @param user The user object of the person commenting.
+ * @param text The content of the comment.
+ */
+export const addCommentToPost = async (postId: string, user: User, text: string) => {
+    if (!db || !user) throw new Error("User must be logged in to comment.");
+    
+    const postRef = doc(db, "posts", postId);
+    const commentId = doc(collection(db, 'posts')).id; // Generate a unique ID for the comment
+
+    const newComment: Comment = {
+        id: commentId,
+        userId: user.uid,
+        name: user.displayName || "Anonymous",
+        avatar: user.photoURL || "",
+        text: text,
+        timestamp: Timestamp.now()
+    };
+    
+    try {
+        await updateDoc(postRef, {
+            comments: arrayUnion(newComment)
+        });
+    } catch (error) {
+        console.error("Error adding comment: ", error);
+        throw new Error("Could not add comment.");
+    }
+};
+
 
 /**
  * Toggles a like on a post.
@@ -423,4 +465,3 @@ export const getPrayerRequests = async (reqsLimit: number, lastVisible: Document
 
     return { requests, lastVisible: newLastVisible };
 };
-

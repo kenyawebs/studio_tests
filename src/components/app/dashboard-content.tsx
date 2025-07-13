@@ -207,7 +207,7 @@ export function DashboardContent() {
                                                 <Card className="overflow-hidden">
                                                     <CardContent className="p-0">
                                                         <div className="aspect-video relative">
-                                                            <Image src={item.image} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform" data-ai-hint={item.aiHint} />
+                                                            <Image src={item.image} alt={item.title} fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover group-hover:scale-105 transition-transform" data-ai-hint={item.aiHint} />
                                                         </div>
                                                         <div className="p-3">
                                                             <div className="flex items-center gap-1.5 text-xs text-primary font-semibold mb-1">
