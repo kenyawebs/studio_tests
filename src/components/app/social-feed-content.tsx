@@ -301,6 +301,11 @@ function PostCard({ postData, timeAgo }: { postData: Post, timeAgo: (date: Times
         }
     };
 
+    // Safely sort comments, ensuring post.comments is an array
+    const sortedComments = Array.isArray(post.comments) 
+        ? [...post.comments].sort((a, b) => a.timestamp.toMillis() - b.timestamp.toMillis())
+        : [];
+
     return (
         <Card>
             <CardHeader className="p-4">
@@ -349,7 +354,7 @@ function PostCard({ postData, timeAgo }: { postData: Post, timeAgo: (date: Times
                                 </Button>
                                 <CollapsibleTrigger asChild>
                                     <Button variant="ghost" className="flex items-center gap-2" onClick={() => commentInputRef.current?.focus()}>
-                                        <MessageCircle className="w-5 h-5" /> {post.comments?.length || 0}
+                                        <MessageCircle className="w-5 h-5" /> {sortedComments.length || 0}
                                     </Button>
                                 </CollapsibleTrigger>
                                 <DropdownMenu>
@@ -370,7 +375,7 @@ function PostCard({ postData, timeAgo }: { postData: Post, timeAgo: (date: Times
                     </div>
                     <CollapsibleContent>
                         <div className="bg-secondary/50 p-4 space-y-4">
-                            {post.comments?.sort((a, b) => a.timestamp.toMillis() - b.timestamp.toMillis()).map((comment) => (
+                            {sortedComments.map((comment) => (
                                 <div key={comment.id} className="flex gap-2 text-sm">
                                     <Avatar className="h-8 w-8">
                                         <AvatarImage src={comment.avatar} />
