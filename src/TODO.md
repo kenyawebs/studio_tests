@@ -56,6 +56,9 @@ This section contains exciting new features to consider for future development s
     -   Allow creating a single profile for a family unit.
     -   Implement the ability to follow other families.
     -   Introduce a family tree or lineage tracing feature to connect relatives, clans, and cousins.
+-   **Daily Devotion System**:
+    -   **What:** A feature allowing users to volunteer or be assigned to lead daily prayers (morning, noon, night).
+    -   **Features:** Includes a calendar to see who is leading and when, and a system to find suitable times.
 
 ### Existing Feature Enhancements
 -   **Prayer Wall**: Enhance the prayer feature with notifications when someone prays for you.
@@ -71,6 +74,9 @@ This section contains exciting new features to consider for future development s
 
 ## ✨ Additional Integrations & Enhancements
 
+-   **E-commerce Store**: Build an integrated store for selling spiritual resources like books, music, or apparel.
+-   **Push Notifications**: Implement push notifications for key events, announcements, prayer reminders, and direct messages.
+-   **Online Invitation System**: Create tools for users to easily invite others to events, live services, or the app itself via QR code, SMS, and other platforms.
 -   **Admin Panel & Functionality:**
     -   **What:** Build out the admin dashboard with more features.
     -   **Features:** User management (view, disable, make admin), content moderation (review/approve events, posts), view app statistics.
