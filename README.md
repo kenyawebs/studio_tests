@@ -15,16 +15,26 @@ Connect Hub is a modern social and spiritual platform designed to provide a posi
 
 ---
 
+## App Features
+
+Here are some of the most important features for church and community management:
+
+-   **Digital Church Management**: Manage your members and other church resources effectively.
+-   **Donation and Tithes**: Receive donations and tithes from members and followers worldwide through secure payment gateways.
+-   **Real-time Church Updates**: Provide real-time updates to your members and followers instantly.
+-   **Events on the Go**: Create events and set reminders with a simple click.
+-   **Church Media**: A dedicated platform to share your media content and worship God.
+-   **Reach Globally**: Increase your global views and acquire users from around the world.
+-   **Data Privacy**: Ensuring GDPR and CCPA compliance to protect your users' data.
+
+---
+
 ## Join The Next Revolution
 
-We are on a mission to connect Christians with greater access to community and spiritual resources! To accomplish this audacious vision, we are building a platform that will touch people's lives in a positive way.
-
-## For Investors
-
-This journey is very tough and it will have a lot of ups & downs. We are open to investments with great people who can travel with us for the long term.
+We are on a mission to connect Christians with greater access to community and spiritual resources! To accomplish this audacious vision, we are open to investments with great people, who can travel with us for the long term.
 
 ### Investment Profile
-We don't take money from everyone. We will make investments only from seasoned entrepreneurs, professional VCs, and individuals who have been through an entrepreneurial journey. This is a high-risk, high-return investment.
+This journey is very tough and it will have a lot of ups & downs. We will make investments only from seasoned entrepreneurs, professional VCs, and individuals who have been through an entrepreneurial journey. This is a high-risk, high-return investment.
 
 ### Our Vision
 The intention is to build a great company that will touch people's lives in a positive way; money will be a byproduct. We are aiming for a huge impact and returns as well. We have a clear vision of creating great values for the people, and along the way, we will be making a billion-dollar company.
