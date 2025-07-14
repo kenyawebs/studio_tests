@@ -35,8 +35,30 @@ This document tracks major feature requests and enhancements. We have completed 
     -   **What:** Implement the remaining layers of the security model from `DATA_FLOW.md`. This includes adding rate limiting (e.g., with Cloud Functions) and hardening Firestore security rules for all collections.
     -   **Why:** To protect the application and user data from abuse and malicious actors.
 
-## 🏗️ Future Social Ecosystem Features
+## 🌟 Future Feature Wishlist
 
+This section contains exciting new features to consider for future development sprints.
+
+### Richer Content & Social Interaction
+-   **Live Streaming**: Integrate functionality to live stream church sermons and events directly in the app.
+-   **Diverse Post Types**:
+    -   **Video Posts**: Allow users to upload short video clips.
+    -   **Photo Posts**: Standard single-image posts.
+    -   **Carousel Posts**: Allow uploading multiple photos in a single, swipeable post.
+-   **Re-Posting**: A "re-post" or "share" feature to amplify content within the app's feed.
+-   **"Amen" Button**: Replace the "Like" button with an "Amen" button for a more thematic interaction on posts and prayers.
+-   **Direct Messaging**: Implement a private, one-to-one chat system between church members.
+
+### Community & Family Features
+-   **Church Tab**: A dedicated section for a user's selected home church, showing church-specific announcements, events, and a member directory.
+-   **Community Tab**: A global or interest-based feed to connect with members beyond one's local church.
+-   **Family Profiles**:
+    -   Allow creating a single profile for a family unit.
+    -   Implement the ability to follow other families.
+    -   Introduce a family tree or lineage tracing feature to connect relatives, clans, and cousins.
+
+### Existing Feature Enhancements
+-   **Prayer Wall**: Enhance the prayer feature with notifications when someone prays for you.
 -   **Full Friends/Following & Groups System:**
     -   **What:** Implement the backend logic and UI for a complete social graph.
     -   **Features:**
