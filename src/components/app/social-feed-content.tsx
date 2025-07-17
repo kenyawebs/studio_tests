@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useTransition } from "react";
@@ -27,7 +28,6 @@ import {
     Globe
 } from "lucide-react";
 import Image from "next/image";
-import { PrayButton } from "@/components/app/pray-button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
@@ -201,7 +201,7 @@ export function SocialFeedContent() {
     };
     
     const timeAgo = (date: Timestamp | null) => {
-        if (!date) return 'Just now';
+        if (!date || typeof date.toDate !== 'function') return 'Just now';
         const seconds = Math.floor((new Date().getTime() - date.toDate().getTime()) / 1000);
         let interval = seconds / 31536000;
         if (interval > 1) return Math.floor(interval) + "y ago";
@@ -545,3 +545,5 @@ function PostCard({ post, timeAgo }: { post: Post, timeAgo: (date: Timestamp | n
         </Card>
     );
 }
+
+    

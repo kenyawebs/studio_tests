@@ -1,4 +1,5 @@
-import { doc, setDoc, serverTimestamp, collection, addDoc, getDoc, updateDoc, runTransaction, arrayUnion, arrayRemove, increment, Timestamp, query, where, getCountFromServer, orderBy, limit, startAfter, getDocs, DocumentSnapshot } from "firebase/firestore";
+
+import { doc, setDoc, serverTimestamp, collection, addDoc, getDoc, updateDoc, runTransaction, arrayUnion, arrayRemove, increment, Timestamp, query, where, getCountFromServer, orderBy, limit, startAfter, getDocs, DocumentSnapshot, deleteField } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { db } from "./firebase";
 
@@ -49,7 +50,7 @@ export type Post = {
     userId: string;
     content: string;
     user: { name: string; avatar: string; aiHint: string; };
-    timestamp: Timestamp;
+    timestamp: Timestamp | null;
     likes: number; // Keep for legacy or basic interaction
     likedBy: string[];
     comments: Comment[];
@@ -298,7 +299,7 @@ export const createSocialPost = async (user: User, content: string, category?: T
         autoCategory = 'calling';
     }
 
-    const postData = {
+    const postData: Omit<Post, 'id'> = {
         userId: user.uid,
         user: {
             name: user.displayName || "Anonymous",
@@ -306,12 +307,12 @@ export const createSocialPost = async (user: User, content: string, category?: T
             aiHint: "person portrait",
         },
         content: content,
-        timestamp: serverTimestamp(),
+        timestamp: serverTimestamp() as Timestamp,
         type: postType,
         category: category || autoCategory,
         likes: 0,
-        likedBy: [] as string[],
-        comments: [] as Comment[],
+        likedBy: [],
+        comments: [],
         reactions: {
             praying: 0,
             believing: 0,
@@ -319,7 +320,7 @@ export const createSocialPost = async (user: User, content: string, category?: T
             inspired: 0
         },
         userReactions: {},
-        ...(postType === 'prayer_request' && { prayCount: 0 })
+        prayCount: postType === 'prayer_request' ? 0 : undefined,
     };
 
     try {
@@ -380,7 +381,7 @@ export const toggleLikePost = async (postId: string, userId: string) => {
                 throw "Document does not exist!";
             }
 
-            const postData = postDoc.data();
+            const postData = postDoc.data() as Post;
             const likedBy = postData.likedBy || [];
             const hasLiked = likedBy.includes(userId);
 
@@ -422,32 +423,31 @@ export const togglePostReaction = async (postId: string, userId: string, reactio
                 throw "Document does not exist!";
             }
 
-            const postData = postDoc.data();
-            const currentReactions = postData.reactions || { praying: 0, believing: 0, encouraging: 0, inspired: 0 };
+            const postData = postDoc.data() as Post;
             const userReactions = postData.userReactions || {};
             const previousReaction = userReactions[userId];
 
-            // Decrement the previous reaction if it exists
+            const updates: { [key: string]: any } = {};
+
+            // Decrement the count of the previous reaction, if there was one.
             if (previousReaction) {
-                currentReactions[previousReaction] = Math.max(0, (currentReactions[previousReaction] || 0) - 1);
+                updates[`reactions.${previousReaction}`] = increment(-1);
             }
 
-            // If the new reaction is different from the old one, increment it
+            // If the new reaction is different from the old one, increment the new one.
+            // If the new reaction is the same as the old one, this is a toggle-off action.
             if (previousReaction !== reactionType) {
-                currentReactions[reactionType] = (currentReactions[reactionType] || 0) + 1;
-                userReactions[userId] = reactionType;
+                updates[`reactions.${reactionType}`] = increment(1);
+                updates[`userReactions.${userId}`] = reactionType;
             } else {
-                // If it's the same reaction, it means we are toggling it off
-                delete userReactions[userId];
+                // User is toggling off their reaction, so remove it from the map.
+                updates[`userReactions.${userId}`] = deleteField();
             }
 
-            transaction.update(postRef, {
-                reactions: currentReactions,
-                userReactions: userReactions
-            });
+            transaction.update(postRef, updates);
         });
     } catch (e) {
-        console.error("Transaction failed: ", e);
+        console.error("Transaction for togglePostReaction failed: ", e);
         throw new Error("Could not update reaction.");
     }
 };
@@ -557,3 +557,5 @@ export const getPrayerRequests = async (reqsLimit: number, lastVisible: Document
 
     return { requests, lastVisible: newLastVisible };
 };
+
+    
