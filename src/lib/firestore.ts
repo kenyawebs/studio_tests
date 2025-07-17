@@ -1,5 +1,3 @@
-
-
 import { doc, setDoc, serverTimestamp, collection, addDoc, getDoc, updateDoc, runTransaction, arrayUnion, arrayRemove, increment, Timestamp, query, where, getCountFromServer, orderBy, limit, startAfter, getDocs, DocumentSnapshot } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { db } from "./firebase";
@@ -41,21 +39,36 @@ export type Comment = {
   timestamp: Timestamp;
 };
 
-// Shape for Post data, aligning with social-feed-content
+// Spiritual transformation types
+export type SpiritualReaction = 'praying' | 'believing' | 'encouraging' | 'inspired';
+export type TestimonyCategory = 'breakthrough' | 'healing' | 'provision' | 'restoration' | 'calling' | 'growth';
+
+// Updated Post type with spiritual features
 export type Post = {
     id: string;
     userId: string;
     content: string;
     user: { name: string; avatar: string; aiHint: string; };
     timestamp: Timestamp;
-    likes: number;
+    likes: number; // Keep for legacy or basic interaction
     likedBy: string[];
     comments: Comment[];
-    type: 'testimony' | 'image' | 'prayer_request' | 'text';
+    type: 'testimony' | 'image' | 'prayer_request' | 'text' | 'question';
+    category?: TestimonyCategory;
     imageUrl?: string;
     aiHint?: string;
     prayCount?: number;
+    reactions?: {
+        praying: number;
+        believing: number;
+        encouraging: number;
+        inspired: number;
+    };
+    userReactions?: {
+        [userId: string]: SpiritualReaction;
+    };
 };
+
 
 export type PrayerRequest = {
     id: string;
@@ -246,20 +259,43 @@ export const createPrayerRequest = async (user: User, request: string) => {
 
 
 /**
- * Creates a new post in the Social Feed.
+ * ENHANCED: Creates a new post in the Social Feed with spiritual transformation features.
  * @param user The authenticated user object.
  * @param content The text content of the post.
+ * @param category Optional testimony category.
  */
-export const createSocialPost = async (user: User, content: string) => {
+export const createSocialPost = async (user: User, content: string, category?: TestimonyCategory) => {
     if (!db || !user) {
         throw new Error("User must be logged in to create a post.");
     }
 
-    let postType: 'testimony' | 'prayer_request' | 'text' = 'text';
-    if (/(testimony|grateful|thankful)/i.test(content)) {
-        postType = 'testimony';
-    } else if (/(pray|prayer|praying)/i.test(content)) {
+    // AI-powered content analysis for spiritual categorization
+    let postType: 'testimony' | 'prayer_request' | 'text' | 'question' = 'testimony';
+    let autoCategory: TestimonyCategory = 'growth';
+    
+    const lowerContent = content.toLowerCase();
+    
+    if (/(question|wondering|confused|doubt|help|advice)/i.test(content)) {
+        postType = 'question';
+        autoCategory = 'growth';
+    } else if (/(pray|prayer|praying|intercede)/i.test(content)) {
         postType = 'prayer_request';
+        autoCategory = 'growth';
+    } else if (/(breakthrough|victory|overcome|conquered)/i.test(content)) {
+        postType = 'testimony';
+        autoCategory = 'breakthrough';
+    } else if (/(healing|healed|restored|recovery|wholeness)/i.test(content)) {
+        postType = 'testimony';
+        autoCategory = 'healing';
+    } else if (/(provision|provided|blessing|miracle|abundance)/i.test(content)) {
+        postType = 'testimony';
+        autoCategory = 'provision';
+    } else if (/(restoration|restored|comeback|returned|forgiven)/i.test(content)) {
+        postType = 'testimony';
+        autoCategory = 'restoration';
+    } else if (/(calling|called|purpose|ministry|vision)/i.test(content)) {
+        postType = 'testimony';
+        autoCategory = 'calling';
     }
 
     const postData = {
@@ -272,16 +308,24 @@ export const createSocialPost = async (user: User, content: string) => {
         content: content,
         timestamp: serverTimestamp(),
         type: postType,
+        category: category || autoCategory,
         likes: 0,
         likedBy: [] as string[],
         comments: [] as Comment[],
+        reactions: {
+            praying: 0,
+            believing: 0,
+            encouraging: 0,
+            inspired: 0
+        },
+        userReactions: {},
         ...(postType === 'prayer_request' && { prayCount: 0 })
     };
 
     try {
         await addDoc(collection(db, "posts"), postData);
     } catch (error) {
-        console.error("Error creating social post:", error);
+        console.error("Error creating spiritual post:", error);
         throw new Error("Could not create post.");
     }
 };
@@ -357,6 +401,54 @@ export const toggleLikePost = async (postId: string, userId: string) => {
     } catch (e) {
         console.error("Transaction failed: ", e);
         throw new Error("Could not update like status.");
+    }
+};
+
+/**
+ * Toggles spiritual reactions on posts.
+ * @param postId The ID of the post to react to.
+ * @param userId The ID of the user performing the action.
+ * @param reactionType The type of spiritual reaction.
+ */
+export const togglePostReaction = async (postId: string, userId: string, reactionType: SpiritualReaction) => {
+    if (!db) throw new Error("Firestore is not initialized.");
+    
+    const postRef = doc(db, "posts", postId);
+
+    try {
+        await runTransaction(db, async (transaction) => {
+            const postDoc = await transaction.get(postRef);
+            if (!postDoc.exists()) {
+                throw "Document does not exist!";
+            }
+
+            const postData = postDoc.data();
+            const currentReactions = postData.reactions || { praying: 0, believing: 0, encouraging: 0, inspired: 0 };
+            const userReactions = postData.userReactions || {};
+            const previousReaction = userReactions[userId];
+
+            // Decrement the previous reaction if it exists
+            if (previousReaction) {
+                currentReactions[previousReaction] = Math.max(0, (currentReactions[previousReaction] || 0) - 1);
+            }
+
+            // If the new reaction is different from the old one, increment it
+            if (previousReaction !== reactionType) {
+                currentReactions[reactionType] = (currentReactions[reactionType] || 0) + 1;
+                userReactions[userId] = reactionType;
+            } else {
+                // If it's the same reaction, it means we are toggling it off
+                delete userReactions[userId];
+            }
+
+            transaction.update(postRef, {
+                reactions: currentReactions,
+                userReactions: userReactions
+            });
+        });
+    } catch (e) {
+        console.error("Transaction failed: ", e);
+        throw new Error("Could not update reaction.");
     }
 };
 
