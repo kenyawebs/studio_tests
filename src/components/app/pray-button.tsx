@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React, { useState, useTransition, useEffect } from "react";
@@ -27,7 +28,7 @@ export function PrayButton({ prayerId, count }: { prayerId: string, count: numbe
   useEffect(() => {
     if (!prayerId) return;
     
-    const unsub = onSnapshot(doc(db, `prayerRequests/${prayerId}`), (doc) => {
+    const unsub = onSnapshot(doc(db, "prayerRequests", prayerId), (doc) => {
         if (doc.exists()) {
             const data = doc.data();
             setPrayCount(data.prayCount || 0);
@@ -76,3 +77,4 @@ export function PrayButton({ prayerId, count }: { prayerId: string, count: numbe
     </div>
   );
 }
+

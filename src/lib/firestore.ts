@@ -1,4 +1,5 @@
 
+
 import { doc, setDoc, serverTimestamp, collection, addDoc, getDoc, updateDoc, runTransaction, arrayUnion, arrayRemove, increment, Timestamp, query, where, getCountFromServer, orderBy, limit, startAfter, getDocs, DocumentSnapshot, deleteField } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { db } from "./firebase";
@@ -40,34 +41,18 @@ export type Comment = {
   timestamp: Timestamp;
 };
 
-// Spiritual transformation types
-export type SpiritualReaction = 'praying' | 'believing' | 'encouraging' | 'inspired';
-export type TestimonyCategory = 'breakthrough' | 'healing' | 'provision' | 'restoration' | 'calling' | 'growth';
-
-// Updated Post type with spiritual features
+// Social Post type
 export type Post = {
     id: string;
     userId: string;
     content: string;
     user: { name: string; avatar: string; aiHint: string; };
     timestamp: Timestamp | null;
-    likes: number; // Keep for legacy or basic interaction
+    likes: number;
     likedBy: string[];
     comments: Comment[];
-    type: 'testimony' | 'image' | 'prayer_request' | 'text' | 'question';
-    category?: TestimonyCategory;
     imageUrl?: string;
     aiHint?: string;
-    prayCount?: number;
-    reactions?: {
-        praying: number;
-        believing: number;
-        encouraging: number;
-        inspired: number;
-    };
-    userReactions?: {
-        [userId: string]: SpiritualReaction;
-    };
 };
 
 
@@ -260,46 +245,16 @@ export const createPrayerRequest = async (user: User, request: string) => {
 
 
 /**
- * ENHANCED: Creates a new post in the Social Feed with spiritual transformation features.
+ * Creates a new post in the Social Feed.
  * @param user The authenticated user object.
  * @param content The text content of the post.
- * @param category Optional testimony category.
  */
-export const createSocialPost = async (user: User, content: string, category?: TestimonyCategory) => {
+export const createSocialPost = async (user: User, content: string) => {
     if (!db || !user) {
         throw new Error("User must be logged in to create a post.");
     }
 
-    // AI-powered content analysis for spiritual categorization
-    let postType: 'testimony' | 'prayer_request' | 'text' | 'question' = 'testimony';
-    let autoCategory: TestimonyCategory = 'growth';
-    
-    const lowerContent = content.toLowerCase();
-    
-    if (/(question|wondering|confused|doubt|help|advice)/i.test(content)) {
-        postType = 'question';
-        autoCategory = 'growth';
-    } else if (/(pray|prayer|praying|intercede)/i.test(content)) {
-        postType = 'prayer_request';
-        autoCategory = 'growth';
-    } else if (/(breakthrough|victory|overcome|conquered)/i.test(content)) {
-        postType = 'testimony';
-        autoCategory = 'breakthrough';
-    } else if (/(healing|healed|restored|recovery|wholeness)/i.test(content)) {
-        postType = 'testimony';
-        autoCategory = 'healing';
-    } else if (/(provision|provided|blessing|miracle|abundance)/i.test(content)) {
-        postType = 'testimony';
-        autoCategory = 'provision';
-    } else if (/(restoration|restored|comeback|returned|forgiven)/i.test(content)) {
-        postType = 'testimony';
-        autoCategory = 'restoration';
-    } else if (/(calling|called|purpose|ministry|vision)/i.test(content)) {
-        postType = 'testimony';
-        autoCategory = 'calling';
-    }
-
-    const postData: Omit<Post, 'id'> = {
+    const postData = {
         userId: user.uid,
         user: {
             name: user.displayName || "Anonymous",
@@ -307,26 +262,16 @@ export const createSocialPost = async (user: User, content: string, category?: T
             aiHint: "person portrait",
         },
         content: content,
-        timestamp: serverTimestamp() as Timestamp,
-        type: postType,
-        category: category || autoCategory,
+        timestamp: serverTimestamp(),
         likes: 0,
         likedBy: [],
         comments: [],
-        reactions: {
-            praying: 0,
-            believing: 0,
-            encouraging: 0,
-            inspired: 0
-        },
-        userReactions: {},
-        prayCount: postType === 'prayer_request' ? 0 : undefined,
     };
 
     try {
         await addDoc(collection(db, "posts"), postData);
     } catch (error) {
-        console.error("Error creating spiritual post:", error);
+        console.error("Error creating social post:", error);
         throw new Error("Could not create post.");
     }
 };
@@ -411,7 +356,7 @@ export const toggleLikePost = async (postId: string, userId: string) => {
  * @param userId The ID of the user performing the action.
  * @param reactionType The type of spiritual reaction.
  */
-export const togglePostReaction = async (postId: string, userId: string, reactionType: SpiritualReaction) => {
+export const togglePostReaction = async (postId: string, userId: string, reactionType: any) => {
     if (!db) throw new Error("Firestore is not initialized.");
     
     const postRef = doc(db, "posts", postId);
@@ -435,7 +380,6 @@ export const togglePostReaction = async (postId: string, userId: string, reactio
             }
 
             // If the new reaction is different from the old one, increment the new one.
-            // If the new reaction is the same as the old one, this is a toggle-off action.
             if (previousReaction !== reactionType) {
                 updates[`reactions.${reactionType}`] = increment(1);
                 updates[`userReactions.${userId}`] = reactionType;
