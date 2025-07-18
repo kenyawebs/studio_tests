@@ -1,5 +1,5 @@
 
-// src/lib/firestore.ts - SAFE WORKING VERSION (with minimal enhancements)
+// src/lib/firestore.ts - DEFINITIVE WORKING VERSION
 import { doc, setDoc, serverTimestamp, collection, addDoc, getDoc, updateDoc, runTransaction, arrayUnion, arrayRemove, increment, Timestamp, query, where, getCountFromServer, orderBy, limit, startAfter, getDocs, DocumentSnapshot } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { db } from "./firebase";
@@ -35,7 +35,7 @@ export type JournalEntryData = {
 export type SpiritualReaction = 'praying' | 'believing' | 'encouraging' | 'inspired';
 export type TestimonyCategory = 'breakthrough' | 'healing' | 'provision' | 'restoration' | 'calling' | 'growth';
 
-// SAFE POST TYPE (backward compatible)
+// FIXED POST TYPE (with proper timestamp handling)
 export type Post = {
     id: string;
     userId: string;
@@ -45,14 +45,25 @@ export type Post = {
         avatar: string; 
         aiHint: string; 
     };
-    timestamp: Timestamp | null;
+    timestamp: Timestamp | any; // Allow both Timestamp and serverTimestamp placeholder
     likes: number;
     likedBy: string[];
-    comments: number; // Keep as number for now
+    comments: number;
     imageUrl?: string;
     aiHint?: string;
+    
+    // NEW: Optional spiritual features (won't break existing data)
+    type?: 'testimony' | 'prayer_request' | 'text' | 'question';
+    category?: TestimonyCategory;
+    reactions?: {
+        praying: number;
+        believing: number;
+        encouraging: number;
+        inspired: number;
+    };
+    userReaction?: { [key: string]: SpiritualReaction }; // Changed to handle multiple users
+    prayCount?: number;
 };
-
 
 // SAFE PRAYER REQUEST (unchanged)
 export type PrayerRequest = {
@@ -209,9 +220,20 @@ export const createPrayerRequest = async (user: User, request: string) => {
     }
 };
 
-export const createSocialPost = async (user: User, content: string) => {
+// ENHANCED CREATE POST WITH SPIRITUAL FEATURES (safe)
+export const createSocialPost = async (user: User, content: string, category?: TestimonyCategory) => {
     if (!db || !user) {
         throw new Error("User must be logged in to create a post.");
+    }
+
+    // Basic AI classification (safe)
+    let postType: 'testimony' | 'prayer_request' | 'text' | 'question' = 'testimony';
+    let autoCategory: TestimonyCategory = 'growth';
+    
+    if (content.toLowerCase().includes('question') || content.toLowerCase().includes('help')) {
+        postType = 'question';
+    } else if (content.toLowerCase().includes('pray')) {
+        postType = 'prayer_request';
     }
 
     const postData = {
@@ -225,7 +247,19 @@ export const createSocialPost = async (user: User, content: string) => {
         timestamp: serverTimestamp(),
         likes: 0,
         likedBy: [],
-        comments: 0, // Keep as number for compatibility
+        comments: 0,
+        
+        // NEW: Optional spiritual features
+        type: postType,
+        category: category || autoCategory,
+        reactions: {
+            praying: 0,
+            believing: 0,
+            encouraging: 0,
+            inspired: 0
+        },
+        
+        ...(postType === 'prayer_request' && { prayCount: 0 })
     };
 
     try {
@@ -253,13 +287,11 @@ export const toggleLikePost = async (postId: string, userId: string) => {
             const hasLiked = likedBy.includes(userId);
 
             if (hasLiked) {
-                // Unlike the post
                 transaction.update(postRef, {
                     likes: increment(-1),
                     likedBy: arrayRemove(userId)
                 });
             } else {
-                // Like the post
                 transaction.update(postRef, {
                     likes: increment(1),
                     likedBy: arrayUnion(userId)
@@ -269,6 +301,48 @@ export const toggleLikePost = async (postId: string, userId: string) => {
     } catch (e) {
         console.error("Transaction failed: ", e);
         throw new Error("Could not update like status.");
+    }
+};
+
+// NEW: SPIRITUAL REACTION SYSTEM (safe)
+export const togglePostReaction = async (postId: string, userId: string, reactionType: SpiritualReaction) => {
+    if (!db) throw new Error("Firestore is not initialized.");
+    
+    const postRef = doc(db, "posts", postId);
+
+    try {
+        await runTransaction(db, async (transaction) => {
+            const postDoc = await transaction.get(postRef);
+            if (!postDoc.exists()) {
+                throw "Document does not exist!";
+            }
+
+            const postData = postDoc.data() as Post;
+            const currentReactions = postData.reactions || { praying: 0, believing: 0, encouraging: 0, inspired: 0 };
+            const userReactions = postData.userReaction || {};
+            const previousReaction = userReactions[userId];
+
+            // Remove previous reaction if exists
+            if (previousReaction) {
+                currentReactions[previousReaction] = Math.max(0, currentReactions[previousReaction] - 1);
+            }
+
+            // Add new reaction if different from previous
+            if (previousReaction !== reactionType) {
+                currentReactions[reactionType] = (currentReactions[reactionType] || 0) + 1;
+                userReactions[userId] = reactionType;
+            } else {
+                delete userReactions[userId];
+            }
+
+            transaction.update(postRef, {
+                reactions: currentReactions,
+                userReaction: userReactions
+            });
+        });
+    } catch (e) {
+        console.error("Transaction failed: ", e);
+        throw new Error("Could not update reaction.");
     }
 };
 
@@ -295,7 +369,6 @@ export const getUserStats = async (uid: string) => {
         };
     } catch (error) {
         console.error("Error getting user stats:", error);
-        // In case of error (e.g., missing index), return zeroed stats
         return {
             journalEntries: 0,
             prayerRequests: 0,
@@ -330,7 +403,6 @@ export const getSocialFeedPosts = async (postsLimit: number, lastVisible: Docume
     return { posts, lastVisible: newLastVisible };
 };
 
-
 export const getPrayerRequests = async (reqsLimit: number, lastVisible: DocumentSnapshot | null, typeFilter?: PrayerRequest['type']) => {
     if (!db) {
         throw new Error("Firestore not initialized.");
@@ -343,7 +415,7 @@ export const getPrayerRequests = async (reqsLimit: number, lastVisible: Document
     if (typeFilter) {
         constraints.unshift(where("type", "==", typeFilter));
     }
-     if (lastVisible) {
+    if (lastVisible) {
         constraints.push(startAfter(lastVisible));
     }
 

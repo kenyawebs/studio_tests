@@ -226,22 +226,42 @@ function PostCard({ post }: { post: Post }) {
     const { user } = useAuth();
     const [isPending, startTransition] = useTransition();
     
-    const timeAgo = (date: Timestamp | null) => {
-        if (!date || typeof date.toDate !== 'function') {
-             return 'Just now';
+    const timeAgo = (date: Timestamp | any) => {
+        // Handle serverTimestamp placeholder
+        if (!date) return 'Just now';
+        
+        // Handle Firestore serverTimestamp placeholder
+        if (typeof date === 'object' && !date.toDate) {
+            return 'Just now';
         }
-        const seconds = Math.floor((new Date().getTime() - date.toDate().getTime()) / 1000);
-        let interval = seconds / 31536000;
-        if (interval > 1) return Math.floor(interval) + "y";
-        interval = seconds / 2592000;
-        if (interval > 1) return Math.floor(interval) + "mo";
-        interval = seconds / 86400;
-        if (interval > 1) return Math.floor(interval) + "d";
-        interval = seconds / 3600;
-        if (interval > 1) return Math.floor(interval) + "h";
-        interval = seconds / 60;
-        if (interval > 1) return Math.floor(interval) + "m";
-        return Math.floor(seconds) + "s ago";
+        
+        // Handle regular Timestamp
+        try {
+            const timestamp = typeof date.toDate === 'function' ? date.toDate() : new Date(date);
+            const seconds = Math.floor((new Date().getTime() - timestamp.getTime()) / 1000);
+            
+            if (seconds < 60) return 'Just now';
+            
+            let interval = seconds / 31536000;
+            if (interval > 1) return Math.floor(interval) + "y ago";
+            
+            interval = seconds / 2592000;
+            if (interval > 1) return Math.floor(interval) + "mo ago";
+            
+            interval = seconds / 86400;
+            if (interval > 1) return Math.floor(interval) + "d ago";
+            
+            interval = seconds / 3600;
+            if (interval > 1) return Math.floor(interval) + "h ago";
+            
+            interval = seconds / 60;
+            if (interval > 1) return Math.floor(interval) + "m ago";
+            
+            return 'Just now';
+        } catch (error) {
+            console.error('Error processing timestamp:', error);
+            return 'Just now';
+        }
     };
 
     const handleLike = () => {
