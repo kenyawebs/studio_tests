@@ -64,7 +64,9 @@ export class CulturalIntelligenceService {
       breakthrough: ['breakthrough', 'victory', 'overcome', 'triumph'],
       healing: ['healing', 'healed', 'recovery', 'restoration'],
       provision: ['provision', 'blessing', 'supply', 'favor'],
-      // ... other categories can be added here
+      restoration: ['restoration', 'reconciliation', 'marriage healed', 'relationship'],
+      calling: ['calling', 'ministry', 'purpose', 'vision', 'mission', 'ordained'],
+      growth: ['growth', 'maturity', 'learning', 'discipleship', 'spiritual development']
     };
     
     const detectedTerms: SpiritualTerms = {};
@@ -80,3 +82,5 @@ export class CulturalIntelligenceService {
     return detectedTerms;
   }
 }
+
+    
