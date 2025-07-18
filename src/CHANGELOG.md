@@ -9,6 +9,7 @@ This document tracks all major feature updates and architectural changes for the
 
 ### ✨ New Features
 
+-   **AI-Powered Prayer Assistant**: Activated the AI Prayer Assistant on the Prayer Wall. Users can now receive AI-generated prayer suggestions to help them articulate their thoughts and needs.
 -   **AI-Powered Post Classification**: New posts on the Social Feed are now automatically categorized by an AI model that analyzes the content for its spiritual theme (e.g., Healing, Breakthrough, Provision).
 -   **Dynamic Category Filtering**: The "Filter" button on the Social Feed is now active, allowing users to select multiple spiritual categories to fine-tune the content they see.
 -   **Silent Cultural Intelligence**: Added a new backend service to silently collect cultural metadata (like regional spiritual terminology) from new posts. This creates a dataset for future AI-powered cultural adaptation features without impacting current app performance.

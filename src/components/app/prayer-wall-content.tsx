@@ -284,7 +284,7 @@ export function PrayerWallContent() {
                             placeholder="e.g., For strength during a difficult time"
                             value={prayerTopic}
                             onChange={(e) => setPrayerTopic(e.target.value)}
-                            disabled={!isAiConfigured}
+                            disabled={!isAiConfigured || loadingPrayer}
                         />
                         {loadingPrayer && <Skeleton className="h-24 w-full" />}
                         {prayerResponse && (
