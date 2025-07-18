@@ -1,31 +1,28 @@
 
 "use client";
 
-import { useState, useEffect, useTransition } from "react";
+import { useState, useEffect } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { 
-    MessageCircle, 
-    Share2, 
-    Image as ImageIcon, 
-    Video, 
     Filter, 
+    Image as ImageIcon, 
+    Loader2,
     MoreHorizontal, 
     Sparkles, 
-    Loader2,
+    Star,
     Target,
-    Heart,
-    HelpCircle,
-    Star
+    Video, 
+    HelpCircle
 } from "lucide-react";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuCheckboxItem, DropdownMenuLabel, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
-import { createSocialPost, getSocialFeedPosts, Post } from "@/lib/firestore";
+import { createSocialPost, getSocialFeedPosts, Post, TestimonyCategory } from "@/lib/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { Timestamp } from "firebase/firestore";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -35,7 +32,15 @@ import { SpiritualReactions } from "./spiritual-reactions";
 
 const POSTS_PER_PAGE = 5;
 
-// Enhanced category display matching your app's purple theme
+const testimonyCategories: { value: TestimonyCategory | 'all', label: string }[] = [
+    { value: 'breakthrough', label: 'Breakthrough' },
+    { value: 'healing', label: 'Healing' },
+    { value: 'provision', label: 'Provision' },
+    { value: 'restoration', label: 'Restoration' },
+    { value: 'calling', label: 'Calling' },
+    { value: 'growth', label: 'Growth' }
+];
+
 const getCategoryDisplay = (category: string) => {
     const categoryMap = {
         breakthrough: { 
@@ -116,10 +121,10 @@ const EmptyFeed = ({ tab }: { tab: string }) => {
                 <Sparkles className="h-8 w-8 text-purple-600" />
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-                {messages[tab as keyof typeof messages] || messages.all}
+                {messages[tab as keyof typeof messages] || "No posts match your filters"}
             </h3>
             <p className="text-sm text-gray-600">
-                Be the first to share something meaningful! 🙏
+                Be the first to share something meaningful, or adjust your filters! 🙏
             </p>
         </div>
     );
@@ -133,8 +138,8 @@ export function SocialFeedContent() {
     const [loading, setLoading] = useState(true);
     const [posting, setPosting] = useState(false);
     const [activeTab, setActiveTab] = useState("all");
+    const [selectedCategories, setSelectedCategories] = useState<TestimonyCategory[]>([]);
 
-    // Pagination state
     const [lastVisible, setLastVisible] = useState<DocumentSnapshot | null>(null);
     const [hasMore, setHasMore] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
@@ -191,49 +196,59 @@ export function SocialFeedContent() {
         }
     };
 
-    // Filter posts based on active tab
+    const handleCategoryToggle = (category: TestimonyCategory) => {
+        setSelectedCategories(prev =>
+            prev.includes(category)
+                ? prev.filter(c => c !== category)
+                : [...prev, category]
+        );
+    };
+
     const filteredPosts = posts.filter(post => {
-        switch (activeTab) {
-            case 'breakthroughs':
-                return post.category === 'breakthrough';
-            case 'questions':
-                return post.type === 'question';
-            case 'testimonies':
-                return post.type === 'testimony';
-            default:
-                return true;
-        }
+        const tabMatch = (() => {
+            switch (activeTab) {
+                case 'breakthroughs':
+                    return post.category === 'breakthrough';
+                case 'questions':
+                    return post.type === 'question';
+                case 'testimonies':
+                    return post.type === 'testimony';
+                default:
+                    return true;
+            }
+        })();
+
+        const categoryMatch = selectedCategories.length === 0 || (post.category && selectedCategories.includes(post.category));
+
+        return tabMatch && categoryMatch;
     });
 
     const timeAgo = (date: Timestamp | any) => {
-        if (!date) return 'Just now';
-        
-        if (typeof date === 'object' && !date.toDate) {
-            return 'Just now';
-        }
+        if (!date || typeof date.toDate !== 'function') return 'Just now';
         
         try {
-            const timestamp = typeof date.toDate === 'function' ? date.toDate() : new Date(date);
-            const seconds = Math.floor((new Date().getTime() - timestamp.getTime()) / 1000);
-            
+            const seconds = Math.floor((new Date().getTime() - date.toDate().getTime()) / 1000);
             if (seconds < 60) return 'Just now';
-            
-            let interval = seconds / 31536000;
-            if (interval > 1) return Math.floor(interval) + "y ago";
-            
-            interval = seconds / 2592000;
-            if (interval > 1) return Math.floor(interval) + "mo ago";
-            
-            interval = seconds / 86400;
-            if (interval > 1) return Math.floor(interval) + "d ago";
-            
-            interval = seconds / 3600;
-            if (interval > 1) return Math.floor(interval) + "h ago";
-            
-            interval = seconds / 60;
-            if (interval > 1) return Math.floor(interval) + "m ago";
-            
-            return 'Just now';
+            const intervals = { year: 31536000, month: 2592000, day: 86400, hour: 3600, minute: 60 };
+            let counter;
+            if (seconds >= intervals.year) {
+                counter = Math.floor(seconds / intervals.year);
+                return `${counter}y ago`;
+            }
+            if (seconds >= intervals.month) {
+                counter = Math.floor(seconds / intervals.month);
+                return `${counter}mo ago`;
+            }
+            if (seconds >= intervals.day) {
+                counter = Math.floor(seconds / intervals.day);
+                return `${counter}d ago`;
+            }
+            if (seconds >= intervals.hour) {
+                counter = Math.floor(seconds / intervals.hour);
+                return `${counter}h ago`;
+            }
+            counter = Math.floor(seconds / intervals.minute);
+            return `${counter}m ago`;
         } catch (error) {
             console.error('Error processing timestamp:', error);
             return 'Just now';
@@ -242,7 +257,6 @@ export function SocialFeedContent() {
     
     return (
         <div className="max-w-2xl mx-auto space-y-6">
-            {/* Enhanced Post Creation Card - Matching your app's style */}
             <Card className="overflow-hidden border-0 shadow-lg">
                 <CardHeader className="p-4 bg-gradient-to-r from-purple-50 to-pink-50">
                     <div className="flex gap-4">
@@ -264,102 +278,65 @@ export function SocialFeedContent() {
                 </CardHeader>
                 <CardFooter className="p-4 flex justify-between bg-white">
                     <div className="flex gap-2">
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
-                        >
-                            <ImageIcon className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
-                        >
-                            <Video className="h-4 w-4" />
-                        </Button>
+                        <Button variant="ghost" size="icon" className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"><ImageIcon className="h-4 w-4" /></Button>
+                        <Button variant="ghost" size="icon" className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"><Video className="h-4 w-4" /></Button>
                     </div>
-                    <Button 
-                        onClick={handlePostSubmit} 
-                        disabled={!user || posting || !newPost.trim()}
-                        data-testid="submit-post-button"
-                        className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6"
-                    >
-                        {posting ? (
-                            <>
-                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Sharing...
-                            </>
-                        ) : (
-                            <>
-                                <Sparkles className="mr-2 h-4 w-4" />
-                                Share Testimony
-                            </>
-                        )}
+                    <Button onClick={handlePostSubmit} disabled={!user || posting || !newPost.trim()} data-testid="submit-post-button" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6">
+                        {posting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sharing...</> : <><Sparkles className="mr-2 h-4 w-4" /> Share Testimony</>}
                     </Button>
                 </CardFooter>
             </Card>
         
-            {/* Enhanced Tabs with Spiritual Categories - Matching your app's purple theme */}
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <div className="flex justify-between items-center mb-4">
                     <TabsList className="grid w-full grid-cols-4 bg-purple-50 border border-purple-200">
-                        <TabsTrigger value="all" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
-                            All
-                        </TabsTrigger>
-                        <TabsTrigger value="breakthroughs" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
-                            <Target className="mr-1 h-3 w-3" />
-                            Breakthroughs
-                        </TabsTrigger>
-                        <TabsTrigger value="questions" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
-                            <HelpCircle className="mr-1 h-3 w-3" />
-                            Questions
-                        </TabsTrigger>
-                        <TabsTrigger value="testimonies" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
-                            <Star className="mr-1 h-3 w-3" />
-                            Testimonies
-                        </TabsTrigger>
+                        <TabsTrigger value="all" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">All</TabsTrigger>
+                        <TabsTrigger value="breakthroughs" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white"><Target className="mr-1 h-3 w-3" />Breakthroughs</TabsTrigger>
+                        <TabsTrigger value="questions" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white"><HelpCircle className="mr-1 h-3 w-3" />Questions</TabsTrigger>
+                        <TabsTrigger value="testimonies" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white"><Star className="mr-1 h-3 w-3" />Testimonies</TabsTrigger>
                     </TabsList>
-                    <Button variant="outline" size="sm" className="border-purple-200 text-purple-600 hover:bg-purple-50">
-                        <Filter className="mr-2 h-4 w-4" /> Filter
-                    </Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" size="sm" className="border-purple-200 text-purple-600 hover:bg-purple-50">
+                                <Filter className="mr-2 h-4 w-4" /> Filter
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Filter by Category</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            {testimonyCategories.map(cat => (
+                                <DropdownMenuCheckboxItem
+                                    key={cat.value}
+                                    checked={selectedCategories.includes(cat.value as TestimonyCategory)}
+                                    onCheckedChange={() => handleCategoryToggle(cat.value as TestimonyCategory)}
+                                >
+                                    {cat.label}
+                                </DropdownMenuCheckboxItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
                 
-                {/* Tab Content */}
-                {['all', 'breakthroughs', 'questions', 'testimonies'].map(tab => (
-                    <TabsContent key={tab} value={tab}>
-                        {loading ? <PostSkeleton /> : (
-                            filteredPosts.length > 0 ? (
-                                <div className="space-y-6">
-                                    {filteredPosts.map((post) => (
-                                        <PostCard key={post.id} post={post} timeAgo={timeAgo} />
-                                    ))}
-                                    {hasMore && activeTab === 'all' && (
-                                        <div className="text-center">
-                                            <Button 
-                                                onClick={() => loadPosts()} 
-                                                disabled={loadingMore} 
-                                                variant="outline"
-                                                className="border-purple-200 text-purple-600 hover:bg-purple-50"
-                                            >
-                                                {loadingMore ? (
-                                                    <>
-                                                        <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
-                                                        Loading more...
-                                                    </>
-                                                ) : (
-                                                    "Load More Testimonies"
-                                                )}
-                                            </Button>
-                                        </div>
-                                    )}
-                                </div>
-                            ) : (
-                                <EmptyFeed tab={tab} />
-                            )
-                        )}
-                    </TabsContent>
-                ))}
+                <TabsContent value={activeTab}>
+                    {loading ? <PostSkeleton /> : (
+                        filteredPosts.length > 0 ? (
+                            <div className="space-y-6">
+                                {filteredPosts.map((post) => (
+                                    <PostCard key={post.id} post={post} timeAgo={timeAgo} />
+                                ))}
+                                {hasMore && (
+                                    <div className="text-center">
+                                        <Button onClick={() => loadPosts()} disabled={loadingMore} variant="outline" className="border-purple-200 text-purple-600 hover:bg-purple-50">
+                                            {loadingMore ? <><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Loading more...</> : "Load More Testimonies"}
+                                        </Button>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <EmptyFeed tab={activeTab} />
+                        )
+                    )}
+                </TabsContent>
             </Tabs>
         </div>
     );
@@ -367,7 +344,6 @@ export function SocialFeedContent() {
 
 function PostCard({ post, timeAgo }: { post: Post; timeAgo: (date: any) => string }) {
     const category = getCategoryDisplay(post.category || 'growth');
-    const postType = post.type || 'testimony';
     
     return (
         <Card className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-shadow">
@@ -376,9 +352,7 @@ function PostCard({ post, timeAgo }: { post: Post; timeAgo: (date: any) => strin
                     <div className="flex items-center gap-3">
                         <Avatar className="border-2 border-purple-100">
                             <AvatarImage src={post.user?.avatar} data-ai-hint={post.user?.aiHint} />
-                            <AvatarFallback className="bg-purple-100 text-purple-700">
-                                {post.user?.name?.charAt(0)}
-                            </AvatarFallback>
+                            <AvatarFallback className="bg-purple-100 text-purple-700">{post.user?.name?.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
                             <p className="font-semibold text-gray-900">{post.user?.name}</p>
@@ -386,51 +360,29 @@ function PostCard({ post, timeAgo }: { post: Post; timeAgo: (date: any) => strin
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Badge 
-                            variant="secondary" 
-                            className={cn("text-xs border", category.color)}
-                        >
-                            {category.icon} {category.label}
-                        </Badge>
+                        <Badge variant="secondary" className={cn("text-xs border", category.color)}>{category.icon} {category.label}</Badge>
                         <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-purple-50">
-                                    <MoreHorizontal className="h-4 w-4" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent>
-                                <DropdownMenuItem>Report content</DropdownMenuItem>
-                            </DropdownMenuContent>
+                            <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-purple-50"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
+                            <DropdownMenuContent><DropdownMenuItem>Report content</DropdownMenuItem></DropdownMenuContent>
                         </DropdownMenu>
                     </div>
                 </div>
             </CardHeader>
             
             <CardContent className="px-4 pb-2 space-y-4">
-                <p className="text-sm whitespace-pre-wrap leading-relaxed text-gray-800">
-                    {post.content}
-                </p>
+                <p className="text-sm whitespace-pre-wrap leading-relaxed text-gray-800">{post.content}</p>
                 {post.imageUrl && (
                     <div className="rounded-lg overflow-hidden border border-purple-100">
-                        <Image 
-                            src={post.imageUrl} 
-                            width={600} 
-                            height={400} 
-                            alt="Post image" 
-                            data-ai-hint={post.aiHint || 'spiritual content image'} 
-                            className="w-full h-auto"
-                        />
+                        <Image src={post.imageUrl} width={600} height={400} alt="Post image" data-ai-hint={post.aiHint || 'spiritual content image'} className="w-full h-auto" />
                     </div>
                 )}
             </CardContent>
             
             <CardFooter className="p-3 border-t border-purple-100 bg-purple-50/30">
-                <SpiritualReactions
-                    postId={post.id}
-                    reactions={post.reactions || { praying: 0, believing: 0, encouraging: 0, inspired: 0 }}
-                    userReaction={post.userReaction}
-                />
+                <SpiritualReactions postId={post.id} reactions={post.reactions || { praying: 0, believing: 0, encouraging: 0, inspired: 0 }} userReaction={post.userReaction?.[(post as any).userId]} />
             </CardFooter>
         </Card>
     );
 }
+
+    
