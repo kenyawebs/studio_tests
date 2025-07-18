@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import { useState, useEffect, useTransition } from "react";
@@ -7,7 +6,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
 import { 
     Heart, 
     MessageCircle, 
@@ -23,7 +21,7 @@ import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/hooks/use-auth";
-import { createSocialPost, getSocialFeedPosts, Post, toggleLikePost, Comment } from "@/lib/firestore";
+import { createSocialPost, getSocialFeedPosts, Post, toggleLikePost } from "@/lib/firestore";
 import { useToast } from "@/hooks/use-toast";
 import { Timestamp } from "firebase/firestore";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -86,7 +84,7 @@ export function SocialFeedContent() {
     const [loadingMore, setLoadingMore] = useState(false);
 
     useEffect(() => {
-        loadPosts();
+        loadPosts(true);
     }, []);
 
     const loadPosts = async (fromStart = false) => {
@@ -121,9 +119,6 @@ export function SocialFeedContent() {
                 description: "Your post is now live on the feed.",
             });
             // Reset and fetch from scratch to show the new post at the top
-            setPosts([]);
-            setLastVisible(null);
-            setHasMore(true);
             loadPosts(true);
 
         } catch (error) {
@@ -232,7 +227,9 @@ function PostCard({ post }: { post: Post }) {
     const [isPending, startTransition] = useTransition();
     
     const timeAgo = (date: Timestamp | null) => {
-        if (!date || typeof date.toDate !== 'function') return 'Just now';
+        if (!date || typeof date.toDate !== 'function') {
+             return 'Just now';
+        }
         const seconds = Math.floor((new Date().getTime() - date.toDate().getTime()) / 1000);
         let interval = seconds / 31536000;
         if (interval > 1) return Math.floor(interval) + "y";
@@ -255,7 +252,6 @@ function PostCard({ post }: { post: Post }) {
     };
     
     const hasLiked = user ? post.likedBy?.includes(user.uid) : false;
-    const commentCount = Array.isArray(post.comments) ? post.comments.length : 0;
 
     return (
         <Card>
@@ -303,7 +299,7 @@ function PostCard({ post }: { post: Post }) {
                         <Heart className={cn("w-4 h-4", hasLiked && "text-red-500 fill-current")} /> {post.likes || 0}
                     </Button>
                      <Button variant="ghost" size="sm" className="flex items-center gap-1.5">
-                        <MessageCircle className="w-4 h-4" /> {commentCount}
+                        <MessageCircle className="w-4 h-4" /> {post.comments || 0}
                     </Button>
                      <Button variant="ghost" size="sm" className="flex items-center gap-1.5">
                         <Share2 className="w-4 h-4" /> Share
@@ -313,5 +309,3 @@ function PostCard({ post }: { post: Post }) {
         </Card>
     );
 }
-
-    
