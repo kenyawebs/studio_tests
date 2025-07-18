@@ -15,7 +15,11 @@ import {
     Filter, 
     MoreHorizontal, 
     Sparkles, 
-    Loader2
+    Loader2,
+    Target,
+    Heart,
+    HelpCircle,
+    Star
 } from "lucide-react";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -31,15 +35,39 @@ import { SpiritualReactions } from "./spiritual-reactions";
 
 const POSTS_PER_PAGE = 5;
 
-// Helper function to get category color and icon
+// Enhanced category display matching your app's purple theme
 const getCategoryDisplay = (category: string) => {
     const categoryMap = {
-        breakthrough: { color: 'bg-green-100 text-green-800', icon: '🎯', label: 'Breakthrough' },
-        healing: { color: 'bg-blue-100 text-blue-800', icon: '🌿', label: 'Healing' },
-        provision: { color: 'bg-yellow-100 text-yellow-800', icon: '🙏', label: 'Provision' },
-        restoration: { color: 'bg-purple-100 text-purple-800', icon: '🔄', label: 'Restoration' },
-        calling: { color: 'bg-orange-100 text-orange-800', icon: '📞', label: 'Calling' },
-        growth: { color: 'bg-gray-100 text-gray-800', icon: '🌱', label: 'Growth' }
+        breakthrough: { 
+            color: 'bg-green-100 text-green-800 border-green-200', 
+            icon: '🎯', 
+            label: 'Breakthrough' 
+        },
+        healing: { 
+            color: 'bg-blue-100 text-blue-800 border-blue-200', 
+            icon: '🌿', 
+            label: 'Healing' 
+        },
+        provision: { 
+            color: 'bg-yellow-100 text-yellow-800 border-yellow-200', 
+            icon: '🙏', 
+            label: 'Provision' 
+        },
+        restoration: { 
+            color: 'bg-purple-100 text-purple-800 border-purple-200', 
+            icon: '🔄', 
+            label: 'Restoration' 
+        },
+        calling: { 
+            color: 'bg-orange-100 text-orange-800 border-orange-200', 
+            icon: '📞', 
+            label: 'Calling' 
+        },
+        growth: { 
+            color: 'bg-gray-100 text-gray-800 border-gray-200', 
+            icon: '🌱', 
+            label: 'Growth' 
+        }
     };
     
     return categoryMap[category as keyof typeof categoryMap] || categoryMap.growth;
@@ -48,7 +76,7 @@ const getCategoryDisplay = (category: string) => {
 const PostSkeleton = () => (
     <div className="space-y-6">
         {[...Array(3)].map((_, i) => (
-            <Card key={i}>
+            <Card key={i} className="overflow-hidden">
                 <CardHeader className="p-4">
                     <div className="flex items-center gap-3">
                         <Skeleton className="h-10 w-10 rounded-full" />
@@ -84,9 +112,15 @@ const EmptyFeed = ({ tab }: { tab: string }) => {
     
     return (
         <div className="text-center py-12 text-muted-foreground">
-            <Sparkles className="mx-auto h-12 w-12" />
-            <h3 className="mt-2 text-lg font-medium">{messages[tab as keyof typeof messages] || messages.all}</h3>
-            <p className="text-sm">Be the first to share something meaningful!</p>
+            <div className="w-16 h-16 mx-auto mb-4 bg-purple-100 rounded-full flex items-center justify-center">
+                <Sparkles className="h-8 w-8 text-purple-600" />
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+                {messages[tab as keyof typeof messages] || messages.all}
+            </h3>
+            <p className="text-sm text-gray-600">
+                Be the first to share something meaningful! 🙏
+            </p>
         </div>
     );
 };
@@ -122,7 +156,11 @@ export function SocialFeedContent() {
             setHasMore(newPosts.length === POSTS_PER_PAGE);
         } catch (error) {
             console.error("Error fetching posts:", error);
-            toast({ variant: "destructive", title: "Error", description: "Could not fetch posts." });
+            toast({ 
+                variant: "destructive", 
+                title: "Error", 
+                description: "Could not fetch posts." 
+            });
         } finally {
             setLoading(false);
             setLoadingMore(false);
@@ -137,17 +175,16 @@ export function SocialFeedContent() {
             await createSocialPost(user, newPost);
             setNewPost("");
             toast({
-                title: "Post Shared! 🎉",
-                description: "Your testimony is now live on the feed.",
+                title: "Testimony Shared! 🎉",
+                description: "Your spiritual milestone is now live on the feed."
             });
-            // Reset and fetch from scratch to show the new post at the top
             loadPosts(true);
         } catch (error) {
             console.error("Error creating post:", error);
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: "Could not share your post. Please try again."
+                description: "Could not share your testimony. Please try again."
             });
         } finally {
             setPosting(false);
@@ -205,17 +242,19 @@ export function SocialFeedContent() {
     
     return (
         <div className="max-w-2xl mx-auto space-y-6">
-            {/* Enhanced Post Creation Card */}
-            <Card>
-                <CardHeader className="p-4">
+            {/* Enhanced Post Creation Card - Matching your app's style */}
+            <Card className="overflow-hidden border-0 shadow-lg">
+                <CardHeader className="p-4 bg-gradient-to-r from-purple-50 to-pink-50">
                     <div className="flex gap-4">
-                        <Avatar>
+                        <Avatar className="border-2 border-purple-200">
                             <AvatarImage src={user?.photoURL || ""} data-ai-hint="person portrait" />
-                            <AvatarFallback>{user?.displayName?.charAt(0).toUpperCase() || "U"}</AvatarFallback>
+                            <AvatarFallback className="bg-purple-100 text-purple-700">
+                                {user?.displayName?.charAt(0).toUpperCase() || "U"}
+                            </AvatarFallback>
                         </Avatar>
                         <Textarea 
-                            placeholder="Share a testimony, breakthrough, or encouragement... 🙏"
-                            className="h-20 resize-none"
+                            placeholder="Share a testimony, breakthrough, or encouragement... 🙏✨"
+                            className="h-20 resize-none border-purple-200 focus:border-purple-400"
                             value={newPost}
                             onChange={(e) => setNewPost(e.target.value)}
                             disabled={!user || posting}
@@ -223,12 +262,20 @@ export function SocialFeedContent() {
                         />
                     </div>
                 </CardHeader>
-                <CardFooter className="p-4 flex justify-between">
+                <CardFooter className="p-4 flex justify-between bg-white">
                     <div className="flex gap-2">
-                        <Button variant="ghost" size="icon" className="text-green-500 hover:text-green-600">
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                        >
                             <ImageIcon className="h-4 w-4" />
                         </Button>
-                        <Button variant="ghost" size="icon" className="text-rose-500 hover:text-rose-600">
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"
+                        >
                             <Video className="h-4 w-4" />
                         </Button>
                     </div>
@@ -236,7 +283,7 @@ export function SocialFeedContent() {
                         onClick={handlePostSubmit} 
                         disabled={!user || posting || !newPost.trim()}
                         data-testid="submit-post-button"
-                        className="bg-blue-600 hover:bg-blue-700 text-white"
+                        className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6"
                     >
                         {posting ? (
                             <>
@@ -244,89 +291,75 @@ export function SocialFeedContent() {
                                 Sharing...
                             </>
                         ) : (
-                            "Share Testimony"
+                            <>
+                                <Sparkles className="mr-2 h-4 w-4" />
+                                Share Testimony
+                            </>
                         )}
                     </Button>
                 </CardFooter>
             </Card>
         
-            {/* Enhanced Tabs with Spiritual Categories */}
+            {/* Enhanced Tabs with Spiritual Categories - Matching your app's purple theme */}
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <div className="flex justify-between items-center mb-4">
-                    <TabsList className="grid w-full grid-cols-4">
-                        <TabsTrigger value="all">All</TabsTrigger>
-                        <TabsTrigger value="breakthroughs">🎯 Breakthroughs</TabsTrigger>
-                        <TabsTrigger value="questions">❓ Questions</TabsTrigger>
-                        <TabsTrigger value="testimonies">✨ Testimonies</TabsTrigger>
+                    <TabsList className="grid w-full grid-cols-4 bg-purple-50 border border-purple-200">
+                        <TabsTrigger value="all" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
+                            All
+                        </TabsTrigger>
+                        <TabsTrigger value="breakthroughs" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
+                            <Target className="mr-1 h-3 w-3" />
+                            Breakthroughs
+                        </TabsTrigger>
+                        <TabsTrigger value="questions" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
+                            <HelpCircle className="mr-1 h-3 w-3" />
+                            Questions
+                        </TabsTrigger>
+                        <TabsTrigger value="testimonies" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white">
+                            <Star className="mr-1 h-3 w-3" />
+                            Testimonies
+                        </TabsTrigger>
                     </TabsList>
-                    <Button variant="outline" size="sm">
+                    <Button variant="outline" size="sm" className="border-purple-200 text-purple-600 hover:bg-purple-50">
                         <Filter className="mr-2 h-4 w-4" /> Filter
                     </Button>
                 </div>
                 
-                <TabsContent value="all">
-                    {loading ? <PostSkeleton /> : (
-                        filteredPosts.length > 0 ? (
-                            <div className="space-y-6">
-                                {filteredPosts.map((post) => (
-                                    <PostCard key={post.id} post={post} timeAgo={timeAgo} />
-                                ))}
-                                {hasMore && (
-                                    <div className="text-center">
-                                        <Button onClick={() => loadPosts()} disabled={loadingMore} variant="outline">
-                                            {loadingMore ? (
-                                                <>
-                                                    <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
-                                                    Loading more...
-                                                </>
-                                            ) : (
-                                                "Load More"
-                                            )}
-                                        </Button>
-                                    </div>
-                                )}
-                            </div>
-                        ) : (
-                            <EmptyFeed tab="all" />
-                        )
-                    )}
-                </TabsContent>
-                
-                <TabsContent value="breakthroughs">
-                    {filteredPosts.length > 0 ? (
-                        <div className="space-y-6">
-                            {filteredPosts.map((post) => (
-                                <PostCard key={post.id} post={post} timeAgo={timeAgo} />
-                            ))}
-                        </div>
-                    ) : (
-                        <EmptyFeed tab="breakthroughs" />
-                    )}
-                </TabsContent>
-                
-                <TabsContent value="questions">
-                    {filteredPosts.length > 0 ? (
-                        <div className="space-y-6">
-                            {filteredPosts.map((post) => (
-                                <PostCard key={post.id} post={post} timeAgo={timeAgo} />
-                            ))}
-                        </div>
-                    ) : (
-                        <EmptyFeed tab="questions" />
-                    )}
-                </TabsContent>
-                
-                <TabsContent value="testimonies">
-                    {filteredPosts.length > 0 ? (
-                        <div className="space-y-6">
-                            {filteredPosts.map((post) => (
-                                <PostCard key={post.id} post={post} timeAgo={timeAgo} />
-                            ))}
-                        </div>
-                    ) : (
-                        <EmptyFeed tab="testimonies" />
-                    )}
-                </TabsContent>
+                {/* Tab Content */}
+                {['all', 'breakthroughs', 'questions', 'testimonies'].map(tab => (
+                    <TabsContent key={tab} value={tab}>
+                        {loading ? <PostSkeleton /> : (
+                            filteredPosts.length > 0 ? (
+                                <div className="space-y-6">
+                                    {filteredPosts.map((post) => (
+                                        <PostCard key={post.id} post={post} timeAgo={timeAgo} />
+                                    ))}
+                                    {hasMore && activeTab === 'all' && (
+                                        <div className="text-center">
+                                            <Button 
+                                                onClick={() => loadPosts()} 
+                                                disabled={loadingMore} 
+                                                variant="outline"
+                                                className="border-purple-200 text-purple-600 hover:bg-purple-50"
+                                            >
+                                                {loadingMore ? (
+                                                    <>
+                                                        <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
+                                                        Loading more...
+                                                    </>
+                                                ) : (
+                                                    "Load More Testimonies"
+                                                )}
+                                            </Button>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                <EmptyFeed tab={tab} />
+                            )
+                        )}
+                    </TabsContent>
+                ))}
             </Tabs>
         </div>
     );
@@ -337,26 +370,31 @@ function PostCard({ post, timeAgo }: { post: Post; timeAgo: (date: any) => strin
     const postType = post.type || 'testimony';
     
     return (
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-shadow">
             <CardHeader className="p-4">
                 <div className="flex justify-between items-start">
                     <div className="flex items-center gap-3">
-                        <Avatar>
+                        <Avatar className="border-2 border-purple-100">
                             <AvatarImage src={post.user?.avatar} data-ai-hint={post.user?.aiHint} />
-                            <AvatarFallback>{post.user?.name?.charAt(0)}</AvatarFallback>
+                            <AvatarFallback className="bg-purple-100 text-purple-700">
+                                {post.user?.name?.charAt(0)}
+                            </AvatarFallback>
                         </Avatar>
                         <div>
-                            <p className="font-semibold">{post.user?.name}</p>
-                            <p className="text-xs text-muted-foreground">{timeAgo(post.timestamp)}</p>
+                            <p className="font-semibold text-gray-900">{post.user?.name}</p>
+                            <p className="text-xs text-gray-500">{timeAgo(post.timestamp)}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Badge variant="secondary" className={cn("text-xs", category.color)}>
+                        <Badge 
+                            variant="secondary" 
+                            className={cn("text-xs border", category.color)}
+                        >
                             {category.icon} {category.label}
                         </Badge>
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8">
+                                <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-purple-50">
                                     <MoreHorizontal className="h-4 w-4" />
                                 </Button>
                             </DropdownMenuTrigger>
@@ -369,9 +407,11 @@ function PostCard({ post, timeAgo }: { post: Post; timeAgo: (date: any) => strin
             </CardHeader>
             
             <CardContent className="px-4 pb-2 space-y-4">
-                <p className="text-sm whitespace-pre-wrap leading-relaxed">{post.content}</p>
+                <p className="text-sm whitespace-pre-wrap leading-relaxed text-gray-800">
+                    {post.content}
+                </p>
                 {post.imageUrl && (
-                    <div className="rounded-lg overflow-hidden border">
+                    <div className="rounded-lg overflow-hidden border border-purple-100">
                         <Image 
                             src={post.imageUrl} 
                             width={600} 
@@ -384,8 +424,7 @@ function PostCard({ post, timeAgo }: { post: Post; timeAgo: (date: any) => strin
                 )}
             </CardContent>
             
-            <CardFooter className="p-2 border-t">
-                {/* Use our new Spiritual Reactions component */}
+            <CardFooter className="p-3 border-t border-purple-100 bg-purple-50/30">
                 <SpiritualReactions
                     postId={post.id}
                     reactions={post.reactions || { praying: 0, believing: 0, encouraging: 0, inspired: 0 }}
