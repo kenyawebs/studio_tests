@@ -3,6 +3,7 @@
 import { doc, setDoc, serverTimestamp, collection, addDoc, getDoc, updateDoc, runTransaction, arrayUnion, arrayRemove, increment, Timestamp, query, where, getCountFromServer, orderBy, limit, startAfter, getDocs, DocumentSnapshot } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { db } from "./firebase";
+import { classifyPost } from "@/ai/flows/classify-post-flow";
 
 // ORIGINAL WORKING USER PROFILE (unchanged)
 export type UserProfileData = {
@@ -221,20 +222,28 @@ export const createPrayerRequest = async (user: User, request: string) => {
 };
 
 // ENHANCED CREATE POST WITH SPIRITUAL FEATURES (safe)
-export const createSocialPost = async (user: User, content: string, category?: TestimonyCategory) => {
+export const createSocialPost = async (user: User, content: string) => {
     if (!db || !user) {
         throw new Error("User must be logged in to create a post.");
     }
 
-    // Basic AI classification (safe)
+    // Basic AI classification
     let postType: 'testimony' | 'prayer_request' | 'text' | 'question' = 'testimony';
-    let autoCategory: TestimonyCategory = 'growth';
-    
     if (content.toLowerCase().includes('question') || content.toLowerCase().includes('help')) {
         postType = 'question';
     } else if (content.toLowerCase().includes('pray')) {
         postType = 'prayer_request';
     }
+
+    let finalCategory: TestimonyCategory = 'growth'; // Default category
+    try {
+        const classification = await classifyPost({ content });
+        finalCategory = classification.category;
+    } catch (aiError) {
+        console.error("AI classification failed, using default category:", aiError);
+        // Silently fail to 'growth' so post creation doesn't break
+    }
+
 
     const postData = {
         userId: user.uid,
@@ -251,7 +260,7 @@ export const createSocialPost = async (user: User, content: string, category?: T
         
         // NEW: Optional spiritual features
         type: postType,
-        category: category || autoCategory,
+        category: finalCategory,
         reactions: {
             praying: 0,
             believing: 0,

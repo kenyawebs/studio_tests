@@ -13,6 +13,7 @@ This document tracks all major feature updates and architectural changes for the
 -   **Testimony Categories**: Posts on the Social Feed now display a category (e.g., Breakthrough, Healing, Growth) to add more context and purpose to each testimony.
 -   **Enhanced Filtering Tabs**: Added new tabs to the Social Feed for "Breakthroughs," "Questions," and "Testimonies" to create "fishing net" entry points for different audiences.
 -   **Dynamic Category Filtering**: Activated the "Filter" button on the Social Feed, allowing users to select and filter posts by one or more specific testimony categories (e.g., Healing, Provision), making the feed a powerful tool for finding targeted encouragement.
+-   **AI-Powered Post Classification**: Implemented a new Genkit AI flow that automatically analyzes new posts and assigns them the most relevant spiritual category (e.g., 'healing', 'provision'). This makes the filtering system smarter and more accurate without user intervention.
 
 ### 🛠️ Bug Fixes & Architectural Improvements
 
@@ -25,4 +26,3 @@ This document tracks all major feature updates and architectural changes for the
 
 ---
 
-      
