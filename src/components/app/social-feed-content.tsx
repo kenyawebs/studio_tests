@@ -227,17 +227,12 @@ function PostCard({ post }: { post: Post }) {
     const [isPending, startTransition] = useTransition();
     
     const timeAgo = (date: Timestamp | any) => {
-        // Handle serverTimestamp placeholder
-        if (!date) return 'Just now';
-        
-        // Handle Firestore serverTimestamp placeholder
-        if (typeof date === 'object' && !date.toDate) {
+        if (!date || typeof date.toDate !== 'function') {
             return 'Just now';
         }
-        
-        // Handle regular Timestamp
+    
         try {
-            const timestamp = typeof date.toDate === 'function' ? date.toDate() : new Date(date);
+            const timestamp = date.toDate();
             const seconds = Math.floor((new Date().getTime() - timestamp.getTime()) / 1000);
             
             if (seconds < 60) return 'Just now';
@@ -329,3 +324,5 @@ function PostCard({ post }: { post: Post }) {
         </Card>
     );
 }
+
+    
