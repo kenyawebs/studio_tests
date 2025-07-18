@@ -74,54 +74,54 @@ export function SpiritualReactions({ postId, reactions, userReaction }: Spiritua
             icon: '🙏',
             label: 'Praying',
             count: reactions?.praying || 0,
-            activeColor: 'text-blue-600 bg-blue-50 dark:bg-blue-900/20',
-            hoverColor: 'hover:bg-blue-50 dark:hover:bg-blue-900/20'
+            activeColor: 'text-purple-600 bg-purple-50 border-purple-200',
+            hoverColor: 'hover:bg-purple-50 hover:text-purple-600'
         },
         {
             type: 'believing' as SpiritualReaction,
             icon: '💪',
             label: 'Believing',
             count: reactions?.believing || 0,
-            activeColor: 'text-green-600 bg-green-50 dark:bg-green-900/20',
-            hoverColor: 'hover:bg-green-50 dark:hover:bg-green-900/20'
+            activeColor: 'text-green-600 bg-green-50 border-green-200',
+            hoverColor: 'hover:bg-green-50 hover:text-green-600'
         },
         {
             type: 'encouraging' as SpiritualReaction,
             icon: '🤗',
             label: 'Encouraging',
             count: reactions?.encouraging || 0,
-            activeColor: 'text-orange-600 bg-orange-50 dark:bg-orange-900/20',
-            hoverColor: 'hover:bg-orange-50 dark:hover:bg-orange-900/20'
+            activeColor: 'text-orange-600 bg-orange-50 border-orange-200',
+            hoverColor: 'hover:bg-orange-50 hover:text-orange-600'
         },
         {
             type: 'inspired' as SpiritualReaction,
             icon: '✨',
             label: 'Inspired',
             count: reactions?.inspired || 0,
-            activeColor: 'text-purple-600 bg-purple-50 dark:bg-purple-900/20',
-            hoverColor: 'hover:bg-purple-50 dark:hover:bg-purple-900/20'
+            activeColor: 'text-purple-600 bg-purple-50 border-purple-200',
+            hoverColor: 'hover:bg-purple-50 hover:text-purple-600'
         }
     ];
 
     return (
-        <div className="flex justify-around w-full">
+        <div className="flex justify-around w-full gap-1">
             {reactionButtons.map((button) => (
                 <Button
                     key={button.type}
                     variant="ghost"
                     size="sm"
                     className={cn(
-                        "flex items-center gap-1.5 transition-all duration-200",
+                        "flex items-center gap-1.5 transition-all duration-200 rounded-full border border-transparent",
                         button.hoverColor,
                         currentUserReaction === button.type && button.activeColor
                     )}
                     onClick={() => handleReaction(button.type)}
                     disabled={isPending}
                 >
-                    <span className="text-base">{button.icon}</span>
-                    <span className="text-xs font-medium">{button.label}</span>
+                    <span className="text-sm">{button.icon}</span>
+                    <span className="text-xs font-medium hidden sm:inline">{button.label}</span>
                     {button.count > 0 && (
-                        <span className="text-xs text-muted-foreground tabular-nums">
+                        <span className="text-xs text-muted-foreground tabular-nums min-w-[1ch]">
                             {button.count}
                         </span>
                     )}
