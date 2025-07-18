@@ -490,3 +490,12 @@ INFO: Connected to new websocket client
 [debug] [2025-07-18T00:08:07.481Z] Jul 18, 2025 12:08:07 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel
 INFO: Connected to new websocket client
  {"metadata":{"emulator":{"name":"firestore"},"message":"Jul 18, 2025 12:08:07 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler initChannel\nINFO: Connected to new websocket client\n"}}
+[debug] [2025-07-18T01:17:00.893Z] Jul 18, 2025 1:17:00 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jul 18, 2025 1:17:00 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2025-07-18T01:17:04.432Z] Jul 18, 2025 1:17:04 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jul 18, 2025 1:17:04 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
+[debug] [2025-07-18T01:17:06.851Z] Jul 18, 2025 1:17:06 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed
+INFO: Websocket client disconnected
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Jul 18, 2025 1:17:06 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketChannelHandler channelClosed\nINFO: Websocket client disconnected\n"}}
