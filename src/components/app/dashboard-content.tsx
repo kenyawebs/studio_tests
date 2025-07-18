@@ -27,6 +27,10 @@ import {
     Wand2,
     PenSquare,
     Sparkles,
+    HeartPulse,
+    BrainCircuit,
+    Ear,
+    Scale,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -88,8 +92,29 @@ const theVibeAndCoreItems = [
 const quickLinks = [
     { label: "Share a Testimony", icon: Newspaper, href: "/social-feed", color: "text-blue-500", bgColor: "bg-blue-500/10" },
     { label: "Create a Reel", icon: Clapperboard, href: "/faith-reels", color: "text-rose-500", bgColor: "bg-rose-500/10" },
-    { label: "Read the Bible", icon: BookOpen, href: "/bible", color: "text-amber-500", bgColor: "bg-amber-500/10" },
     { label: "Find a Mentor", icon: Users, href: "/mentorship", color: "text-green-500", bgColor: "bg-green-500/10" },
+    { label: "Well-being Hub", icon: HeartPulse, href: "/well-being", color: "text-cyan-500", bgColor: "bg-cyan-500/10" },
+];
+
+const wellBeingResources = [
+  {
+    icon: Ear,
+    title: "Guided Meditation",
+    description: "Find peace and focus.",
+    href: "/well-being",
+  },
+  {
+    icon: BrainCircuit,
+    title: "Stress & Anxiety",
+    description: "Get biblical guidance.",
+    href: "/well-being",
+  },
+  {
+    icon: Scale,
+    title: "Conflict Resolution",
+    description: "Tools for harmony.",
+    href: "/well-being",
+  },
 ];
 
 const prayerRequests = [
@@ -249,19 +274,32 @@ export function DashboardContent() {
                 </div>
                 
                 <div className="space-y-6">
-                    <Card>
+                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2"><Wand2 /> AI-Powered Tools</CardTitle>
-                            <CardDescription>Enhance your spiritual journey with our new AI assistants.</CardDescription>
+                            <CardTitle className="flex items-center gap-2"><HeartPulse /> Resource Library</CardTitle>
+                            <CardDescription>Tools for your mental and spiritual well-being journey.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-2">
-                            <Button variant="outline" className="w-full justify-start" asChild>
-                                <Link href="/journal"><PenSquare className="mr-2"/> AI Journal Assistant</Link>
+                           {wellBeingResources.map(resource => (
+                             <Button variant="outline" className="w-full justify-start gap-3" asChild key={resource.title}>
+                                <Link href={resource.href}>
+                                  <div className="bg-cyan-500/10 p-2 rounded-md">
+                                    <resource.icon className="h-5 w-5 text-cyan-500"/>
+                                  </div>
+                                  <div>
+                                    <p className="font-semibold text-sm">{resource.title}</p>
+                                  </div>
+                                </Link>
                             </Button>
-                            <Button variant="outline" className="w-full justify-start" asChild>
-                                <Link href="/prayer-wall"><Sparkles className="mr-2"/> AI Prayer Assistant</Link>
-                            </Button>
+                           ))}
                         </CardContent>
+                         <CardFooter>
+                            <Button variant="outline" className="w-full" asChild>
+                                <Link href="/well-being">
+                                    Explore All Resources <ArrowRight className="ml-2 h-4 w-4"/>
+                                </Link>
+                            </Button>
+                         </CardFooter>
                     </Card>
                     <Card>
                         <CardHeader>
