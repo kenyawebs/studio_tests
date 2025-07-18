@@ -1,9 +1,9 @@
-
 // src/lib/firestore.ts - DEFINITIVE WORKING VERSION
 import { doc, setDoc, serverTimestamp, collection, addDoc, getDoc, updateDoc, runTransaction, arrayUnion, arrayRemove, increment, Timestamp, query, where, getCountFromServer, orderBy, limit, startAfter, getDocs, DocumentSnapshot } from "firebase/firestore";
 import type { User } from "firebase/auth";
 import { db } from "./firebase";
 import { classifyPost } from "@/ai/flows/classify-post-flow";
+import { CulturalIntelligenceService } from "@/services/cultural-intelligence";
 
 // ORIGINAL WORKING USER PROFILE (unchanged)
 export type UserProfileData = {
@@ -19,6 +19,7 @@ export type UserProfileData = {
     church?: string;
     quote?: string;
     favoriteScripture?: string;
+    region?: string;
 };
 
 // ORIGINAL WORKING JOURNAL ENTRY (unchanged)
@@ -64,6 +65,11 @@ export type Post = {
     };
     userReaction?: { [key: string]: SpiritualReaction }; // Changed to handle multiple users
     prayCount?: number;
+
+    // Phase 1D: Silent cultural intelligence
+    metadata?: {
+        [key: string]: any;
+    };
 };
 
 // SAFE PRAYER REQUEST (unchanged)
@@ -223,61 +229,54 @@ export const createPrayerRequest = async (user: User, request: string) => {
 
 // ENHANCED CREATE POST WITH SPIRITUAL FEATURES (safe)
 export const createSocialPost = async (user: User, content: string) => {
-    if (!db || !user) {
-        throw new Error("User must be logged in to create a post.");
-    }
+  if (!db || !user) {
+    throw new Error("User must be logged in to create a post.");
+  }
 
-    // Basic AI classification
-    let postType: 'testimony' | 'prayer_request' | 'text' | 'question' = 'testimony';
-    if (content.toLowerCase().includes('question') || content.toLowerCase().includes('help')) {
-        postType = 'question';
-    } else if (content.toLowerCase().includes('pray')) {
-        postType = 'prayer_request';
-    }
+  try {
+    const { category: aiCategory } = await classifyPost({ content });
 
-    let finalCategory: TestimonyCategory = 'growth'; // Default category
-    try {
-        const classification = await classifyPost({ content });
-        finalCategory = classification.category;
-    } catch (aiError) {
-        console.error("AI classification failed, using default category:", aiError);
-        // Silently fail to 'growth' so post creation doesn't break
-    }
+    const userProfile = await getUserProfile(user.uid);
+    const culturalMetadata = await CulturalIntelligenceService.collectCulturalMetadata(
+      content,
+      user,
+      userProfile || undefined
+    );
 
-
-    const postData = {
-        userId: user.uid,
-        user: {
-            name: user.displayName || "Anonymous",
-            avatar: user.photoURL || "https://placehold.co/100x100.png",
-            aiHint: "person portrait",
-        },
-        content: content,
-        timestamp: serverTimestamp(),
-        likes: 0,
-        likedBy: [],
-        comments: 0,
-        
-        // NEW: Optional spiritual features
-        type: postType,
-        category: finalCategory,
-        reactions: {
-            praying: 0,
-            believing: 0,
-            encouraging: 0,
-            inspired: 0
-        },
-        
-        ...(postType === 'prayer_request' && { prayCount: 0 })
+    const postData: Omit<Post, 'id'> = {
+      userId: user.uid,
+      user: {
+        name: user.displayName || "Anonymous",
+        avatar: user.photoURL || "https://placehold.co/100x100.png",
+        aiHint: "person portrait",
+      },
+      content: content,
+      timestamp: serverTimestamp(),
+      likes: 0,
+      likedBy: [],
+      comments: 0,
+      category: aiCategory,
+      type: "testimony",
+      reactions: {
+        praying: 0,
+        believing: 0,
+        encouraging: 0,
+        inspired: 0,
+      },
+      metadata: {
+        ...culturalMetadata,
+        userRegion: userProfile?.location || "unknown",
+        timestamp: Timestamp.now(),
+      },
     };
 
-    try {
-        await addDoc(collection(db, "posts"), postData);
-    } catch (error) {
-        console.error("Error creating social post:", error);
-        throw new Error("Could not create post.");
-    }
+    await addDoc(collection(db, "posts"), postData);
+  } catch (error) {
+    console.error("Error in post creation:", error);
+    throw error;
+  }
 };
+
 
 export const toggleLikePost = async (postId: string, userId: string) => {
     if (!db) throw new Error("Firestore is not initialized.");
