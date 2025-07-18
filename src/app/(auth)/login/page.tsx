@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   signInWithEmailAndPassword,
@@ -55,6 +55,10 @@ export default function LoginPage() {
   const [socialLoading, setSocialLoading] = useState<null | 'google' | 'facebook'>(null);
   const [errorMessage, setErrorMessage] = useState("");
 
+  useEffect(() => {
+    setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
+  }, [rememberMe]);
+
   const handleAuthSuccess = () => {
     // The main layout's AuthGuard will handle redirection
     // to either /dashboard or /legal/accept.
@@ -68,7 +72,7 @@ export default function LoginPage() {
     setLoading(true);
     setErrorMessage("");
     try {
-      await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
+      // Persistence is now set in the useEffect hook
       await signInWithEmailAndPassword(auth, email, password);
       handleAuthSuccess();
     } catch (error: any) {
