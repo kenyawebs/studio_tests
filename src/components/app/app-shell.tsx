@@ -38,6 +38,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
     // Check for terms acceptance only once after auth is ready and user is available
     getUserProfile(user.uid).then(profile => {
+      // A profile might not exist immediately after social signup, so check for `profile`
       if (profile && !profile.termsAccepted) {
         setShowTermsModal(true);
       }
