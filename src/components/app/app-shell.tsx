@@ -30,28 +30,28 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     }
 
     if (!user) {
-      router.push('/login');
+      if (pathname !== '/login' && pathname !== '/signup' && pathname !== '/forgot-password') {
+        router.push('/login');
+      }
       return;
     }
 
-    if (user) {
-      // Check for terms acceptance only once after auth is ready
-      getUserProfile(user.uid).then(profile => {
-        if (profile && !profile.termsAccepted) {
-          setShowTermsModal(true);
-        }
-      }).catch(error => {
-          console.error("Failed to check user profile for terms acceptance:", error);
-      });
-      
-      if (pathname.startsWith('/admin') && !isAdmin) {
-        toast({
-          variant: "destructive",
-          title: "Access Denied",
-          description: "You do not have permission to view this page.",
-        });
-        router.push('/dashboard');
+    // Check for terms acceptance only once after auth is ready and user is available
+    getUserProfile(user.uid).then(profile => {
+      if (profile && !profile.termsAccepted) {
+        setShowTermsModal(true);
       }
+    }).catch(error => {
+        console.error("Failed to check user profile for terms acceptance:", error);
+    });
+    
+    if (pathname.startsWith('/admin') && !isAdmin) {
+      toast({
+        variant: "destructive",
+        title: "Access Denied",
+        description: "You do not have permission to view this page.",
+      });
+      router.push('/dashboard');
     }
   }, [user, authReady, isAdmin, pathname, router, toast]);
 
@@ -73,7 +73,17 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     }
   };
 
-  if (!authReady || (!user && pathname !== '/login')) {
+  if (!authReady) {
+    return <AuthLoader />;
+  }
+  
+  // If user is not logged in, but on a public auth page, let it render
+  if (!user && (pathname === '/login' || pathname === '/signup' || pathname === '/forgot-password')) {
+     return <>{children}</>;
+  }
+
+  // If auth is ready, but there's no user, show loader while redirecting
+  if (!user) {
     return <AuthLoader />;
   }
 

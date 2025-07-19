@@ -18,14 +18,10 @@ test.describe('Core Feature Flows', () => {
       await page.getByLabel(/I agree to the/).check();
       await page.getByTestId('signup-button').click();
       
-      // After signup, user might be on /legal/accept. Handle it.
-      await page.waitForURL(/\/dashboard|\/legal\/accept/);
-
-      if (page.url().includes('/legal/accept')) {
-        await page.getByRole('button', { name: 'I Agree and Continue' }).click();
-      }
-
+      // After signup, user must accept terms in the modal that appears on the dashboard
       await page.waitForURL('/dashboard');
+      await expect(page.getByText("Welcome to Connect Hub!")).toBeVisible();
+      await page.getByRole('button', { name: 'I Agree and Continue' }).click();
 
       // Save the authentication state to a file.
       const storageStatePath = `tests/e2e/.auth/${user.email.split('@')[0]}.json`;
