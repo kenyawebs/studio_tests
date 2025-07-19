@@ -17,6 +17,14 @@ test.describe('Core Feature Flows', () => {
       await page.getByLabel('Confirm Password').fill(user.password);
       await page.getByLabel(/I agree to the/).check();
       await page.getByTestId('signup-button').click();
+      
+      // After signup, user might be on /legal/accept. Handle it.
+      await page.waitForURL(/\/dashboard|\/legal\/accept/);
+
+      if (page.url().includes('/legal/accept')) {
+        await page.getByRole('button', { name: 'I Agree and Continue' }).click();
+      }
+
       await page.waitForURL('/dashboard');
 
       // Save the authentication state to a file.
@@ -46,7 +54,7 @@ test.describe('Core Feature Flows', () => {
   });
 
   test('should allow a user to submit a new request on the community wall', async ({ page }) => {
-    await page.goto('/prayer-wall');
+    await page.goto('/community-wall');
 
     const requestContent = `This is a test request created at ${new Date().toISOString()}`;
 

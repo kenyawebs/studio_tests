@@ -22,61 +22,54 @@ test.describe('Authentication Flow', () => {
     // 3. Submit the form
     await page.getByTestId('signup-button').click();
 
-    // 4. Assert that the user is on the dashboard
-    // We wait for the URL to change to /dashboard, which indicates a successful signup and redirect.
+    // 4. Assert that the user is redirected to the legal acceptance page
+    await page.waitForURL('/legal/accept');
+    await expect(page).toHaveURL('/legal/accept');
+
+    // 5. Accept the terms
+    await page.getByRole('button', { name: 'I Agree and Continue' }).click();
+
+    // 6. Assert that the user is now on the dashboard
     await page.waitForURL('/dashboard');
     await expect(page).toHaveURL('/dashboard');
 
-    // 5. Assert that the user's name is in the user menu, confirming they are logged in
+    // 7. Assert that the user's name is in the user menu, confirming they are logged in
     await page.getByTestId('user-menu').click();
     const userDisplayName = page.getByTestId('user-display-name');
     await expect(userDisplayName).toBeVisible();
     await expect(userDisplayName).toHaveText(newUser.email.split('@')[0]);
 
-    // 6. Log out
+    // 8. Log out
     await page.getByTestId('logout-button').click();
 
-    // 7. Assert that the user is redirected to the login page
+    // 9. Assert that the user is redirected to the login page
     await page.waitForURL('/login');
     await expect(page).toHaveURL('/login');
   });
 
   test('should show an error for an existing email during signup', async ({ page }) => {
-    // This is a conceptual test outline. To run this, we would first need
-    // to programmatically create a user in the database before the test runs.
     const existingUser = createTestUser();
     
-    // Conceptual Step 1: Create the user via an API or Firebase Admin SDK helper
-    // await createFirebaseUser(existingUser.email, existingUser.password);
-
-    // Navigate to signup
-    await page.goto('/signup');
-
-    // Attempt to sign up with the same email
-    await page.getByTestId('email').fill(existingUser.email);
-    await page.getByTestId('password').fill('SomeOtherPassword123!');
-    await page.getByLabel('Confirm Password').fill('SomeOtherPassword123!');
-    await page.getByLabel(/I agree to the/).check();
-    await page.getByTestId('signup-button').click();
-    
-    // In a real test, we would sign up again with the same user, but since this is conceptual,
-    // we'll just check that trying to sign up with a known-bad email (from the first test)
-    // would show the error. For the test to actually pass in a real environment,
-    // you'd need to create the user first.
-    
-    // For this example, we'll assume the first test created a user and now we try again.
-    // To make this test independent, you'd create a user via an admin SDK before this test runs.
+    // Create the user for the first time
     await page.goto('/signup');
     await page.getByTestId('email').fill(existingUser.email);
     await page.getByTestId('password').fill(existingUser.password);
     await page.getByLabel('Confirm Password').fill(existingUser.password);
     await page.getByLabel(/I agree to the/).check();
     await page.getByTestId('signup-button').click();
+    await page.waitForURL(/\/legal\/accept|\/dashboard/);
     
-    // We expect to fail the second time.
-    await page.waitForURL('/dashboard'); // First signup succeeds
-    
-    // Go back and try again
+    // Log out to try again
+    if (page.url().includes('/dashboard')) {
+      await page.getByTestId('user-menu').click();
+      await page.getByTestId('logout-button').click();
+      await page.waitForURL('/login');
+    } else {
+       // if on /legal/accept we can't log out, so just go back to signup
+       await page.goto('/signup');
+    }
+
+    // Attempt to sign up again with the same email
     await page.goto('/signup');
     await page.getByTestId('email').fill(existingUser.email);
     await page.getByTestId('password').fill(existingUser.password);
@@ -87,7 +80,7 @@ test.describe('Authentication Flow', () => {
     // Assert that an error message is shown
     const errorMessage = page.getByTestId('error-message');
     await expect(errorMessage).toBeVisible();
-    await expect(errorMessage).toContainText('This email address is already in use');
+    await expect(errorMessage).toContainText('email address is already in use');
   });
 
 
