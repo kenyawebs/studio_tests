@@ -6,7 +6,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { auth, storage } from "@/lib/firebase";
 import { updateProfile } from "firebase/auth";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { updateUserProfile, getUserProfile, UserProfileData } from "@/lib/firestore";
+import { updateUserProfile, getUserProfile, UserProfileData, updateUserProfilePhoto } from "@/lib/firestore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
@@ -91,7 +91,7 @@ export function SettingsContent() {
             if (auth.currentUser) {
                 await updateProfile(auth.currentUser, { photoURL: downloadURL });
             }
-            await updateUserProfile(user.uid, { photoURL: downloadURL });
+            await updateUserProfilePhoto(user.uid, downloadURL);
 
             setProfile(prev => ({ ...prev, photoURL: downloadURL }));
             toast({ title: "Avatar Updated!", description: "Your new profile picture has been saved." });
