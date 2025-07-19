@@ -2,23 +2,23 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, DocumentData } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { User, Newspaper, Calendar, HandHelping } from "lucide-react";
+import { User, Newspaper, Calendar, HandHelping, MoreHorizontal } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
-import { MoreHorizontal } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/use-auth';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
-type UserData = {
+// Use DocumentData and cast as needed
+type UserData = DocumentData & {
     uid: string;
     displayName: string;
     email: string;
@@ -56,7 +56,7 @@ export default function AdminPage() {
         }
         if (!isAdmin) {
             setLoading(false);
-            return;
+            return; // The AppShell component will handle redirection
         }
 
         const fetchUsers = async () => {
@@ -82,8 +82,14 @@ export default function AdminPage() {
     const handleAdminAction = (action: string, userName: string) => {
         toast({
             title: `Action: ${action}`,
-            description: `A backend function would be triggered to perform this action on user ${userName}.`
+            description: `A backend function would be triggered to perform this action on user ${userName}. This is a placeholder.`
         });
+    }
+
+    // A non-admin should not see this page at all due to routing guards.
+    // This is an extra layer of protection.
+    if (!isAdmin && authReady) {
+        return null;
     }
 
     return (
@@ -176,7 +182,7 @@ export default function AdminPage() {
                                                 </TableCell>
                                                 <TableCell>
                                                     {user.termsAccepted ? (
-                                                        <Badge variant="default">Yes</Badge>
+                                                        <Badge variant="default" className="bg-green-100 text-green-800">Yes</Badge>
                                                     ) : (
                                                         <Badge variant="destructive">No</Badge>
                                                     )}

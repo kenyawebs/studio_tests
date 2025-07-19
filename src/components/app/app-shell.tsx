@@ -77,8 +77,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return <AuthLoader />;
   }
 
+  // This check ensures that if a non-admin somehow lands on the admin route,
+  // we don't render anything before the redirect in useEffect kicks in.
   if (pathname.startsWith('/admin') && !isAdmin) {
-      return null;
+      return <AuthLoader />;
   }
   
   return (
