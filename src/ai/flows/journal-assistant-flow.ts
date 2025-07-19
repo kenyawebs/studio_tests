@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview An AI assistant for generating journal entries.

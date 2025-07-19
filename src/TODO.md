@@ -1,3 +1,4 @@
+
 # Future Feature & Enhancement Log
 
 This document tracks major feature requests and enhancements. We have completed the initial stabilization phase and now have a clear roadmap for future development.

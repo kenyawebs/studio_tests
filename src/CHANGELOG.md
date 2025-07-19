@@ -5,25 +5,12 @@ This document tracks all major feature updates and architectural changes for the
 
 ---
 
-## [3.0.3] - Interactive Features & Performance - [Current Date]
-
-### ✨ New Features
-
--   **Interactive Events Hub**: The Events Hub is now fully functional. Users can create new events via a form, and the RSVP, Like, and Share buttons on event cards are now active and stateful.
--   **Functional Event Filtering**: The search bar and category filters on the Events Hub page now correctly filter the list of displayed events.
-
-### 🛠️ Bug Fixes & Architectural Improvements
-
--   **Performance Optimization on Prayer Wall**: Refactored the Prayer Wall to use efficient, paginated data queries (`getDocs`) instead of costly real-time listeners (`onSnapshot`). This significantly improves page load times and resolves sluggishness.
--   **Stabilized Data Fetching**: The logic for fetching prayer requests has been updated to be more resilient and performant, preventing unnecessary re-renders.
-
----
-
-## [3.0.2] - AI & Performance Enhancements
+## [3.0.2] - AI & Performance Enhancements - [Current Date]
 
 ### ✨ New Features
 
 -   **AI-Powered Prayer Assistant**: Activated the AI Prayer Assistant on the Prayer Wall. Users can now receive AI-generated prayer suggestions to help them articulate their thoughts and needs.
+-   **AI-Powered Journal Assistant**: Activated the AI Journal Assistant on the Journal page. Users can now get AI-powered prompts and suggestions to help them start their reflections.
 -   **AI-Powered Post Classification**: New posts on the Social Feed are now automatically categorized by an AI model that analyzes the content for its spiritual theme (e.g., Healing, Breakthrough, Provision).
 -   **Dynamic Category Filtering**: The "Filter" button on the Social Feed is now active, allowing users to select multiple spiritual categories to fine-tune the content they see.
 -   **Silent Cultural Intelligence**: Added a new backend service to silently collect cultural metadata (like regional spiritual terminology) from new posts. This creates a dataset for future AI-powered cultural adaptation features without impacting current app performance.
