@@ -6,38 +6,141 @@ export default function TermsOfServicePage() {
         <Card>
             <CardHeader>
                 <CardTitle>Terms of Service</CardTitle>
-                <CardDescription>Last updated: July 9, 2025</CardDescription>
+                <CardDescription>Version 2.0 | Last Updated: July 19, 2025</CardDescription>
             </CardHeader>
             <CardContent className="prose dark:prose-invert max-w-none">
-                <p>Welcome to Connect Hub! These terms and conditions outline the rules and regulations for the use of our application.</p>
-                
-                <h2>1. Acceptance of Terms</h2>
-                <p>By accessing and using our app, you accept and agree to be bound by the terms and provision of this agreement. In addition, when using our app's particular services, you shall be subject to any posted guidelines or rules applicable to such services. Any participation in this service will constitute acceptance of this agreement.</p>
+                <h2>1. ACCEPTANCE OF TERMS</h2>
+                <p>By accessing Connect Hub, you agree to these Terms of Service and our Privacy Policy.</p>
 
-                <h2>2. User Content</h2>
-                <p>Our app allows you to post, link, store, share and otherwise make available certain information, text, graphics, videos, or other material ("Content"). You are responsible for the Content that you post on or through the Service, including its legality, reliability, and appropriateness.</p>
-                <p>You retain any and all of your rights to any Content you submit, post or display on or through the Service and you are responsible for protecting those rights. We take no responsibility and assume no liability for Content you or any third-party posts on or through the Service.</p>
-
-                <h2>3. Prohibited Uses</h2>
-                <p>You may use our app only for lawful purposes. You may not use our app:</p>
+                <h2>2. DESCRIPTION OF SERVICE</h2>
+                <p>Connect Hub is an AI-powered spiritual transformation platform that provides:</p>
                 <ul>
-                    <li>In any way that violates any applicable national or international law or regulation.</li>
-                    <li>For the purpose of exploiting, harming, or attempting to exploit or harm minors in any way by exposing them to inappropriate content or otherwise.</li>
-                    <li>To transmit, or procure the sending of, any advertising or promotional material, including any "junk mail", "chain letter," "spam," or any other similar solicitation.</li>
-                    <li>To impersonate or attempt to impersonate the app, an app employee, another user, or any other person or entity.</li>
+                    <li>Spiritual content sharing and classification</li>
+                    <li>Prayer matching and discipleship connections</li>
+                    <li>Cultural adaptation for global audiences</li>
+                    <li>Community engagement and growth tracking</li>
                 </ul>
 
-                <h2>4. Intellectual Property</h2>
-                <p>The Service and its original content (excluding Content provided by users), features and functionality are and will remain the exclusive property of the app creators and its licensors. The Service is protected by copyright, trademark, and other laws of both the United States and foreign countries. Our trademarks and trade dress may not be used in connection with any product or service without the prior written consent of the app creators.</p>
+                <h2>3. USER RESPONSIBILITIES</h2>
+                <h3>Content Standards:</h3>
+                <ul>
+                    <li>Share authentic spiritual experiences</li>
+                    <li>Respect cultural and denominational diversity</li>
+                    <li>No hate speech, harassment, or discrimination</li>
+                    <li>Accurate information in profiles and requests</li>
+                </ul>
+
+                <h3>AI Interaction:</h3>
+                <ul>
+                    <li>Understand that AI classifies and matches content</li>
+                    <li>Provide feedback to improve AI accuracy</li>
+                    <li>Respect AI-generated recommendations as suggestions only</li>
+                </ul>
                 
-                <h2>5. Termination</h2>
-                <p>We may terminate or suspend your account and bar access to the Service immediately, without prior notice or liability, under our sole discretion, for any reason whatsoever and without limitation, including but not limited to a breach of the Terms.</p>
+                <h3>Global Community:</h3>
+                <ul>
+                    <li>Respect cultural differences across regions</li>
+                    <li>Use appropriate language for diverse audiences</li>
+                    <li>Support the "fishing net" inclusive approach</li>
+                </ul>
+
+                <h2>4. PROHIBITED CONDUCT</h2>
+                <h3>Strictly Forbidden:</h3>
+                <ul>
+                    <li>Harassment, bullying, or discrimination</li>
+                    <li>False or misleading spiritual claims</li>
+                    <li>Commercial exploitation of spiritual content</li>
+                    <li>Circumventing AI safety measures</li>
+                    <li>Sharing inappropriate content for minors</li>
+                </ul>
+
+                <h3>AI-Specific Prohibitions:</h3>
+                <ul>
+                    <li>Attempting to manipulate AI classifications</li>
+                    <li>Using the platform to train competing AI systems</li>
+                    <li>Reverse engineering AI algorithms</li>
+                </ul>
+
+                <h2>5. INTELLECTUAL PROPERTY</h2>
+                <h3>Your Content:</h3>
+                <ul>
+                    <li>You retain ownership of content you share.</li>
+                    <li>You grant us a license to use content for platform functionality, including allowing our AI to analyze content to improve services.</li>
+                </ul>
+                <h3>Our Technology:</h3>
+                <ul>
+                    <li>Our AI algorithms, spiritual classification systems, platform design, and cultural adaptation systems are proprietary and protected intellectual property.</li>
+                </ul>
+
+                <h2>6. AI DISCLAIMERS</h2>
+                <h3>AI Limitations:</h3>
+                <ul>
+                    <li>AI classifications are suggestions, not spiritual authority.</li>
+                    <li>Prayer matching is algorithmic, not divine guidance.</li>
+                    <li>Cultural adaptations may not be perfect.</li>
+                    <li>AI cannot replace human spiritual discernment.</li>
+                </ul>
+                 <h3>No Guarantee:</h3>
+                <ul>
+                    <li>AI accuracy is not guaranteed.</li>
+                    <li>Spiritual guidance is supplemental to human wisdom.</li>
+                    <li>Cultural sensitivity is best-effort, not perfect.</li>
+                </ul>
+
+                <h2>7. REGIONAL TERMS</h2>
+                <h3>Global South Provisions:</h3>
+                 <ul>
+                    <li>Local laws take precedence where applicable.</li>
+                    <li>Payment terms vary by region.</li>
+                    <li>Cultural adaptation respects local contexts.</li>
+                    <li>Regional data processing follows local regulations.</li>
+                </ul>
+
+
+                <h2>8. LIMITATION OF LIABILITY</h2>
+                 <h3>Platform Limitations:</h3>
+                 <ul>
+                    <li>We provide the platform "as is".</li>
+                    <li>No guarantee of spiritual outcomes.</li>
+                    <li>AI recommendations are not professional advice.</li>
+                    <li>Technical issues may occur.</li>
+                </ul>
                 
-                <h2>6. Changes to Terms</h2>
-                <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.</p>
-                
-                <h2>7. Contact Us</h2>
-                <p>If you have any questions about these Terms, please contact us.</p>
+                <h3>Spiritual Disclaimer:</h3>
+                 <ul>
+                    <li>The platform supplements, not replaces, spiritual communities.</li>
+                    <li>Prayer matching is algorithmic, not supernatural.</li>
+                    <li>Spiritual growth tracking is for encouragement only.</li>
+                    <li>Professional counseling is recommended for serious issues.</li>
+                </ul>
+
+                <h2>9. TERMINATION</h2>
+                 <h3>We May Terminate for:</h3>
+                 <ul>
+                    <li>Violation of these terms</li>
+                    <li>Abuse of AI systems</li>
+                    <li>Community safety reasons</li>
+                    <li>Legal compliance</li>
+                </ul>
+                 <h3>You May Terminate:</h3>
+                 <ul>
+                    <li>You may delete your account at any time.</li>
+                    <li>Data will be removed according to our Privacy Policy.</li>
+                    <li>Some aggregated, anonymous data may be retained.</li>
+                </ul>
+
+                <h2>10. GOVERNING LAW</h2>
+                <p>Terms are governed by the laws of the jurisdiction where the user resides. Disputes will be resolved through arbitration where legally required.</p>
+
+                <h2>11. CHANGES TO TERMS</h2>
+                <p>We will notify you of major changes 30 days in advance via in-app notification and/or email. Continued use constitutes acceptance.</p>
+
+                <h2>12. CONTACT INFORMATION</h2>
+                <p>
+                    <strong>General Terms Questions:</strong> legal@connecthub.app<br/>
+                    <strong>AI-Specific Terms:</strong> ai-terms@connecthub.app<br/>
+                    <strong>Regional Legal Questions:</strong> regional-legal@connecthub.app
+                </p>
             </CardContent>
         </Card>
     </div>

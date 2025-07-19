@@ -17,7 +17,8 @@ import {
     Target,
     Video, 
     HelpCircle,
-    X
+    X,
+    AlertTriangle
 } from "lucide-react";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -32,6 +33,10 @@ import type { DocumentSnapshot } from "firebase/firestore";
 import { SpiritualReactions } from "./spiritual-reactions";
 import { storage } from "@/lib/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogClose } from "@/components/ui/dialog";
+import { DialogContent } from "@radix-ui/react-dialog";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const POSTS_PER_PAGE = 5;
 
@@ -402,45 +407,130 @@ export function SocialFeedContent() {
     );
 }
 
+function ReportDialog({ open, onOpenChange, post }: { open: boolean, onOpenChange: (open: boolean) => void, post: Post }) {
+    const { toast } = useToast();
+    const [reason, setReason] = useState("");
+    const [description, setDescription] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+  
+    const handleSubmit = async () => {
+      if (!reason) {
+        toast({ variant: "destructive", title: "Please select a reason for the report."});
+        return;
+      }
+      setIsSubmitting(true);
+      console.log({
+        postId: post.id,
+        reason,
+        description,
+      });
+      
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      toast({ title: "Report Submitted", description: "Thank you for helping keep the community safe. A moderator will review your report." });
+      setIsSubmitting(false);
+      onOpenChange(false);
+      setReason("");
+      setDescription("");
+    };
+  
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Report Content</DialogTitle>
+            <DialogDescription>
+              Help us understand the problem. What's wrong with this post by {post.user?.name}?
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label htmlFor="reason">Reason for reporting</Label>
+              <Select onValueChange={setReason} value={reason}>
+                <SelectTrigger id="reason">
+                  <SelectValue placeholder="Select a reason..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="inappropriate_content">Inappropriate Content</SelectItem>
+                  <SelectItem value="harassment">Harassment or Hate Speech</SelectItem>
+                  <SelectItem value="spam">Spam or Scam</SelectItem>
+                  <SelectItem value="false_information">False Information</SelectItem>
+                  <SelectItem value="cultural_insensitivity">Cultural Insensitivity</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+                <Label htmlFor="description">Additional Details (Optional)</Label>
+                <Textarea 
+                    id="description"
+                    placeholder="Provide more information..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
+            </div>
+          </div>
+          <DialogClose asChild>
+              <div className="flex justify-end gap-2">
+                <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+                <Button onClick={handleSubmit} disabled={isSubmitting || !reason}>
+                    {isSubmitting ? <Loader2 className="mr-2 animate-spin"/> : null} Submit Report
+                </Button>
+              </div>
+          </DialogClose>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
 function PostCard({ post, timeAgo }: { post: Post; timeAgo: (date: any) => string }) {
     const category = getCategoryDisplay(post.category || 'growth');
+    const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
     
     return (
-        <Card className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-shadow">
-            <CardHeader className="p-4">
-                <div className="flex justify-between items-start">
-                    <div className="flex items-center gap-3">
-                        <Avatar className="border-2 border-purple-100">
-                            <AvatarImage src={post.user?.avatar} data-ai-hint={post.user?.aiHint} />
-                            <AvatarFallback className="bg-purple-100 text-purple-700">{post.user?.name?.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                            <p className="font-semibold text-gray-900">{post.user?.name}</p>
-                            <p className="text-xs text-gray-500">{timeAgo(post.timestamp)}</p>
+        <>
+            <Card className="overflow-hidden border-0 shadow-lg hover:shadow-xl transition-shadow">
+                <CardHeader className="p-4">
+                    <div className="flex justify-between items-start">
+                        <div className="flex items-center gap-3">
+                            <Avatar className="border-2 border-purple-100">
+                                <AvatarImage src={post.user?.avatar} data-ai-hint={post.user?.aiHint} />
+                                <AvatarFallback className="bg-purple-100 text-purple-700">{post.user?.name?.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                            <div>
+                                <p className="font-semibold text-gray-900">{post.user?.name}</p>
+                                <p className="text-xs text-gray-500">{timeAgo(post.timestamp)}</p>
+                            </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <Badge variant="secondary" className={cn("text-xs border", category.color)}>{category.icon} {category.label}</Badge>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-purple-50"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    <DropdownMenuItem onClick={() => setIsReportDialogOpen(true)}>
+                                        <AlertTriangle className="mr-2 h-4 w-4" />
+                                        Report content
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                        <Badge variant="secondary" className={cn("text-xs border", category.color)}>{category.icon} {category.label}</Badge>
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild><Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-purple-50"><MoreHorizontal className="h-4 w-4" /></Button></DropdownMenuTrigger>
-                            <DropdownMenuContent><DropdownMenuItem>Report content</DropdownMenuItem></DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
-                </div>
-            </CardHeader>
-            
-            <CardContent className="px-4 pb-2 space-y-4">
-                <p className="text-sm whitespace-pre-wrap leading-relaxed text-gray-800">{post.content}</p>
-                {post.imageUrl && (
-                    <div className="rounded-lg overflow-hidden border border-purple-100">
-                        <Image src={post.imageUrl} width={600} height={400} alt="Post image" data-ai-hint={post.aiHint || 'spiritual content image'} className="w-full h-auto" />
-                    </div>
-                )}
-            </CardContent>
-            
-            <CardFooter className="p-3 border-t border-purple-100 bg-purple-50/30">
-                <SpiritualReactions postId={post.id} reactions={post.reactions || { praying: 0, believing: 0, encouraging: 0, inspired: 0 }} userReaction={post.userReaction?.[(post as any).userId]} />
-            </CardFooter>
-        </Card>
+                </CardHeader>
+                
+                <CardContent className="px-4 pb-2 space-y-4">
+                    <p className="text-sm whitespace-pre-wrap leading-relaxed text-gray-800">{post.content}</p>
+                    {post.imageUrl && (
+                        <div className="rounded-lg overflow-hidden border border-purple-100">
+                            <Image src={post.imageUrl} width={600} height={400} alt="Post image" data-ai-hint={post.aiHint || 'spiritual content image'} className="w-full h-auto" />
+                        </div>
+                    )}
+                </CardContent>
+                
+                <CardFooter className="p-3 border-t border-purple-100 bg-purple-50/30">
+                    <SpiritualReactions postId={post.id} reactions={post.reactions || { praying: 0, believing: 0, encouraging: 0, inspired: 0 }} userReaction={post.userReaction?.[(post as any).userId]} />
+                </CardFooter>
+            </Card>
+            <ReportDialog open={isReportDialogOpen} onOpenChange={setIsReportDialogOpen} post={post} />
+        </>
     );
 }
