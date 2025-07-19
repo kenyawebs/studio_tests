@@ -411,34 +411,4 @@ export const getSocialFeedPosts = async (postsLimit: number, lastVisible: Docume
     return { posts, lastVisible: newLastVisible };
 };
 
-export const getPrayerRequests = async (reqsLimit: number, lastVisible: DocumentSnapshot | null, typeFilter?: PrayerRequest['type']) => {
-    if (!db) {
-        throw new Error("Firestore not initialized.");
-    }
-
-    const reqsCollection = collection(db, "prayerRequests");
-    let q;
-
-    const constraints = [orderBy("timestamp", "desc"), limit(reqsLimit)];
-    if (typeFilter) {
-        constraints.unshift(where("type", "==", typeFilter));
-    }
-    if (lastVisible) {
-        constraints.push(startAfter(lastVisible));
-    }
-
-    q = query(reqsCollection, ...constraints);
-    
-    const documentSnapshots = await getDocs(q);
-    
-    const requests = documentSnapshots.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    } as PrayerRequest));
-    
-    const newLastVisible = documentSnapshots.docs[documentSnapshots.docs.length - 1];
-
-    return { requests, lastVisible: newLastVisible };
-};
-
     

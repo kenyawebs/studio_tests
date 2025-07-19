@@ -8,7 +8,6 @@ import { useAuth } from "@/hooks/use-auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Send, ThumbsUp, MessageCircle, Smile, CheckCheck, Sparkles, Trophy, BookOpen, Wand2, AlertTriangle, Loader2 } from "lucide-react";
@@ -20,11 +19,8 @@ import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import { askPrayerAssistant, PrayerAssistantInput } from "@/ai/flows/prayer-assistant-flow";
-import { createPrayerRequest, getPrayerRequests, PrayerRequest } from "@/lib/firestore";
+import { createPrayerRequest, PrayerRequest } from "@/lib/firestore";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import type { DocumentSnapshot } from "firebase/firestore";
-
-const REQUESTS_PER_PAGE = 5;
 
 const PrayerWallSkeleton = () => (
     <div className="space-y-4 mt-4">
@@ -56,87 +52,64 @@ const EmptyFeed = ({ message }: { message: string }) => (
 
 
 export function PrayerWallContent() {
-    const { user } = useAuth();
+    const { user, authReady } = useAuth();
     const { toast } = useToast();
     const isAiConfigured = !!process.env.NEXT_PUBLIC_GOOGLE_AI_API_KEY;
 
     const [newRequest, setNewRequest] = useState("");
     const [posting, setPosting] = useState(false);
-
+    
     // AI Assistant State
     const [prayerTopic, setPrayerTopic] = useState("");
     const [prayerResponse, setPrayerResponse] = useState("");
     const [loadingPrayer, setLoadingPrayer] = useState(false);
 
-    // New state for handling multiple feeds
-    const [feeds, setFeeds] = useState<{ [key: string]: { items: PrayerRequest[], lastVisible: DocumentSnapshot | null, hasMore: boolean } }>({
-        all: { items: [], lastVisible: null, hasMore: true },
-        requests: { items: [], lastVisible: null, hasMore: true },
-        answered: { items: [], lastVisible: null, hasMore: true },
-        testimonies: { items: [], lastVisible: null, hasMore: true },
-        verdicts: { items: [], lastVisible: null, hasMore: true },
-    });
-    const [loadingFeeds, setLoadingFeeds] = useState<{ [key: string]: boolean }>({});
-    const [activeTab, setActiveTab] = useState<string>("all");
-    const [initialLoading, setInitialLoading] = useState(true);
-
-    const loadRequests = async (tab: string) => {
-        if (loadingFeeds[tab] || !feeds[tab].hasMore) return;
-
-        setLoadingFeeds(prev => ({ ...prev, [tab]: true }));
-        
-        const typeFilter = tab === 'all' ? undefined : tab as PrayerRequest['type'];
-
-        try {
-            const { requests: newRequests, lastVisible: newLastVisible } = await getPrayerRequests(REQUESTS_PER_PAGE, feeds[tab].lastVisible, typeFilter);
-            
-            setFeeds(prevFeeds => {
-                const existingIds = new Set(prevFeeds[tab].items.map(item => item.id));
-                const uniqueNewItems = newRequests.filter(item => !existingIds.has(item.id));
-                return {
-                    ...prevFeeds,
-                    [tab]: {
-                        items: [...prevFeeds[tab].items, ...uniqueNewItems],
-                        lastVisible: newLastVisible,
-                        hasMore: newRequests.length === REQUESTS_PER_PAGE
-                    }
-                }
-            });
-            
-        } catch (error) {
-            console.error("Error fetching prayer requests for tab", tab, error);
-            toast({ variant: "destructive", title: "Error", description: "Could not fetch prayer requests." });
-        } finally {
-            setLoadingFeeds(prev => ({ ...prev, [tab]: false }));
-            if (initialLoading) setInitialLoading(false);
-        }
-    };
+    // Real-time prayer requests
+    const [requests, setRequests] = useState<PrayerRequest[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [activeTab, setActiveTab] = useState("all");
 
     useEffect(() => {
-        // Load initial data for the 'all' tab
-        loadRequests('all');
-    }, []);
-
-    const handleTabChange = (value: string) => {
-        setActiveTab(value);
-        if (feeds[value].items.length === 0 && feeds[value].hasMore) {
-            loadRequests(value);
+        if (!authReady) {
+            return;
         }
-    };
-    
-    const resetFeeds = () => {
-        const resetState = { items: [], lastVisible: null, hasMore: true };
-        setFeeds({
-            all: { ...resetState },
-            requests: { ...resetState },
-            answered: { ...resetState },
-            testimonies: { ...resetState },
-            verdicts: { ...resetState },
-        });
-        // After resetting, reload the current tab's data
-        setTimeout(() => loadRequests(activeTab), 0);
-    };
+        if (!user) {
+            setLoading(false);
+            setRequests([]);
+            return;
+        }
 
+        const q = query(collection(db, "prayerRequests"), orderBy("timestamp", "desc"));
+        const unsubscribe = onSnapshot(q, 
+            (snapshot) => {
+                const fetchedRequests = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id } as PrayerRequest));
+                setRequests(fetchedRequests);
+                setLoading(false);
+            },
+            (error) => {
+                console.error("Error fetching prayer requests:", error);
+                if (error.code === "permission-denied") {
+                    toast({
+                        variant: "destructive",
+                        title: "Permissions Error",
+                        description: "You do not have permission to view these requests. This might be due to Firestore rules."
+                    });
+                } else if (error.code === 'failed-precondition') {
+                    toast({
+                        variant: "destructive",
+                        title: "Database Error",
+                        description: "A required database index is missing. Please create one in your Firebase console.",
+                        duration: 10000,
+                    });
+                } else {
+                    toast({ variant: "destructive", title: "Error", description: "Could not fetch prayer requests." });
+                }
+                setLoading(false);
+            }
+        );
+
+        return () => unsubscribe();
+    }, [user, authReady, toast]);
 
     const handlePostRequest = async () => {
         if (!user || !newRequest.trim()) return;
@@ -148,8 +121,6 @@ export function PrayerWallContent() {
                 title: "Success!",
                 description: "Your post has been shared with the community.",
             });
-            // Reset and reload feeds
-            resetFeeds();
         } catch (error) {
             console.error("Error posting request: ", error);
             toast({
@@ -182,24 +153,21 @@ export function PrayerWallContent() {
         }
     };
     
-    const renderFeed = (tab: string) => {
-        const feed = feeds[tab];
-        if (loadingFeeds[tab] && feed.items.length === 0) {
+    const filteredRequests = requests.filter(p => {
+        if (activeTab === "all") return true;
+        return p.type === activeTab;
+    });
+
+    const renderFeed = () => {
+        if (loading) {
             return <PrayerWallSkeleton />;
         }
-        if (feed.items.length === 0 && !feed.hasMore) {
-            return <EmptyFeed message={`No ${tab} to show.`} />;
+        if (filteredRequests.length === 0) {
+            return <EmptyFeed message={`No ${activeTab} to show.`} />;
         }
         return (
             <div className="space-y-4">
-                {feed.items.map(p => <PrayerCard key={p.id} {...p} />)}
-                {feed.hasMore && (
-                    <div className="text-center">
-                        <Button onClick={() => loadRequests(tab)} disabled={loadingFeeds[tab]}>
-                            {loadingFeeds[tab] ? <><Loader2 className="mr-2 h-4 w-4 animate-spin"/> Loading...</> : "Load More"}
-                        </Button>
-                    </div>
-                )}
+                {filteredRequests.map(p => <PrayerCard key={p.id} {...p} />)}
             </div>
         );
     }
@@ -230,23 +198,17 @@ export function PrayerWallContent() {
                     </CardFooter>
                 </Card>
 
-                <Tabs defaultValue="all" className="w-full" onValueChange={handleTabChange}>
+                <Tabs defaultValue="all" className="w-full" onValueChange={setActiveTab}>
                     <TabsList className="grid w-full grid-cols-5">
                         <TabsTrigger value="all">All</TabsTrigger>
-                        <TabsTrigger value="requests">Requests</TabsTrigger>
+                        <TabsTrigger value="request">Requests</TabsTrigger>
                         <TabsTrigger value="answered"><CheckCheck className="mr-2"/>Answered</TabsTrigger>
-                        <TabsTrigger value="testimonies"><Sparkles className="mr-2"/>Encouragements</TabsTrigger>
-                        <TabsTrigger value="verdicts"><Trophy className="mr-2"/>Victories</TabsTrigger>
+                        <TabsTrigger value="testimony"><Sparkles className="mr-2"/>Encouragements</TabsTrigger>
+                        <TabsTrigger value="verdict"><Trophy className="mr-2"/>Victories</TabsTrigger>
                     </TabsList>
-                     {initialLoading ? <PrayerWallSkeleton /> : (
-                        <>
-                            <TabsContent value="all" className="mt-4">{renderFeed('all')}</TabsContent>
-                            <TabsContent value="requests" className="mt-4">{renderFeed('requests')}</TabsContent>
-                            <TabsContent value="answered" className="mt-4">{renderFeed('answered')}</TabsContent>
-                            <TabsContent value="testimonies" className="mt-4">{renderFeed('testimonies')}</TabsContent>
-                            <TabsContent value="verdicts" className="mt-4">{renderFeed('verdicts')}</TabsContent>
-                        </>
-                     )}
+                    <TabsContent value={activeTab} className="mt-4">
+                        {renderFeed()}
+                    </TabsContent>
                 </Tabs>
             </div>
             <div className="lg:col-span-1 space-y-6 lg:sticky top-8">
@@ -400,3 +362,5 @@ function PrayerCard({ id, name, avatar, aiHint, request, prayCount, timestamp, c
         </Card>
     );
 }
+
+    
