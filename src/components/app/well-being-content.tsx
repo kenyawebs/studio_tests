@@ -128,7 +128,7 @@ function AiAssistantDialog({ title, description, trigger }: { title: string, des
                     </div>
                      {msg.role === 'user' && isLoading && (
                         <Avatar className="h-8 w-8 border">
-                            <AvatarFallback><User/></AvatarFallback>
+                            <AvatarFallback><UserCheck/></AvatarFallback>
                         </Avatar>
                      )}
                   </div>
@@ -161,14 +161,15 @@ function ProviderProfileDialog({ provider, trigger }: { provider: typeof provide
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <div className="flex flex-col items-center text-center gap-4">
+          <DialogTitle>Provider Profile</DialogTitle>
+          <div className="flex flex-col items-center text-center gap-4 pt-4">
               <Avatar className="h-24 w-24">
                   <AvatarImage src={provider.avatar} data-ai-hint={provider.aiHint} />
                   <AvatarFallback>{provider.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <div>
-                  <DialogTitle className="text-2xl">{provider.name}</DialogTitle>
-                  <DialogDescription>{provider.credentials}</DialogDescription>
+                  <h3 className="text-2xl font-bold">{provider.name}</h3>
+                  <p className="text-muted-foreground">{provider.credentials}</p>
               </div>
           </div>
         </DialogHeader>
