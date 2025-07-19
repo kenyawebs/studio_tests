@@ -89,5 +89,3 @@ This section contains exciting new features to consider for future development s
 -   **Expanded Social Logins:**
     -   **What:** Add support for other authentication providers like TikTok, X (formerly Twitter), etc.
     -   **Why:** To increase user accessibility and sign-up conversion. Requires configuration in Firebase and UI updates.
-
-    
