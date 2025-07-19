@@ -228,7 +228,7 @@ export const createPrayerRequest = async (user: User, request: string) => {
 };
 
 // ENHANCED CREATE POST WITH SPIRITUAL FEATURES (safe)
-export const createSocialPost = async (user: User, content: string) => {
+export const createSocialPost = async (user: User, content: string, imageUrl?: string, aiHint?: string) => {
   if (!db || !user) {
     throw new Error("User must be logged in to create a post.");
   }
@@ -252,6 +252,8 @@ export const createSocialPost = async (user: User, content: string) => {
       },
       content: content,
       timestamp: serverTimestamp(),
+      imageUrl: imageUrl || "",
+      aiHint: aiHint || "",
       likes: 0,
       likedBy: [],
       comments: 0,
@@ -410,5 +412,3 @@ export const getSocialFeedPosts = async (postsLimit: number, lastVisible: Docume
 
     return { posts, lastVisible: newLastVisible };
 };
-
-    

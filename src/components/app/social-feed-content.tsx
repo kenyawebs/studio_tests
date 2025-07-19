@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -16,7 +16,8 @@ import {
     Star,
     Target,
     Video, 
-    HelpCircle
+    HelpCircle,
+    X
 } from "lucide-react";
 import Image from "next/image";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -29,6 +30,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import type { DocumentSnapshot } from "firebase/firestore";
 import { SpiritualReactions } from "./spiritual-reactions";
+import { storage } from "@/lib/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const POSTS_PER_PAGE = 5;
 
@@ -139,6 +142,9 @@ export function SocialFeedContent() {
     const [posting, setPosting] = useState(false);
     const [activeTab, setActiveTab] = useState("all");
     const [selectedCategories, setSelectedCategories] = useState<TestimonyCategory[]>([]);
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const imageInputRef = useRef<HTMLInputElement>(null);
 
     const [lastVisible, setLastVisible] = useState<DocumentSnapshot | null>(null);
     const [hasMore, setHasMore] = useState(true);
@@ -147,6 +153,26 @@ export function SocialFeedContent() {
     useEffect(() => {
         loadPosts(true);
     }, []);
+
+    const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const clearImage = () => {
+        setImageFile(null);
+        setImagePreview(null);
+        if (imageInputRef.current) {
+            imageInputRef.current.value = "";
+        }
+    };
 
     const loadPosts = async (fromStart = false) => {
         if (!hasMore && !fromStart) return;
@@ -173,12 +199,26 @@ export function SocialFeedContent() {
     };
 
     const handlePostSubmit = async () => {
-        if (!user || !newPost.trim()) return;
+        if (!user || (!newPost.trim() && !imageFile)) {
+            toast({ variant: "destructive", title: "Cannot post", description: "Please write a message or add an image." });
+            return;
+        }
 
         setPosting(true);
         try {
-            await createSocialPost(user, newPost);
+            let imageUrl = "";
+            let aiHint = "user uploaded image";
+            if (imageFile) {
+                const storageRef = ref(storage, `social-posts/${user.uid}/${Date.now()}-${imageFile.name}`);
+                const snapshot = await uploadBytes(storageRef, imageFile);
+                imageUrl = await getDownloadURL(snapshot.ref);
+            }
+
+            await createSocialPost(user, newPost, imageUrl, aiHint);
+            
             setNewPost("");
+            clearImage();
+
             toast({
                 title: "Testimony Shared! 🎉",
                 description: "Your spiritual milestone is now live on the feed."
@@ -266,22 +306,42 @@ export function SocialFeedContent() {
                                 {user?.displayName?.charAt(0).toUpperCase() || "U"}
                             </AvatarFallback>
                         </Avatar>
-                        <Textarea 
-                            placeholder="Share a testimony, breakthrough, or encouragement... 🙏✨"
-                            className="h-20 resize-none border-purple-200 focus:border-purple-400"
-                            value={newPost}
-                            onChange={(e) => setNewPost(e.target.value)}
-                            disabled={!user || posting}
-                            data-testid="new-post-textarea"
-                        />
+                        <div className="flex-1 space-y-2">
+                             <Textarea 
+                                placeholder="Share a testimony, breakthrough, or encouragement... 🙏✨"
+                                className="h-20 resize-none border-purple-200 focus:border-purple-400"
+                                value={newPost}
+                                onChange={(e) => setNewPost(e.target.value)}
+                                disabled={!user || posting}
+                                data-testid="new-post-textarea"
+                            />
+                            {imagePreview && (
+                                <div className="relative">
+                                    <Image src={imagePreview} alt="Image preview" width={100} height={100} className="rounded-md object-cover" />
+                                    <Button variant="destructive" size="icon" className="absolute top-1 right-1 h-6 w-6" onClick={clearImage}>
+                                        <X className="h-4 w-4" />
+                                    </Button>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </CardHeader>
                 <CardFooter className="p-4 flex justify-between bg-white">
                     <div className="flex gap-2">
-                        <Button variant="ghost" size="icon" className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"><ImageIcon className="h-4 w-4" /></Button>
+                        <input
+                            type="file"
+                            ref={imageInputRef}
+                            onChange={handleImageSelect}
+                            className="hidden"
+                            accept="image/*"
+                            disabled={posting}
+                        />
+                        <Button variant="ghost" size="icon" className="text-purple-600 hover:text-purple-700 hover:bg-purple-50" onClick={() => imageInputRef.current?.click()} disabled={posting}>
+                            <ImageIcon className="h-4 w-4" />
+                        </Button>
                         <Button variant="ghost" size="icon" className="text-purple-600 hover:text-purple-700 hover:bg-purple-50"><Video className="h-4 w-4" /></Button>
                     </div>
-                    <Button onClick={handlePostSubmit} disabled={!user || posting || !newPost.trim()} data-testid="submit-post-button" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6">
+                    <Button onClick={handlePostSubmit} disabled={!user || posting || (!newPost.trim() && !imageFile)} data-testid="submit-post-button" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6">
                         {posting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sharing...</> : <><Sparkles className="mr-2 h-4 w-4" /> Share Testimony</>}
                     </Button>
                 </CardFooter>
@@ -384,5 +444,3 @@ function PostCard({ post, timeAgo }: { post: Post; timeAgo: (date: any) => strin
         </Card>
     );
 }
-
-    
