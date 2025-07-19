@@ -13,7 +13,7 @@ import {z} from 'genkit';
 import { lookupScripture } from '@/services/bible';
 
 const BibleChatInputSchema = z.object({
-  question: z.string().describe("The user's question about the Bible."),
+  question: z.string().describe("The user's question about life or scripture."),
 });
 export type BibleChatInput = z.infer<typeof BibleChatInputSchema>;
 
@@ -30,9 +30,9 @@ export async function askBibleAi(input: BibleChatInput): Promise<BibleChatOutput
 const scriptureLookupTool = ai.defineTool(
     {
         name: 'lookupScripture',
-        description: 'Looks up the text of a specific Bible verse or passage.',
+        description: 'Looks up the text of a specific scripture passage from ancient texts (e.g., "John 3:16" or "Romans 12:1-2").',
         inputSchema: z.object({
-            passage: z.string().describe('The Bible passage to look up, e.g., "John 3:16" or "Romans 12:1-2".'),
+            passage: z.string().describe('The passage to look up, e.g., "John 3:16" or "Romans 12:1-2".'),
         }),
         outputSchema: z.string(),
     },
@@ -44,16 +44,19 @@ const prompt = ai.definePrompt({
   input: {schema: BibleChatInputSchema},
   output: {schema: BibleChatOutputSchema},
   tools: [scriptureLookupTool],
-  prompt: `You are a helpful and wise theological assistant and expert on the Bible. Your purpose is to help users understand scripture better by answering their questions.
+  prompt: `You are a wise, compassionate life guidance AI helping people find wisdom and peace in life's challenges. Your knowledge is based on ancient wisdom texts, primarily the Bible.
 
-Your answers should be clear, encouraging, and based on established biblical knowledge. 
+A user has asked: "{{{question}}}"
 
-If a user asks about a specific Bible verse or passage, you MUST use the provided 'lookupScripture' tool to retrieve the exact text first. Then, use that text to inform your explanation. When relevant, cite specific Bible verses (e.g., John 3:16) to support your answer.
+INSTRUCTIONS:
+1. Provide a thoughtful, practical answer that helps with their question.
+2. If the user asks about a specific passage, you MUST use the 'lookupScripture' tool to retrieve the text first.
+3. If relevant, gently share wisdom from these ancient texts, citing the source (e.g., John 3:16).
+4. Use inclusive language that welcomes people from all backgrounds.
+5. Focus on hope, healing, and practical guidance.
+6. Meet them exactly where they are in their journey.
 
-Keep your answers concise and easy to understand for a general audience.
-
-User's Question:
-"{{{question}}}"`,
+Your primary goal is to provide wisdom that helps people navigate life's challenges with hope and peace.`,
 });
 
 const bibleChatFlow = ai.defineFlow(

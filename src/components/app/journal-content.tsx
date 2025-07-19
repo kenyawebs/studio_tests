@@ -27,7 +27,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 type JournalEntry = JournalEntryData & { id: string };
 
 const entryTypes = [
-    "Reflection", "Dream", "Vision", "Prophetic Impression", "Prediction/Future Event", "Message from God"
+    "Life Reflection", "Dream Exploration", "Personal Vision", "Life Insight", "Future Planning", "Wisdom Received"
 ];
 
 const JournalSkeleton = () => (
@@ -49,7 +49,7 @@ export function JournalContent() {
 
     // Form state
     const [title, setTitle] = useState("");
-    const [entryType, setEntryType] = useState("Reflection");
+    const [entryType, setEntryType] = useState("Life Reflection");
     const [content, setContent] = useState("");
     const [tags, setTags] = useState("");
     const [isPublic, setIsPublic] = useState(false);
@@ -131,7 +131,7 @@ export function JournalContent() {
             setContent("");
             setTags("");
             setIsPublic(false);
-            setEntryType("Reflection");
+            setEntryType("Life Reflection");
         } catch (error) {
             console.error("Error saving entry:", error);
             toast({ variant: "destructive", title: "Save Failed", description: "Could not save your journal entry." });
@@ -212,7 +212,7 @@ export function JournalContent() {
                             </DialogContent>
                         </Dialog>
                     </div>
-                    <CardDescription>Log your dreams, visions, and prophetic impressions. Your entries are private by default.</CardDescription>
+                    <CardDescription>Log your life reflections, dreams, and personal insights. Your entries are private by default.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                      {!isAiConfigured && (
@@ -223,7 +223,7 @@ export function JournalContent() {
                     )}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                          <Input 
-                            placeholder="Entry Title (e.g., 'Dream about...')"
+                            placeholder="Entry Title (e.g., 'Reflecting on...')"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                          />
@@ -245,7 +245,7 @@ export function JournalContent() {
                         onChange={(e) => setContent(e.target.value)}
                     />
                     <Input 
-                        placeholder="Add tags, separated by commas (e.g., hope, prayer, vision)"
+                        placeholder="Add tags, separated by commas (e.g., growth, career, reflection)"
                         value={tags}
                         onChange={(e) => setTags(e.target.value)}
                     />

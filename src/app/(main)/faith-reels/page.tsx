@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { FaithReelsContent } from "@/components/app/faith-reels-content";
 
 export const metadata: Metadata = {
-  title: "Faith Reels | Connect Hub",
-  description: "Share and watch short, inspiring videos from the community.",
+  title: "Life Stories | Connect Hub",
+  description: "Watch short, inspiring stories of life change and encouragement from the community.",
 };
 
 export default function FaithReelsPage() {

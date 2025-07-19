@@ -146,7 +146,7 @@ export function PrayerWallContent() {
             setNewRequest("");
             toast({
                 title: "Success!",
-                description: "Your prayer request has been posted.",
+                description: "Your post has been shared with the community.",
             });
             // Reset and reload feeds
             resetFeeds();
@@ -175,7 +175,7 @@ export function PrayerWallContent() {
             toast({
                 variant: "destructive",
                 title: "AI Error",
-                description: "Could not generate a prayer. Please try again."
+                description: "Could not generate a response. Please try again."
             });
         } finally {
             setLoadingPrayer(false);
@@ -209,8 +209,8 @@ export function PrayerWallContent() {
             <div className="lg:col-span-2 space-y-6">
                 <Card>
                     <CardHeader>
-                        <CardTitle>Share a Request or Testimony</CardTitle>
-                        <CardDescription>Let your community stand with you or celebrate with you. Your post will be public.</CardDescription>
+                        <CardTitle>Share a Request or Encouragement</CardTitle>
+                        <CardDescription>Let the community stand with you or celebrate with you. Your post will be public.</CardDescription>
                     </CardHeader>
                     <CardContent>
                         <Textarea 
@@ -235,8 +235,8 @@ export function PrayerWallContent() {
                         <TabsTrigger value="all">All</TabsTrigger>
                         <TabsTrigger value="requests">Requests</TabsTrigger>
                         <TabsTrigger value="answered"><CheckCheck className="mr-2"/>Answered</TabsTrigger>
-                        <TabsTrigger value="testimonies"><Sparkles className="mr-2"/>Testimonies</TabsTrigger>
-                        <TabsTrigger value="verdicts"><Trophy className="mr-2"/>Verdicts</TabsTrigger>
+                        <TabsTrigger value="testimonies"><Sparkles className="mr-2"/>Encouragements</TabsTrigger>
+                        <TabsTrigger value="verdicts"><Trophy className="mr-2"/>Victories</TabsTrigger>
                     </TabsList>
                      {initialLoading ? <PrayerWallSkeleton /> : (
                         <>
@@ -252,7 +252,7 @@ export function PrayerWallContent() {
             <div className="lg:col-span-1 space-y-6 lg:sticky top-8">
                 <Card className="bg-gradient-to-br from-primary to-fuchsia-600 text-primary-foreground">
                     <CardHeader>
-                        <CardTitle>Verse of the Day</CardTitle>
+                        <CardTitle>Wisdom for Today</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <p className="text-lg italic">&quot;For where two or three gather in my name, there am I with them.&quot;</p>
@@ -261,7 +261,7 @@ export function PrayerWallContent() {
                     <CardFooter>
                         <Button asChild variant="secondary" className="w-full">
                             <Link href="/bible">
-                                <BookOpen className="mr-2 h-4 w-4" /> Read the Bible
+                                <BookOpen className="mr-2 h-4 w-4" /> Explore Wisdom Texts
                             </Link>
                         </Button>
                     </CardFooter>
@@ -269,9 +269,9 @@ export function PrayerWallContent() {
                  <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
-                           <Wand2 className="text-primary"/> AI Prayer Assistant
+                           <Wand2 className="text-primary"/> Peace & Wisdom AI
                         </CardTitle>
-                        <CardDescription>Need help finding the words? Let our AI assist you in crafting a prayer.</CardDescription>
+                        <CardDescription>Need help finding the words? Let our AI provide some guidance.</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         {!isAiConfigured && (
@@ -281,7 +281,7 @@ export function PrayerWallContent() {
                             </div>
                         )}
                         <Textarea 
-                            placeholder="e.g., For strength during a difficult time"
+                            placeholder="e.g., I'm feeling stressed about work..."
                             value={prayerTopic}
                             onChange={(e) => setPrayerTopic(e.target.value)}
                             disabled={!isAiConfigured || loadingPrayer}
@@ -299,7 +299,7 @@ export function PrayerWallContent() {
                                 <TooltipTrigger asChild>
                                     <div className="w-full">
                                         <Button className="w-full" onClick={handleGetPrayer} disabled={loadingPrayer || !prayerTopic.trim() || !isAiConfigured}>
-                                            {loadingPrayer ? "Generating..." : "Ask for a Prayer"}
+                                            {loadingPrayer ? "Generating..." : "Ask for Guidance"}
                                         </Button>
                                     </div>
                                 </TooltipTrigger>
@@ -320,8 +320,8 @@ export function PrayerWallContent() {
 function PrayerCard({ id, name, avatar, aiHint, request, prayCount, timestamp, comments, type }: PrayerRequest) {
     const typeMeta = {
         'answered': { color: 'border-green-500', icon: <CheckCheck className="h-4 w-4 text-green-500"/>, label: 'Answered' },
-        'testimony': { color: 'border-yellow-500', icon: <Sparkles className="h-4 w-4 text-yellow-500"/>, label: 'Testimony' },
-        'verdict': { color: 'border-blue-500', icon: <Trophy className="h-4 w-4 text-blue-500"/>, label: 'God\'s Verdict' },
+        'testimony': { color: 'border-yellow-500', icon: <Sparkles className="h-4 w-4 text-yellow-500"/>, label: 'Encouragement' },
+        'verdict': { color: 'border-blue-500', icon: <Trophy className="h-4 w-4 text-blue-500"/>, label: 'Victory' },
         'request': { color: 'border-transparent', icon: null, label: '' },
     }[type];
 

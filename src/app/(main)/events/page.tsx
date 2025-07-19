@@ -19,11 +19,11 @@ import { useToast } from "@/hooks/use-toast";
 const initialEvents = [
   {
     id: 1,
-    title: "Young Adults Worship Night",
+    title: "Community Networking Night",
     date: "2025-08-16T19:00:00",
-    location: "Main Sanctuary",
-    description: "Join us for a powerful night of worship, prayer, and community.",
-    type: "Worship",
+    location: "Downtown Community Hub",
+    description: "Join us for a powerful night of connection, inspiration, and community building.",
+    type: "community_building",
     rsvps: 128,
     likes: 45,
     isOnline: false
@@ -32,35 +32,45 @@ const initialEvents = [
     id: 2,
     title: "Community Food Drive",
     date: "2025-08-17T09:00:00",
-    location: "Church Parking Lot",
+    location: "City Park Pavilion",
     description: "Help us serve our city by donating non-perishable food items.",
-    type: "Outreach",
+    type: "social_impact",
     rsvps: 72,
     likes: 30,
     isOnline: false
   },
   {
     id: 3,
-    title: "Sunday Morning Service",
+    title: "Weekend Growth Seminar",
     date: "2025-08-18T10:00:00",
-    location: "Main Sanctuary",
-    description: "Our weekly gathering. All are welcome!",
-    type: "Service",
+    location: "Main Auditorium",
+    description: "A weekend gathering focused on personal and professional growth. All are welcome!",
+    type: "personal_growth",
     rsvps: 250,
     likes: 110,
     isOnline: false
   },
   {
     id: 4,
-    title: "Theology on Tap (Online)",
+    title: "Wellness Workshop (Online)",
     date: "2025-08-20T20:00:00",
     location: "Zoom",
-    description: "A casual online discussion about faith and life.",
-    type: "Online",
+    description: "A casual online discussion about life, wellness, and finding balance.",
+    type: "wellness",
     rsvps: 45,
     likes: 15,
     isOnline: true
   },
+];
+
+const categories = [
+  { id: 'community_building', label: 'Community & Connection', emoji: '🤝' },
+  { id: 'personal_growth', label: 'Personal Development', emoji: '🌱' },
+  { id: 'social_impact', label: 'Making a Difference', emoji: '💪' },
+  { id: 'learning', label: 'Learning & Growth', emoji: '📚' },
+  { id: 'wellness', label: 'Health & Wellness', emoji: '💚' },
+  { id: 'family_friendly', label: 'Family Events', emoji: '👪' },
+  { id: 'networking', label: 'Meet New People', emoji: '🌟' }
 ];
 
 type Event = typeof initialEvents[0];
@@ -142,10 +152,9 @@ export default function EventsPage() {
                         <SelectTrigger><SelectValue placeholder="Category" /></SelectTrigger>
                         <SelectContent>
                             <SelectItem value="all">All Categories</SelectItem>
-                            <SelectItem value="Worship">Worship</SelectItem>
-                            <SelectItem value="Outreach">Outreach</SelectItem>
-                            <SelectItem value="Online">Online</SelectItem>
-                            <SelectItem value="Service">Service</SelectItem>
+                            {categories.map(cat => (
+                              <SelectItem key={cat.id} value={cat.id}>{cat.emoji} {cat.label}</SelectItem>
+                            ))}
                         </SelectContent>
                     </Select>
                      <Select>
@@ -164,9 +173,9 @@ export default function EventsPage() {
             <Tabs defaultValue="all" className="w-full">
                 <TabsList className="grid w-full grid-cols-4">
                   <TabsTrigger value="all" onClick={() => setCategoryFilter('all')}>All Events</TabsTrigger>
-                  <TabsTrigger value="worship" onClick={() => setCategoryFilter('Worship')}>Worship</TabsTrigger>
-                  <TabsTrigger value="outreach" onClick={() => setCategoryFilter('Outreach')}>Outreach</TabsTrigger>
-                  <TabsTrigger value="online" onClick={() => setCategoryFilter('Online')}>Online</TabsTrigger>
+                  <TabsTrigger value="community_building" onClick={() => setCategoryFilter('community_building')}>Community</TabsTrigger>
+                  <TabsTrigger value="social_impact" onClick={() => setCategoryFilter('social_impact')}>Impact</TabsTrigger>
+                  <TabsTrigger value="wellness" onClick={() => setCategoryFilter('wellness')}>Wellness</TabsTrigger>
                 </TabsList>
                 <TabsContent value={categoryFilter} className="mt-6">
                   <div className="grid gap-4">

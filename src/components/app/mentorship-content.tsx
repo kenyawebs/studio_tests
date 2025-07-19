@@ -15,18 +15,18 @@ import { Textarea } from "@/components/ui/textarea";
 
 // Data is now treated as if it were fetched from an API/database
 const mentors = [
-  { name: "Pastor John", avatar: "https://placehold.co/100x100/a5b4fc/1e3a8a.png", aiHint: "man smiling", role: "Senior Pastor", specialties: ["Theology", "Leadership", "Marriage Counseling"] },
-  { name: "Maria Garcia", avatar: "https://placehold.co/100x100/f9a8d4/4c1d95.png", aiHint: "woman portrait", role: "Worship Leader", specialties: ["Worship", "Songwriting", "Prayer"] },
-  { name: "David Chen", avatar: "https://placehold.co/100x100/a7f3d0/065f46.png", aiHint: "man outdoors", role: "Youth Leader", specialties: ["Youth Ministry", "Discipleship", "Evangelism"] },
-  { name: "Sarah Kim", avatar: "https://placehold.co/100x100/fed7aa/9a3412.png", aiHint: "woman professional", role: "Marketplace Leader", specialties: ["Business", "Finance", "Career"] },
-  { name: "The Jacksons", avatar: "https://placehold.co/100x100/d8b4fe/581c87.png", aiHint: "happy couple", role: "Pre-marital Counselors", specialties: ["Marriage Counseling", "Family", "Relationships"] },
-  { name: "Dr. Evans", avatar: "https://placehold.co/100x100/a5f3fc/0e7490.png", aiHint: "professional man", role: "Certified Counselor", specialties: ["Mental Health", "Pastoral Care", "Theology"] },
+  { name: "John Smith", avatar: "https://placehold.co/100x100/a5b4fc/1e3a8a.png", aiHint: "man smiling", role: "Leadership Coach", specialties: ["Leadership", "Career Growth", "Personal Development"] },
+  { name: "Maria Garcia", avatar: "https://placehold.co/100x100/f9a8d4/4c1d95.png", aiHint: "woman portrait", role: "Creative Director", specialties: ["Creativity", "Life Purpose", "Inspiration"] },
+  { name: "David Chen", avatar: "https://placehold.co/100x100/a7f3d0/065f46.png", aiHint: "man outdoors", role: "Youth Counselor", specialties: ["Youth Mentoring", "Life Transitions", "Communication"] },
+  { name: "Sarah Kim", avatar: "https://placehold.co/100x100/fed7aa/9a3412.png", aiHint: "woman professional", role: "Entrepreneur", specialties: ["Business", "Financial Wisdom", "Goal Achievement"] },
+  { name: "The Jacksons", avatar: "https://placehold.co/100x100/d8b4fe/581c87.png", aiHint: "happy couple", role: "Relationship Coaches", specialties: ["Marriage Counseling", "Family Life", "Relationships"] },
+  { name: "Dr. Evans", avatar: "https://placehold.co/100x100/a5f3fc/0e7490.png", aiHint: "professional man", role: "Certified Counselor", specialties: ["Mental Health", "Emotional Wellness", "Overcoming Challenges"] },
 ]
 
 const recentPosts = [
-  { user: "Pastor John", title: "On the importance of Sabbath", snippet: "In our fast-paced world, resting is a revolutionary act of faith..." },
-  { user: "Maria Garcia", title: "Discerning God's voice in worship", snippet: "Sometimes worship isn't about the big moments, but the quiet whispers..." },
-  { user: "Sarah Kim", title: "Bringing your faith into your workplace", snippet: "How can we be a light in the marketplace? It starts with excellence..." },
+  { user: "John Smith", title: "On the importance of a personal mission statement", snippet: "In our fast-paced world, knowing your 'why' is a revolutionary act..." },
+  { user: "Maria Garcia", title: "Finding inspiration in everyday life", snippet: "Sometimes creativity isn't about big moments, but the quiet observations..." },
+  { user: "Sarah Kim", title: "Bringing your values into your workplace", snippet: "How can we be a positive influence? It starts with excellence and integrity..." },
 ]
 
 export function MentorshipContent() {
@@ -36,8 +36,8 @@ export function MentorshipContent() {
     <div className="grid lg:grid-cols-3 gap-8 items-start">
       <div className="lg:col-span-2 space-y-8">
           <div className="text-center">
-            <h1 className="text-4xl font-bold">Spiritual Mentorship</h1>
-            <p className="text-muted-foreground mt-2 text-lg max-w-2xl mx-auto">Connect with experienced leaders who can guide you on your faith journey.</p>
+            <h1 className="text-4xl font-bold">Life Mentoring</h1>
+            <p className="text-muted-foreground mt-2 text-lg max-w-2xl mx-auto">Connect with experienced people who can guide you on your personal growth journey.</p>
           </div>
 
           <Card>
@@ -52,7 +52,6 @@ export function MentorshipContent() {
                  <Select>
                   <SelectTrigger className="h-11"><SelectValue placeholder="Filter by Specialty" /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="theology"><BookOpen className="mr-2"/>Theology & Doctrine</SelectItem>
                     <SelectItem value="leadership"><Building2 className="mr-2"/>Leadership</SelectItem>
                     <SelectItem value="marriage"><Heart className="mr-2"/>Marriage & Family</SelectItem>
                     <SelectItem value="business"><Briefcase className="mr-2"/>Business & Career</SelectItem>
@@ -103,7 +102,7 @@ export function MentorshipContent() {
                                             <DialogDescription>Tell the AI what you want to say, and it will help you craft a message to {mentor.name}.</DialogDescription>
                                         </DialogHeader>
                                          <div className="space-y-4">
-                                            <Textarea placeholder="e.g., Help me ask for guidance on my career path and how to integrate my faith." className="min-h-[100px]"/>
+                                            <Textarea placeholder="e.g., Help me ask for guidance on my career path and how to integrate my values." className="min-h-[100px]"/>
                                             <Button>Generate Draft</Button>
                                             <Card className="bg-muted">
                                                 <CardContent className="p-4 text-sm">
@@ -135,7 +134,7 @@ export function MentorshipContent() {
                 <CardTitle className="text-lg font-semibold flex items-center gap-2"><UserCheck />Become a Mentor</CardTitle>
             </CardHeader>
             <CardContent>
-                <p className="text-muted-foreground text-sm mt-1">Invest in the next generation by sharing your wisdom and experience. Your story is valuable.</p>
+                <p className="text-muted-foreground text-sm mt-1">Invest in others by sharing your wisdom and experience. Your story is valuable.</p>
                 <Dialog>
                     <DialogTrigger asChild>
                       <Button className="w-full mt-4">

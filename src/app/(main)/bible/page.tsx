@@ -3,8 +3,8 @@ import type { Metadata } from "next";
 import { BibleContent } from "@/components/app/bible-content";
 
 export const metadata: Metadata = {
-  title: "Bible Study Tools | Connect Hub",
-  description: "Read the Bible, explore topics, and ask questions with our AI-powered study assistant.",
+  title: "Wisdom Texts | Connect Hub",
+  description: "Explore ancient wisdom, find guidance for life's questions, and ask our AI assistant for insights.",
 };
 
 export default function BiblePage() {

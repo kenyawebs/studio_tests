@@ -180,9 +180,9 @@ export function BibleContent() {
                 <CardHeader>
                     <div className="flex items-center gap-2">
                         <BookOpen className="h-6 w-6 text-primary"/>
-                        <CardTitle>Bible Reader</CardTitle>
+                        <CardTitle>Wisdom Reader</CardTitle>
                     </div>
-                    <CardDescription>Select a book, chapter, and verse range to study the King James Version.</CardDescription>
+                    <CardDescription>Select a book, chapter, and verse range to study ancient wisdom texts.</CardDescription>
                 </CardHeader>
                 <CardContent>
                      <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
@@ -209,13 +209,13 @@ export function BibleContent() {
                          </div>
                     </div>
                      <Button onClick={handleSearch} className="w-full mb-4">
-                        <Search className="mr-2 h-4 w-4"/> Search Scripture
+                        <Search className="mr-2 h-4 w-4"/> Search Text
                      </Button>
 
                     <ScrollArea className="p-4 border rounded-md bg-secondary/50 min-h-[40vh]">
                          {isScriptureLoading ? <ScriptureSkeleton /> : (
                             <>
-                                <h2 className="text-2xl font-bold mb-4">{scriptureReference} (KJV)</h2>
+                                <h2 className="text-2xl font-bold mb-4">{scriptureReference}</h2>
                                 <div className="whitespace-pre-wrap font-serif text-base leading-relaxed text-justify">
                                     {scriptureText}
                                 </div>
@@ -229,9 +229,9 @@ export function BibleContent() {
                 <CardHeader>
                     <div className="flex items-center gap-2">
                         <BookMarked className="h-6 w-6 text-primary"/>
-                        <CardTitle>Topical Concordance</CardTitle>
+                        <CardTitle>Topical Guide</CardTitle>
                     </div>
-                    <CardDescription>Find relevant scripture for common life topics and emotions.</CardDescription>
+                    <CardDescription>Find relevant wisdom for common life topics and emotions.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <Select onValueChange={handleTopicChange}>
@@ -264,9 +264,9 @@ export function BibleContent() {
                 <CardHeader>
                     <div className="flex items-center gap-2">
                         <Wand2 className="h-6 w-6 text-primary"/>
-                        <CardTitle>Ask the Bible AI</CardTitle>
+                        <CardTitle>Life Wisdom AI</CardTitle>
                     </div>
-                    <CardDescription>Have a question about a passage or topic? Our AI is here to help you understand scripture.
+                    <CardDescription>Have a question about a passage or topic? Our AI is here to help you find insight.
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -319,7 +319,7 @@ export function BibleContent() {
                     </ScrollArea>
                     <div className="relative">
                         <Textarea 
-                            placeholder="e.g., Who was Abraham?" 
+                            placeholder="e.g., What is the meaning of life?" 
                             className="pr-12"
                             value={question}
                             onChange={(e) => setQuestion(e.target.value)}

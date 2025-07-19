@@ -4,44 +4,73 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Heart, MessageCircle, Music, Search, Plus, Upload, Link as LinkIcon, Download, Coins, Wand2, Palette, Share2 } from "lucide-react";
+import { Search, Plus, Upload, Link as LinkIcon, Download, Coins, Wand2, Palette, Share2, Heart, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
+const universalReactions = [
+  { 
+    icon: "💪", 
+    label: "Inspiring", 
+    key: "inspiring",
+    description: "This gave me strength"
+  },
+  { 
+    icon: "🤗", 
+    label: "Encouraging", 
+    key: "encouraging",
+    description: "This lifted me up"
+  },
+  { 
+    icon: "🙏", 
+    label: "Hopeful", 
+    key: "hopeful", 
+    description: "This gave me hope"
+  },
+  { 
+    icon: "✨", 
+    label: "Life-Changing", 
+    key: "transformative",
+    description: "This could change my life"
+  }
+];
 
 const reels = [
   {
     id: 1,
     user: { name: "Grace Notes", avatar: "https://placehold.co/100x100/f9a8d4/4c1d95.png", aiHint: "woman singing" },
     videoUrl: "https://placehold.co/540x960.png",
-    aiHint: "worship concert",
-    caption: "Feeling the spirit during worship practice tonight! 🙌 #blessed",
+    aiHint: "inspirational video",
+    caption: "A moment of peace and reflection from my evening walk. 🙌 #hope",
     audio: "Original Audio by Grace Notes",
     likes: 1200,
     comments: 48,
+    category: 'inspiration'
   },
   {
     id: 2,
-    user: { name: "Prophetic Painter", avatar: "https://placehold.co/100x100/a5b4fc/1e3a8a.png", aiHint: "man painting" },
+    user: { name: "Creative Canvas", avatar: "https://placehold.co/100x100/a5b4fc/1e3a8a.png", aiHint: "man painting" },
     videoUrl: "https://placehold.co/540x960.png",
     aiHint: "abstract art",
-    caption: "A time-lapse of my latest piece, 'Heaven's Gates'. What do you see?",
-    audio: "Hillsong - Oceans",
+    caption: "A time-lapse of my latest piece on overcoming challenges. What do you see?",
+    audio: "Uplifting Piano Music",
     likes: 5800,
     comments: 329,
+    category: 'breakthrough'
   },
   {
     id: 3,
-    user: { name: "Daily Devotion", avatar: "https://placehold.co/100x100/a7f3d0/065f46.png", aiHint: "open book" },
+    user: { name: "Daily Wisdom", avatar: "https://placehold.co/100x100/a7f3d0/065f46.png", aiHint: "open book" },
     videoUrl: "https://placehold.co/540x960.png",
-    aiHint: "bible verse",
-    caption: "Your daily reminder: You are loved. You are chosen. (1 Peter 2:9)",
-    audio: "Soothing Piano Music",
+    aiHint: "inspirational quote",
+    caption: "Your daily reminder: You are stronger than you think. You are capable of amazing things.",
+    audio: "Soothing Ambient Music",
     likes: 12000,
     comments: 712,
+    category: 'wisdom'
   },
 ];
 
@@ -114,7 +143,7 @@ export function FaithReelsContent() {
         </div>
         
         <div className="absolute top-0 left-0 right-0 p-4 text-white font-bold text-lg flex justify-between items-center z-10 bg-gradient-to-b from-black/50 to-transparent">
-          <h1>Faith Reels</h1>
+          <h1>Life Stories</h1>
           <div className="flex gap-4">
             <Search className="cursor-pointer"/>
             <Dialog>
@@ -123,7 +152,7 @@ export function FaithReelsContent() {
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Create a New Reel</DialogTitle>
+                  <DialogTitle>Share Your Story</DialogTitle>
                   <DialogDescription>Upload a video or import one from your favorite platforms.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
@@ -141,17 +170,17 @@ export function FaithReelsContent() {
 }
 
 
-function Reel({ user, videoUrl, aiHint, caption, audio, likes, comments }: typeof reels[0]) {
+function Reel({ user, videoUrl, aiHint, caption, audio, likes, comments }: (typeof reels)[0]) {
   const { toast } = useToast();
   const [isLiked, setIsLiked] = React.useState(false);
   const [isFollowing, setIsFollowing] = React.useState(false);
+  const [activeReaction, setActiveReaction] = useState<string | null>(null);
   
-  const formattedLikes = (baseLikes: number, isLiked: boolean) => {
-    const total = baseLikes + (isLiked ? 1 : 0);
-    if (total >= 1000) {
-      return (total / 1000).toFixed(1) + 'K';
+  const formattedLikes = (baseLikes: number) => {
+    if (baseLikes >= 1000) {
+      return (baseLikes / 1000).toFixed(1) + 'K';
     }
-    return total;
+    return baseLikes;
   }
   
   const showComingSoonToast = () => {
@@ -163,7 +192,7 @@ function Reel({ user, videoUrl, aiHint, caption, audio, likes, comments }: typeo
 
   return (
     <div className="relative h-full w-full snap-start flex-shrink-0">
-      <Image src={videoUrl} fill style={{ objectFit: 'cover' }} sizes="384px" alt="Faith Reel" data-ai-hint={aiHint} />
+      <Image src={videoUrl} fill style={{ objectFit: 'cover' }} sizes="384px" alt="Life Story Reel" data-ai-hint={aiHint} />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
       
       <div className="absolute bottom-0 left-0 right-0 p-4 text-white flex justify-between items-end">
@@ -177,24 +206,22 @@ function Reel({ user, videoUrl, aiHint, caption, audio, likes, comments }: typeo
             <Button variant="outline" size="sm" className="bg-white/20 border-white text-white h-7" onClick={() => setIsFollowing(p => !p)}>{isFollowing ? 'Following' : 'Follow'}</Button>
           </div>
           <p className="text-sm">{caption}</p>
-          <div className="flex items-center gap-2 text-sm">
-            <Music className="w-4 h-4" />
-            <p>{audio}</p>
-          </div>
         </div>
 
         <div className="flex flex-col items-center space-y-4">
-          <button className="flex flex-col items-center gap-1" onClick={() => setIsLiked(p => !p)}>
-            <div className="bg-white/20 p-3 rounded-full">
-              <Heart className={cn("w-6 h-6", isLiked && "fill-white")} />
-            </div>
-            <span className="text-xs font-semibold">{formattedLikes(likes, isLiked)}</span>
-          </button>
+          {universalReactions.map(reaction => (
+            <button key={reaction.key} className="flex flex-col items-center gap-1 group" onClick={() => setActiveReaction(reaction.key)}>
+                <div className={cn("bg-white/20 p-3 rounded-full transition-colors", activeReaction === reaction.key && "bg-primary")}>
+                    <span className="text-2xl">{reaction.icon}</span>
+                </div>
+                <span className="text-xs font-semibold">{reaction.label}</span>
+            </button>
+          ))}
           <button className="flex flex-col items-center gap-1" onClick={showComingSoonToast}>
             <div className="bg-white/20 p-3 rounded-full">
               <MessageCircle className="w-6 h-6" />
             </div>
-            <span className="text-xs font-semibold">{comments}</span>
+            <span className="text-xs font-semibold">{formattedLikes(comments)}</span>
           </button>
            <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -211,29 +238,6 @@ function Reel({ user, videoUrl, aiHint, caption, audio, likes, comments }: typeo
                     <DropdownMenuItem>Copy Link</DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>
-          <button className="flex flex-col items-center gap-1" onClick={showComingSoonToast}>
-            <div className="bg-white/20 p-3 rounded-full">
-              <Palette className="w-6 h-6" />
-            </div>
-             <span className="text-xs font-semibold">Filters</span>
-          </button>
-          <button className="flex flex-col items-center gap-1" onClick={showComingSoonToast}>
-            <div className="bg-white/20 p-3 rounded-full">
-              <Wand2 className="w-6 h-6" />
-            </div>
-             <span className="text-xs font-semibold">Edit</span>
-          </button>
-          <button className="flex flex-col items-center gap-1" onClick={showComingSoonToast}>
-            <div className="bg-white/20 p-3 rounded-full">
-              <Coins className="w-6 h-6" />
-            </div>
-             <span className="text-xs font-semibold">Gift</span>
-          </button>
-          <button className="flex flex-col items-center gap-1" onClick={showComingSoonToast}>
-            <div className="bg-white/20 p-3 rounded-full">
-              <Download className="w-6 h-6" />
-            </div>
-          </button>
         </div>
       </div>
     </div>

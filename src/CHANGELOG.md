@@ -5,6 +5,30 @@ This document tracks all major feature updates and architectural changes for the
 
 ---
 
+## [3.0.4] - The Fishing Net Retrofit - [Current Date]
+
+### ✨ New Features & Strategic Pivot
+- **"Fishing Net" Strategy Implemented**: Executed a major strategic pivot to make the application more inclusive and welcoming to a broader audience, including those exploring faith or from non-traditional backgrounds.
+- **Universal Language**: Replaced "churchy" or overly religious jargon with universal terminology focused on personal growth, life wisdom, inspiration, and community across the entire application.
+- **Feature Renaming**:
+  - Faith Reels → **Life Stories**
+  - Prayer Wall → **Community Wall**
+  - Bible Page → **Wisdom Texts**
+  - Journal Page → **Personal Journal**
+  - Mentorship → **Life Mentoring**
+  - AI Prayer Assistant → **Peace & Wisdom AI**
+  - AI Bible Chat → **Life Wisdom AI**
+- **Inclusive AI Prompts**: Rewrote AI prompts for the Guidance and Wisdom assistants to be more compassionate, welcoming, and adaptable to users from any background.
+- **Universal Reactions**: Updated the reaction system on "Life Stories" to be more universal (Inspiring, Encouraging, Hopeful, Life-Changing).
+- **Inclusive Categories**: Event and Journal categories were updated to reflect universal themes of personal growth, community, and wellness.
+
+### 🎯 User Experience
+- Created a more welcoming entry point for individuals who may be curious about faith but not yet committed.
+- Lowered the barrier to entry by focusing on shared human experiences and personal growth.
+- Maintained the availability of deeper spiritual content for those who actively seek it.
+
+---
+
 ## [3.0.3] - Core Feature Activation - [Current Date]
 
 ### ✨ New Features
