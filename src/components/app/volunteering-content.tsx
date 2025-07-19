@@ -13,7 +13,6 @@ import { CreateOpportunityForm } from "@/components/app/create-opportunity-form"
 import { cn } from "@/lib/utils";
 import { VolunteerApplicationForm } from "@/components/app/volunteer-application-form";
 import { SuggestOpportunityForm } from "@/components/app/suggest-opportunity-form";
-import Image from "next/image";
 
 const opportunityIcons: { [key: string]: React.ElementType } = {
     "Youth Development": Users2,
@@ -75,7 +74,7 @@ export function VolunteeringContent() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold">Volunteer Board</h1>
+          <h1 className="text-3xl font-bold">Community Impact Hub</h1>
           <p className="text-muted-foreground mt-1">Find opportunities to make an impact and connect with your community.</p>
         </div>
         <div className="flex gap-2">
