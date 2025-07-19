@@ -14,52 +14,84 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
 import { CreateEventForm } from "@/components/app/create-event-form";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
 
-// Data is now treated as if it were fetched from an API/database
-const events = [
+const initialEvents = [
   {
+    id: 1,
     title: "Young Adults Worship Night",
-    date: "Friday, August 16th",
-    time: "7:00 PM - 9:00 PM",
+    date: "2025-08-16T19:00:00",
     location: "Main Sanctuary",
     description: "Join us for a powerful night of worship, prayer, and community.",
     type: "Worship",
     rsvps: 128,
-    likes: 45
+    likes: 45,
+    isOnline: false
   },
   {
+    id: 2,
     title: "Community Food Drive",
-    date: "Saturday, August 17th",
-    time: "9:00 AM - 12:00 PM",
+    date: "2025-08-17T09:00:00",
     location: "Church Parking Lot",
     description: "Help us serve our city by donating non-perishable food items.",
     type: "Outreach",
     rsvps: 72,
-    likes: 30
+    likes: 30,
+    isOnline: false
   },
   {
+    id: 3,
     title: "Sunday Morning Service",
-    date: "Sunday, August 18th",
-    time: "10:00 AM",
+    date: "2025-08-18T10:00:00",
     location: "Main Sanctuary",
     description: "Our weekly gathering. All are welcome!",
     type: "Service",
     rsvps: 250,
-    likes: 110
+    likes: 110,
+    isOnline: false
   },
   {
+    id: 4,
     title: "Theology on Tap (Online)",
-    date: "Tuesday, August 20th",
-    time: "8:00 PM",
+    date: "2025-08-20T20:00:00",
     location: "Zoom",
     description: "A casual online discussion about faith and life.",
     type: "Online",
     rsvps: 45,
-    likes: 15
+    likes: 15,
+    isOnline: true
   },
 ];
 
+type Event = typeof initialEvents[0];
+
 export default function EventsPage() {
+  const [events, setEvents] = React.useState(initialEvents);
+  const [filteredEvents, setFilteredEvents] = React.useState(initialEvents);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [categoryFilter, setCategoryFilter] = React.useState("all");
+
+  React.useEffect(() => {
+    let results = events;
+    if (searchTerm) {
+      results = results.filter(event =>
+        event.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    if (categoryFilter !== 'all') {
+      results = results.filter(event => event.type === categoryFilter);
+    }
+    setFilteredEvents(results);
+  }, [searchTerm, categoryFilter, events]);
+
+  const handleUpdateEvent = (updatedEvent: Event) => {
+    setEvents(prevEvents =>
+      prevEvents.map(event =>
+        event.id === updatedEvent.id ? updatedEvent : event
+      )
+    );
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -99,15 +131,21 @@ export default function EventsPage() {
                 <CardContent className="space-y-4">
                      <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                        <Input placeholder="Search events..." className="pl-10"/>
+                        <Input
+                          placeholder="Search events..."
+                          className="pl-10"
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
-                    <Select>
+                    <Select value={categoryFilter} onValueChange={setCategoryFilter}>
                         <SelectTrigger><SelectValue placeholder="Category" /></SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="worship">Worship</SelectItem>
-                            <SelectItem value="outreach">Outreach</SelectItem>
-                            <SelectItem value="online">Online</SelectItem>
-                            <SelectItem value="service">Service</SelectItem>
+                            <SelectItem value="all">All Categories</SelectItem>
+                            <SelectItem value="Worship">Worship</SelectItem>
+                            <SelectItem value="Outreach">Outreach</SelectItem>
+                            <SelectItem value="Online">Online</SelectItem>
+                            <SelectItem value="Service">Service</SelectItem>
                         </SelectContent>
                     </Select>
                      <Select>
@@ -125,30 +163,21 @@ export default function EventsPage() {
         <div className="lg:col-span-2">
             <Tabs defaultValue="all" className="w-full">
                 <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="all">All Events</TabsTrigger>
-                <TabsTrigger value="worship">Worship</TabsTrigger>
-                <TabsTrigger value="outreach">Outreach</TabsTrigger>
-                <TabsTrigger value="online">Online</TabsTrigger>
+                  <TabsTrigger value="all" onClick={() => setCategoryFilter('all')}>All Events</TabsTrigger>
+                  <TabsTrigger value="worship" onClick={() => setCategoryFilter('Worship')}>Worship</TabsTrigger>
+                  <TabsTrigger value="outreach" onClick={() => setCategoryFilter('Outreach')}>Outreach</TabsTrigger>
+                  <TabsTrigger value="online" onClick={() => setCategoryFilter('Online')}>Online</TabsTrigger>
                 </TabsList>
-                <TabsContent value="all" className="mt-6">
-                <div className="grid gap-4">
-                    {events.map((event, i) => <EventCard key={i} {...event} />)}
-                </div>
-                </TabsContent>
-                <TabsContent value="worship" className="mt-6">
-                <div className="grid gap-4">
-                    {events.filter(e => e.type === 'Worship').map((event, i) => <EventCard key={i} {...event} />)}
-                </div>
-                </TabsContent>
-                <TabsContent value="outreach" className="mt-6">
-                <div className="grid gap-4">
-                    {events.filter(e => e.type === 'Outreach').map((event, i) => <EventCard key={i} {...event} />)}
-                </div>
-                </TabsContent>
-                <TabsContent value="online" className="mt-6">
-                <div className="grid gap-4">
-                    {events.filter(e => e.type === 'Online').map((event, i) => <EventCard key={i} {...event} />)}
-                </div>
+                <TabsContent value={categoryFilter} className="mt-6">
+                  <div className="grid gap-4">
+                      {filteredEvents.length > 0 ? (
+                        filteredEvents.map((event) => (
+                          <EventCard key={event.id} event={event} onUpdate={handleUpdateEvent} />
+                        ))
+                      ) : (
+                        <p className="text-muted-foreground text-center">No events match the current filters.</p>
+                      )}
+                  </div>
                 </TabsContent>
             </Tabs>
         </div>
@@ -157,40 +186,72 @@ export default function EventsPage() {
   );
 }
 
-function EventCard({ title, date, time, location, description, rsvps, likes }: typeof events[0]) {
+function EventCard({ event, onUpdate }: { event: Event, onUpdate: (event: Event) => void }) {
+  const { toast } = useToast();
   const [isRsvpd, setIsRsvpd] = React.useState(false);
   const [isLiked, setIsLiked] = React.useState(false);
+
+  const handleLike = () => {
+    const newLikedState = !isLiked;
+    setIsLiked(newLikedState);
+    onUpdate({
+      ...event,
+      likes: event.likes + (newLikedState ? 1 : -1)
+    });
+  };
+
+  const handleRsvp = () => {
+    const newRsvpState = !isRsvpd;
+    setIsRsvpd(newRsvpState);
+    onUpdate({
+      ...event,
+      rsvps: event.rsvps + (newRsvpState ? 1 : -1)
+    });
+    toast({
+      title: newRsvpState ? "You're Going!" : "RSVP Canceled",
+      description: `You have successfully ${newRsvpState ? 'RSVP\'d for' : 'canceled your RSVP for'} "${event.title}".`
+    });
+  };
+
+  const handleShare = (platform: string) => {
+    toast({
+        title: "Shared!",
+        description: `This event has been shared to ${platform}. (This is a demo).`
+    })
+  }
+  
+  const eventDate = new Date(event.date);
   
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+        <CardTitle>{event.title}</CardTitle>
+        <CardDescription>{event.description}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <Separator />
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Calendar className="w-4 h-4" />
-          <span>{date} at {time}</span>
+          <span>{eventDate.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} at {eventDate.toLocaleTimeString(undefined, { hour: '2-digit', minute:'2-digit' })}</span>
         </div>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <MapPin className="w-4 h-4" />
-          <span>{location}</span>
+          <span>{event.location}</span>
         </div>
       </CardContent>
       <CardFooter className="flex items-center justify-between pt-2">
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
                <div className="flex items-center gap-1.5">
                   <Users className="w-4 h-4" />
-                  <span className="font-semibold">{rsvps + (isRsvpd ? 1 : 0)}</span> Going
+                  <span className="font-semibold">{event.rsvps}</span> Going
                </div>
                <div className="flex items-center gap-1.5">
                   <Heart className={cn("w-4 h-4", isLiked && "text-destructive")} />
-                  <span className="font-semibold">{likes + (isLiked ? 1 : 0)}</span> Likes
+                  <span className="font-semibold">{event.likes}</span> Likes
                </div>
           </div>
           <div className="flex items-center gap-2">
-              <Button variant="ghost" size="icon" onClick={() => setIsLiked(prev => !prev)}>
+              <Button variant="ghost" size="icon" onClick={handleLike}>
                   <Heart className={cn("w-4 h-4", isLiked && "fill-destructive text-destructive")} />
               </Button>
               <DropdownMenu>
@@ -198,12 +259,12 @@ function EventCard({ title, date, time, location, description, rsvps, likes }: t
                       <Button variant="outline"><Share2 className="w-4 h-4" /></Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                      <DropdownMenuItem>Share to WhatsApp</DropdownMenuItem>
-                      <DropdownMenuItem>Share to Facebook</DropdownMenuItem>
-                      <DropdownMenuItem>Copy Link</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleShare('WhatsApp')}>Share to WhatsApp</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleShare('Facebook')}>Share to Facebook</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleShare('Copying Link')}>Copy Link</DropdownMenuItem>
                   </DropdownMenuContent>
               </DropdownMenu>
-              <Button onClick={() => setIsRsvpd(prev => !prev)} variant={isRsvpd ? 'secondary' : 'default'}>{isRsvpd ? 'Going!' : 'RSVP'}</Button>
+              <Button onClick={handleRsvp} variant={isRsvpd ? 'secondary' : 'default'}>{isRsvpd ? 'Going!' : 'RSVP'}</Button>
           </div>
       </CardFooter>
     </Card>

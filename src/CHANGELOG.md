@@ -5,7 +5,21 @@ This document tracks all major feature updates and architectural changes for the
 
 ---
 
-## [3.0.2] - AI & Performance Enhancements - [Current Date]
+## [3.0.3] - Interactive Features & Performance - [Current Date]
+
+### ✨ New Features
+
+-   **Interactive Events Hub**: The Events Hub is now fully functional. Users can create new events via a form, and the RSVP, Like, and Share buttons on event cards are now active and stateful.
+-   **Functional Event Filtering**: The search bar and category filters on the Events Hub page now correctly filter the list of displayed events.
+
+### 🛠️ Bug Fixes & Architectural Improvements
+
+-   **Performance Optimization on Prayer Wall**: Refactored the Prayer Wall to use efficient, paginated data queries (`getDocs`) instead of costly real-time listeners (`onSnapshot`). This significantly improves page load times and resolves sluggishness.
+-   **Stabilized Data Fetching**: The logic for fetching prayer requests has been updated to be more resilient and performant, preventing unnecessary re-renders.
+
+---
+
+## [3.0.2] - AI & Performance Enhancements
 
 ### ✨ New Features
 
