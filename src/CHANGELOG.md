@@ -5,6 +5,24 @@ This document tracks all major feature updates and architectural changes for the
 
 ---
 
+## [3.0.6] - Well-being Hub Activation - [Current Date]
+
+### ✨ New Features
+- **Well-being Hub Activated**: The "Well-being Hub" is now a fully interactive and functional feature, replacing the previous static placeholder page.
+- **Resource Library**: Users can now access a library of well-being resources. Each resource card opens a dedicated AI Assistant in a dialog, allowing users to get immediate, confidential guidance on topics like "Guided Prayer," "Stress & Anxiety," and "Conflict Resolution."
+- **Provider Directory**: The directory of verified well-being professionals is now interactive, with "View Profile" buttons on each provider card, laying the groundwork for direct connection features.
+- **Interactive Forms**:
+    - **Book a Session**: Users can now open and submit a confidential form to request an appointment with a counselor or pastor.
+    - **Register as Provider**: Professionals can now open and submit a detailed registration form to offer their services to the community.
+
+### 🎯 User Experience
+- Transforms the Well-being Hub from a placeholder into a central point for accessing mental and spiritual support.
+- Provides immediate value through interactive AI-powered guidance tools.
+- Creates a clear pathway for users to seek professional help or to offer their professional services.
+- Aligns with the "Fishing Net" strategy by providing accessible, confidential support for a wide range of life challenges.
+
+---
+
 ## [3.0.5] - Community Impact & Service Activation - [Current Date]
 
 ### ✨ New Features

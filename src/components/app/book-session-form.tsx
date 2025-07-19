@@ -228,14 +228,12 @@ export function BookSessionForm() {
              <DialogClose asChild>
                 <Button type="button" variant="outline">Cancel</Button>
             </DialogClose>
-            <DialogClose asChild>
+            
                 <Button type="submit" onClick={form.handleSubmit(onSubmit)}>Send Confidential Request</Button>
-            </DialogClose>
+            
           </DialogFooter>
         </form>
       </Form>
     </>
   );
 }
-
-    

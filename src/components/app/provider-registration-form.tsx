@@ -177,12 +177,10 @@ export function ProviderRegistrationForm() {
              <DialogClose asChild>
                 <Button type="button" variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit">Submit Registration</Button>
+            <Button type="submit" onClick={form.handleSubmit(onSubmit)}>Submit Registration</Button>
           </DialogFooter>
         </form>
       </Form>
     </>
   );
 }
-
-    

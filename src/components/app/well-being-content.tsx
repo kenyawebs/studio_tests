@@ -5,7 +5,7 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { BrainCircuit, CalendarPlus, Ear, HeartPulse, Users, Scale, ShieldCheck, LifeBuoy, Baby, FileCheck, Phone, Handshake, UserCheck, Send, Bot, Wand2 } from "lucide-react";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ProviderRegistrationForm } from "@/components/app/provider-registration-form";
 import { BookSessionForm } from "@/components/app/book-session-form";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -166,7 +166,7 @@ export function WellBeingContent() {
         </div>
         <h1 className="text-4xl font-bold">Mental & Spiritual Well-being Hub</h1>
         <p className="text-muted-foreground mt-2 text-lg">
-          Caring for your soul and mind is vital. Here are some resources to support your journey towards wholeness in Christ.
+          Caring for your soul and mind is vital. Here are some resources to support your journey towards wholeness.
         </p>
       </div>
 
