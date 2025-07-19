@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { HandHelping, Music, Search, Video, UtensilsCrossed, HeartHandshake, Construction, Code, Church, Building, User, PlusCircle, Heart, PenSquare, Info, MapPin, Map, Leaf, Users2 } from "lucide-react";
+import { HandHelping, Search, PlusCircle, Heart, PenSquare, MapPin, Map, Leaf, Users2, HeartHandshake, Construction } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CreateOpportunityForm } from "@/components/app/create-opportunity-form";
 import { cn } from "@/lib/utils";
@@ -16,55 +16,54 @@ import { SuggestOpportunityForm } from "@/components/app/suggest-opportunity-for
 import Image from "next/image";
 
 const opportunityIcons: { [key: string]: React.ElementType } = {
-    "Youth Mentoring": Users2,
-    "Environmental Action": Leaf,
-    "Elderly Companionship": HeartHandshake,
+    "Youth Development": Users2,
+    "Environmental Impact": Leaf,
     "Community Building": Construction,
-    "Hunger Relief": UtensilsCrossed,
+    "Food Security": HeartHandshake,
     "Default": HandHelping
 };
 
 const opportunities = [
     {
-        title: "Young Leaders Mentorship",
-        ministry: "Youth Mentoring",
+        title: "Youth Development Initiative",
+        ministry: "Youth Development",
         location: "Local Community Center",
         commitment: "2 hours/week",
-        description: "Guide teenagers toward their potential through one-on-one mentoring. Share your life experience.",
-        skills: ["Listening", "Encouragement"],
+        description: "Support young people in developing essential life skills and finding their path forward in a positive environment.",
+        skills: ["Mentoring", "Patience", "Leadership"],
         postedBy: { type: 'NGO', name: 'Future Builders Initiative' },
         likes: 28,
         details: { ageRestriction: "21+", certificateProvided: true }
     },
     {
-        title: "Urban Garden Project",
-        ministry: "Environmental Action",
+        title: "Sustainable Community Gardens",
+        ministry: "Environmental Impact",
         location: "City Parks",
         commitment: "4 hours/month (weekends)",
-        description: "Transform vacant lots into thriving community gardens. Create beauty and grow food together.",
+        description: "Help transform underused spaces into thriving community gardens that provide food and build local connections.",
         skills: ["Gardening", "Teamwork"],
         postedBy: { type: 'Community Group', name: 'Green Future Coalition' },
         likes: 41,
         details: { foodProvided: "Snacks & Water" }
     },
     {
-        title: "Wisdom & Friendship Program",
-        ministry: "Elderly Companionship",
+        title: "Intergenerational Connection Program",
+        ministry: "Community Building",
         location: "Various Locations",
         commitment: "Flexible",
-        description: "Connect with older adults who have incredible stories and wisdom to share. Combat loneliness while gaining life insights.",
-        skills: ["Patience", "Storytelling"],
+        description: "Bridge generational gaps by connecting with older adults, sharing stories, and combating loneliness.",
+        skills: ["Listening", "Empathy", "Storytelling"],
         postedBy: { type: 'NGO', name: 'Generations United' },
         likes: 62,
         details: { fareRefund: "Up to $5" }
     },
     {
-        title: "Community Meal Program",
-        ministry: "Hunger Relief",
+        title: "Community Nutrition Access",
+        ministry: "Food Security",
         location: "Neighborhood Care Network",
         commitment: "3 hours on weekends",
-        description: "Help prepare and serve meals while building connections with neighbors from all walks of life.",
-        skills: ["Cooking", "Conversation"],
+        description: "Ensure everyone has access to nutritious meals. Help prepare and serve food while building community.",
+        skills: ["Cooking", "Hospitality"],
         postedBy: { type: 'Church', name: 'Connect Hub Church' },
         likes: 55,
         details: {}
@@ -79,27 +78,47 @@ export function VolunteeringContent() {
           <h1 className="text-3xl font-bold">Volunteer Board</h1>
           <p className="text-muted-foreground mt-1">Find opportunities to make an impact and connect with your community.</p>
         </div>
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button>
-                    <PlusCircle className="mr-2 h-4 w-4" /> Post an Opportunity
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[625px]">
-                <CreateOpportunityForm />
-            </DialogContent>
-        </Dialog>
+        <div className="flex gap-2">
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button variant="outline">
+                        <PenSquare className="mr-2 h-4 w-4" /> Suggest an Opportunity
+                    </Button>
+                </DialogTrigger>
+                <DialogContent>
+                    <SuggestOpportunityForm />
+                </DialogContent>
+            </Dialog>
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button>
+                        <PlusCircle className="mr-2 h-4 w-4" /> Post an Opportunity
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[625px]">
+                    <CreateOpportunityForm />
+                </DialogContent>
+            </Dialog>
+        </div>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8 items-start">
         <div className="lg:col-span-1 space-y-4 lg:sticky top-4">
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-lg flex items-center gap-2"><Map className="text-primary"/> Map View</CardTitle>
+                    <CardTitle className="text-lg flex items-center gap-2"><Map className="text-primary"/> Opportunities Near You</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="aspect-square bg-muted rounded-lg overflow-hidden">
-                        <Image src="https://placehold.co/600x600.png" width={600} height={600} alt="Map of opportunities" className="object-cover" data-ai-hint="world map pins"/>
+                        <iframe
+                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158857.7281062025!2d-0.24168124930353412!3d51.52877184089922!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2sus!4v1625841006459!5m2!1sen!2sus"
+                          width="100%"
+                          height="100%"
+                          style={{ border: 0 }}
+                          allowFullScreen={false}
+                          loading="lazy"
+                          title="Volunteer Opportunities Map"
+                        ></iframe>
                     </div>
                 </CardContent>
             </Card>
@@ -115,11 +134,10 @@ export function VolunteeringContent() {
                     <Select>
                         <SelectTrigger><SelectValue placeholder="Impact Area" /></SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="youth">Youth Mentoring</SelectItem>
-                            <SelectItem value="environment">Environmental Action</SelectItem>
-                            <SelectItem value="elderly">Elderly Companionship</SelectItem>
-                            <SelectItem value="community">Community Building</SelectItem>
-                            <SelectItem value="hunger">Hunger Relief</SelectItem>
+                            <SelectItem value="youth">Youth Development</SelectItem>
+                            <SelectItem value="environment">Environmental Impact</SelectItem>
+                            <SelectItem value="elderly">Community Building</SelectItem>
+                            <SelectItem value="hunger">Food Security</SelectItem>
                         </SelectContent>
                     </Select>
                      <Select>
@@ -137,22 +155,6 @@ export function VolunteeringContent() {
         <div className="lg:col-span-2">
             <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
                 {opportunities.map(opp => <OpportunityCard key={opp.title} opportunity={opp} />)}
-                
-                <Card className="border-dashed border-2 hover:border-primary hover:bg-primary/5 transition-colors flex flex-col items-center justify-center text-center p-6 min-h-[300px]">
-                    <div className="p-3 bg-muted rounded-full mb-3">
-                        <PenSquare className="h-8 w-8 text-muted-foreground" />
-                    </div>
-                    <h3 className="font-semibold text-lg">Have an Idea?</h3>
-                    <p className="text-muted-foreground text-sm mb-4">Suggest a new community initiative or project.</p>
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button variant="outline">Make a Suggestion</Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                            <SuggestOpportunityForm />
-                        </DialogContent>
-                    </Dialog>
-                </Card>
             </div>
         </div>
       </div>
@@ -163,12 +165,6 @@ export function VolunteeringContent() {
 function OpportunityCard({ opportunity }: { opportunity: typeof opportunities[0] }) {
   const [isLiked, setIsLiked] = React.useState(false);
   const Icon = opportunityIcons[opportunity.ministry as keyof typeof opportunityIcons] || opportunityIcons.Default;
-  const PostedByIcon = {
-      'Church': Church,
-      'NGO': Building,
-      'User': User,
-      'Community Group': Users2,
-  }[opportunity.postedBy.type] || Building;
 
   const detailBadges = Object.entries(opportunity.details)
     .map(([key, value]) => {
@@ -218,15 +214,10 @@ function OpportunityCard({ opportunity }: { opportunity: typeof opportunities[0]
         </CardContent>
         <CardFooter className="border-t pt-4">
             <div className="flex justify-between items-center w-full gap-2">
-                <div className="flex items-center gap-2 text-xs text-muted-foreground overflow-hidden">
-                    <PostedByIcon className="h-4 w-4 flex-shrink-0" />
-                    <span className="truncate">{opportunity.postedBy.name}</span>
-                </div>
+                 <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setIsLiked(p => !p)}>
+                    <Heart className={cn("w-4 h-4 text-muted-foreground", isLiked && "fill-destructive text-destructive")} />
+                </Button>
                 <div className="flex items-center gap-1 flex-shrink-0">
-                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setIsLiked(p => !p)}>
-                        <Heart className={cn("w-4 h-4 text-muted-foreground", isLiked && "fill-destructive text-destructive")} />
-                    </Button>
-                    <span className="text-sm text-muted-foreground w-6 text-center">{opportunity.likes + (isLiked ? 1 : 0)}</span>
                      <Dialog>
                         <DialogTrigger asChild>
                             <Button size="sm">Apply Now</Button>

@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { SidebarProvider, Sidebar, SidebarInset } from "@/components/ui/sidebar";
 import { Header } from "@/components/app/header";
@@ -11,47 +11,39 @@ import { AuthLoader } from "@/components/app/auth-provider";
 import { useToast } from '@/hooks/use-toast';
 import { getUserProfile } from '@/lib/firestore';
 import ErrorBoundary from '@/components/app/error-boundary';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { updateUserProfile } from '@/lib/firestore';
 
-// This component contains all the client-side logic that was previously in MainLayout.
-// By isolating client logic here, we prevent bundling issues with Next.js App Router.
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { user, loading, authReady, isAdmin } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const { toast } = useToast();
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  const [isAcceptingTerms, setIsAcceptingTerms] = useState(false);
 
   useEffect(() => {
-    // Wait until Firebase has confirmed the auth state
     if (!authReady) {
       return;
     }
 
-    // If auth is ready and there's no user, redirect to login.
     if (!user) {
       router.push('/login');
       return;
     }
 
-    // If a user is logged in, check for terms acceptance and admin routes.
     if (user) {
-      // For any page that isn't the legal acceptance page, check if terms have been accepted.
-      if (pathname !== '/legal/accept') {
-        getUserProfile(user.uid).then(profile => {
-          // If a profile exists and terms are not accepted, redirect them.
-          if (profile && !profile.termsAccepted) {
-            toast({
-              title: "Welcome! One last step...",
-              description: "Please review and accept the terms to continue.",
-            });
-            router.push('/legal/accept');
-          }
-        }).catch(error => {
-            console.error("Failed to check user profile for terms acceptance:", error);
-        });
-      }
-
-      // Explicitly protect the /admin route. If the user is not an admin,
-      // show a toast and redirect them immediately.
+      // Check for terms acceptance only once after auth is ready
+      getUserProfile(user.uid).then(profile => {
+        if (profile && !profile.termsAccepted) {
+          setShowTermsModal(true);
+        }
+      }).catch(error => {
+          console.error("Failed to check user profile for terms acceptance:", error);
+      });
+      
       if (pathname.startsWith('/admin') && !isAdmin) {
         toast({
           variant: "destructive",
@@ -63,35 +55,79 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     }
   }, [user, authReady, isAdmin, pathname, router, toast]);
 
-  // While auth state is resolving, show a full-page loader.
-  // This prevents any child components from rendering and trying to access
-  // Firestore before the auth state is ready.
+  const handleAcceptTerms = async () => {
+    if (!user) return;
+    setIsAcceptingTerms(true);
+    try {
+      await updateUserProfile(user.uid, { termsAccepted: true });
+      toast({
+        title: "Welcome to Connect Hub!",
+        description: "Thank you for accepting our terms.",
+      });
+      setShowTermsModal(false);
+    } catch (error) {
+      console.error("Failed to update profile for terms acceptance:", error);
+      toast({ variant: "destructive", title: "Error", description: "Could not save your acceptance. Please try again." });
+    } finally {
+      setIsAcceptingTerms(false);
+    }
+  };
+
   if (!authReady || (!user && pathname !== '/login')) {
     return <AuthLoader />;
   }
-  
-  // If the user is not an admin and tries to access the admin page,
-  // we render null to prevent a flash of the admin content before the redirect effect runs.
+
   if (pathname.startsWith('/admin') && !isAdmin) {
       return null;
   }
   
-  // Only when auth is ready AND a user exists, render the main app layout.
   return (
-    <SidebarProvider>
-      <Sidebar collapsible="icon" variant="floating">
-        <SidebarNav />
-      </Sidebar>
-      <SidebarInset>
-        <ErrorBoundary>
-          <div className="flex flex-col h-screen">
-            <Header />
-            <main className="flex-1 overflow-y-auto bg-secondary/50 p-4 md:p-6 lg:p-8">
-              {children}
-            </main>
+    <>
+      <SidebarProvider>
+        <Sidebar collapsible="icon" variant="floating">
+          <SidebarNav />
+        </Sidebar>
+        <SidebarInset>
+          <ErrorBoundary>
+            <div className="flex flex-col h-screen">
+              <Header />
+              <main className="flex-1 overflow-y-auto bg-secondary/50 p-4 md:p-6 lg:p-8">
+                {children}
+              </main>
+            </div>
+          </ErrorBoundary>
+        </SidebarInset>
+      </SidebarProvider>
+      <Dialog open={showTermsModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Welcome to Connect Hub!</DialogTitle>
+            <DialogDescription>
+              To continue, please review and accept our updated terms of service and privacy policy.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4 text-sm">
+            By clicking "I Agree," you confirm you've read and agree to our:
+            <ul className="list-disc pl-5 mt-2 space-y-1">
+              <li>
+                <Link href="/legal/terms" target="_blank" className="text-primary underline">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/privacy" target="_blank" className="text-primary underline">
+                  Privacy Policy
+                </Link>
+              </li>
+            </ul>
           </div>
-        </ErrorBoundary>
-      </SidebarInset>
-    </SidebarProvider>
+          <DialogFooter>
+            <Button onClick={handleAcceptTerms} disabled={isAcceptingTerms}>
+              {isAcceptingTerms ? 'Saving...' : 'I Agree and Continue'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

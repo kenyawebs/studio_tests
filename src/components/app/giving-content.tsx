@@ -9,16 +9,31 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Gift, Landmark, Globe, CreditCard, Bitcoin, PiggyBank, University, HeartHandshake, ShieldQuestion, Loader2 } from "lucide-react";
+import { Gift, Landmark, Globe, CreditCard, PiggyBank, University, HeartHandshake, ShieldQuestion, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 
 
 const givingHistory = [
-    { id: 'tx1', date: "2024-08-01", amount: "$100.00", fund: "Tithe", method: "Credit Card" },
-    { id: 'tx2', date: "2024-07-15", amount: "$50.00", fund: "Building Fund", method: "Credit Card" },
-    { id: 'tx3', date: "2024-07-01", amount: "$100.00", fund: "Tithe", method: "Credit Card" },
+    { id: 'tx1', date: "2024-08-01", amount: "Processing...", fund: "Tithe", status: "Pending Setup" },
+    { id: 'tx2', date: "2024-07-15", amount: "Processing...", fund: "Building Fund", status: "Pending Setup" },
+    { id: 'tx3', date: "2024-07-01", amount: "Processing...", fund: "Tithe", status: "Pending Setup" },
 ]
+
+const MpesaIcon = () => (
+    <svg className="mr-2 h-4 w-4" viewBox="0 0 256 256" fill="none">
+        <path fill="#41B649" d="M128 0C94.2 0 61.1 13.3 37.5 37.5C13.3 61.1 0 94.2 0 128c0 33.8 13.3 66.9 37.5 100.5c23.6 23.6 56.7 37.5 100.5 37.5c33.8 0 66.9-13.3 100.5-37.5C242.7 194.9 256 161.8 256 128c0-33.8-13.3-66.9-37.5-100.5C194.9 13.3 161.8 0 128 0Z"/>
+        <path fill="#fff" d="m180.7 151.7l-41.2-22.5c-1-2-1.6-4.2-1.8-6.5l-1.4-16.1c-.1-1-.9-1.7-1.9-1.7h-11.8c-1.1 0-1.9.9-1.9 1.9v8.6c0 1.1.9 1.9 1.9 1.9h4.3v13.6c0 6.6 2.4 12.9 6.8 17.6l23.1 25c1.4 1.5 3.9 1.5 5.3 0l11.2-10.9c1.4-1.5.1-3.9-1.4-3.9h-12.2zm-42.9-56.9c-2.2-2.1-2.9-5.1-1.8-7.9l7.7-20.1c1-2.6.1-5.6-2.3-6.9l-10-5.4c-2.4-1.3-5.4-.5-6.8 1.8l-15.6 25.5c-1.4 2.3-.5 5.3 1.8 6.8l20.4 12.5c2.9 1.8 6.6 1.1 8.6-1.3Z"/>
+    </svg>
+);
+
+const PayPalIcon = () => (
+    <svg className="mr-2" width="24" height="24" viewBox="0 0 24 24">
+        <path fill="#0070ba" d="M4.42 2.37a1.04 1.04 0 0 0-.42.06c-.4.16-.69.54-.78.96L.3 15.22c-.04.2-.04.42.02.63c.15.55.63.95 1.19.95h3.93c.47 0 .86-.34 1-.79l1.4-4.83H4.42V2.37z"/>
+        <path fill="#009cde" d="M12.33 2.37H8.08l-2.02 7.84h6.27c3.1 0 4.6-2.06 4.04-5.1c-.4-2.1-2.3-2.74-4.04-2.74"/>
+        <path fill="#002f86" d="M11.15 10.21H5.23L4.4 13.1a.83.83 0 0 0 .82 1.05h3.63c.47 0 .86-.34 1-.79l1.3-4.15zM22.51 9.92c.28-.9-.08-1.78-.8-2.3c-.7-.52-1.63-.6-2.45-.28l-1.33.53l1.89 6.53c.12.38.48.65.89.65h1.5c.7 0 1.25-.56 1.18-1.25l-.39-2.3c.69-.17 1.25-.7 1.41-1.38"/>
+    </svg>
+);
 
 export function GivingContent() {
   const { toast } = useToast();
@@ -40,26 +55,46 @@ export function GivingContent() {
   }
 
   const handleGive = () => {
-    if (!amount || parseFloat(amount) <= 0) {
-        toast({
-            variant: "destructive",
-            title: "Invalid Amount",
-            description: "Please enter a valid amount to give.",
-        });
-        return;
-    }
-
     setIsGiving(true);
-    // Simulate API call
+    // Simulate API call and alert
     setTimeout(() => {
         setIsGiving(false);
         toast({
             title: "Thank you for your generosity!",
-            description: `Your ${frequency} donation of $${amount} to the ${fund.replace('-', ' ')} fund has been successfully processed.`,
+            description: "The giving feature is being finalized. Your request has been sent to our team, and they will contact you shortly with giving options.",
+            duration: 10000,
+        });
+        // Here you would log the attempt to Firestore for admin follow-up
+        console.log({
+            amount,
+            fund,
+            frequency,
+            paymentMethod,
+            timestamp: new Date()
         });
         setAmount("");
     }, 1500);
   }
+  
+  const handleDownloadStatement = () => {
+    const mockPDFContent = `
+      ANNUAL GIVING STATEMENT 2024
+      
+      Thank you for your generous heart!
+      
+      This feature is being finalized.
+      Your actual statement will be available soon.
+    `;
+    
+    const blob = new Blob([mockPDFContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'giving-statement-2024.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
 
   return (
     <div className="grid lg:grid-cols-3 gap-8 items-start">
@@ -129,7 +164,7 @@ export function GivingContent() {
                         <SelectItem value="missions">Missions</SelectItem>
                         <SelectItem value="outreach">Community Outreach</SelectItem>
                         <SelectItem value="disaster-relief">Disaster Relief</SelectItem>
-                        <SelectItem value="app-maintenance">App & Website Maintenance</SelectItem>
+                        <SelectItem value="app-maintenance">App & Digital Ministry</SelectItem>
                     </SelectContent>
                 </Select>
             </div>
@@ -163,12 +198,12 @@ export function GivingContent() {
                     </Label>
                     <Label htmlFor="paypal" className={cn("flex items-center justify-center gap-2 border p-3 rounded-md cursor-pointer hover:bg-accent", paymentMethod === 'paypal' && "bg-accent border-primary")}>
                         <RadioGroupItem value="paypal" id="paypal" />
-                         <svg className="mr-2" width="24" height="24" viewBox="0 0 24 24"><path fill="#0070ba" d="M4.42 2.37a1.04 1.04 0 0 0-.42.06c-.4.16-.69.54-.78.96L.3 15.22c-.04.2-.04.42.02.63c.15.55.63.95 1.19.95h3.93c.47 0 .86-.34 1-.79l1.4-4.83H4.42V2.37z"/><path fill="#009cde" d="M12.33 2.37H8.08l-2.02 7.84h6.27c3.1 0 4.6-2.06 4.04-5.1c-.4-2.1-2.3-2.74-4.04-2.74"/><path fill="#002f86" d="M11.15 10.21H5.23L4.4 13.1a.83.83 0 0 0 .82 1.05h3.63c.47 0 .86-.34 1-.79l1.3-4.15zM22.51 9.92c.28-.9-.08-1.78-.8-2.3c-.7-.52-1.63-.6-2.45-.28l-1.33.53l1.89 6.53c.12.38.48.65.89.65h1.5c.7 0 1.25-.56 1.18-1.25l-.39-2.3c.69-.17 1.25-.7 1.41-1.38"/></svg>
+                        <PayPalIcon />
                         PayPal
                     </Label>
                     <Label htmlFor="mpesa" className={cn("flex items-center justify-center gap-2 border p-3 rounded-md cursor-pointer hover:bg-accent", paymentMethod === 'mpesa' && "bg-accent border-primary")}>
                         <RadioGroupItem value="mpesa" id="mpesa" />
-                         <svg className="mr-2 h-4 w-4" viewBox="0 0 256 256" fill="none"><path fill="#41B649" d="M128 0C94.2 0 61.1 13.3 37.5 37.5C13.3 61.1 0 94.2 0 128c0 33.8 13.3 66.9 37.5 100.5c23.6 23.6 56.7 37.5 100.5 37.5c33.8 0 66.9-13.3 100.5-37.5C242.7 194.9 256 161.8 256 128c0-33.8-13.3-66.9-37.5-100.5C194.9 13.3 161.8 0 128 0Z"/><path fill="#fff" d="m180.7 151.7l-41.2-22.5c-1-2-1.6-4.2-1.8-6.5l-1.4-16.1c-.1-1-.9-1.7-1.9-1.7h-11.8c-1.1 0-1.9.9-1.9 1.9v8.6c0 1.1.9 1.9 1.9 1.9h4.3v13.6c0 6.6 2.4 12.9 6.8 17.6l23.1 25c1.4 1.5 3.9 1.5 5.3 0l11.2-10.9c1.4-1.5.1-3.9-1.4-3.9h-12.2zm-42.9-56.9c-2.2-2.1-2.9-5.1-1.8-7.9l7.7-20.1c1-2.6.1-5.6-2.3-6.9l-10-5.4c-2.4-1.3-5.4-.5-6.8 1.8l-15.6 25.5c-1.4 2.3-.5 5.3 1.8 6.8l20.4 12.5c2.9 1.8 6.6 1.1 8.6-1.3Z"/></svg>
+                        <MpesaIcon />
                         M-Pesa
                     </Label>
                  </RadioGroup>
@@ -239,7 +274,7 @@ export function GivingContent() {
                         <TableRow>
                             <TableHead>Date</TableHead>
                             <TableHead>Amount</TableHead>
-                            <TableHead>Fund</TableHead>
+                            <TableHead>Status</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -247,14 +282,14 @@ export function GivingContent() {
                             <TableRow key={item.id}>
                                 <TableCell className="font-medium">{item.date}</TableCell>
                                 <TableCell>{item.amount}</TableCell>
-                                <TableCell>{item.fund}</TableCell>
+                                <TableCell><Badge variant="outline">{item.status}</Badge></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </CardContent>
             <CardFooter>
-                <Button variant="outline" className="w-full">Download Annual Statement</Button>
+                <Button variant="outline" className="w-full" onClick={handleDownloadStatement}>Download Annual Statement</Button>
             </CardFooter>
         </Card>
       </div>

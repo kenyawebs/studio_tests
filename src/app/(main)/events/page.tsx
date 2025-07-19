@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, MapPin, PlusCircle, Heart, Users, Search, Map, Share2 } from "lucide-react";
+import { Calendar, MapPin, PlusCircle, Heart, Users, Search, Map, Share2, RotateCw } from "lucide-react";
 import Image from "next/image";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
@@ -93,6 +93,11 @@ export default function EventsPage() {
     }
     setFilteredEvents(results);
   }, [searchTerm, categoryFilter, events]);
+  
+  const handleResetFilters = () => {
+    setSearchTerm("");
+    setCategoryFilter("all");
+  };
 
   const handleUpdateEvent = (updatedEvent: Event) => {
     setEvents(prevEvents =>
@@ -126,11 +131,19 @@ export default function EventsPage() {
         <div className="lg:col-span-1 space-y-4 lg:sticky top-4">
             <Card>
                 <CardHeader>
-                    <CardTitle className="text-lg flex items-center gap-2"><Map className="text-primary"/> Map View</CardTitle>
+                    <CardTitle className="text-lg flex items-center gap-2"><Map className="text-primary"/> Event Locations</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="aspect-square bg-muted rounded-lg overflow-hidden">
-                        <Image src="https://placehold.co/600x600.png" width={600} height={600} alt="Map of events" className="object-cover" data-ai-hint="world map pins"/>
+                    <div className="aspect-video bg-muted rounded-lg overflow-hidden">
+                       <iframe
+                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158857.7281062025!2d-0.24168124930353412!3d51.52877184089922!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2sus!4v1625841006459!5m2!1sen!2sus"
+                          width="100%"
+                          height="100%"
+                          style={{ border: 0 }}
+                          allowFullScreen={false}
+                          loading="lazy"
+                          title="Event Locations Map"
+                        ></iframe>
                     </div>
                 </CardContent>
             </Card>
@@ -157,15 +170,9 @@ export default function EventsPage() {
                             ))}
                         </SelectContent>
                     </Select>
-                     <Select>
-                        <SelectTrigger><SelectValue placeholder="Distance" /></SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="5">Within 5 miles</SelectItem>
-                            <SelectItem value="10">Within 10 miles</SelectItem>
-                            <SelectItem value="25">Within 25 miles</SelectItem>
-                            <SelectItem value="any">Any distance</SelectItem>
-                        </SelectContent>
-                    </Select>
+                     <Button variant="outline" className="w-full" onClick={handleResetFilters}>
+                        <RotateCw className="mr-2 h-4 w-4" /> Reset Filters
+                     </Button>
                 </CardContent>
              </Card>
         </div>

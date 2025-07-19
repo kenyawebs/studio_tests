@@ -4,7 +4,7 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { BrainCircuit, CalendarPlus, Ear, HeartPulse, Users, Scale, ShieldCheck, LifeBuoy, Baby, FileCheck, Phone, Handshake, UserCheck, Send, Bot, Wand2 } from "lucide-react";
+import { BrainCircuit, CalendarPlus, Ear, HeartPulse, Users, Scale, ShieldCheck, LifeBuoy, Baby, FileCheck, Phone, UserCheck, Send, Bot, Wand2 } from "lucide-react";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ProviderRegistrationForm } from "@/components/app/provider-registration-form";
 import { BookSessionForm } from "@/components/app/book-session-form";
@@ -74,23 +74,26 @@ const resources = [
 ];
 
 const providers = [
-    { name: "Dr. Evans", avatar: "https://placehold.co/100x100/a5f3fc/0e7490.png", aiHint: "professional man", specialties: ["Mental Health", "Pastoral Care", "Theology"], verified: true },
-    { name: "The Jacksons", avatar: "https://placehold.co/100x100/d8b4fe/581c87.png", aiHint: "happy couple", specialties: ["Marriage Counseling", "Family", "Relationships"], verified: true },
-    { name: "Sarah Kim", avatar: "https://placehold.co/100x100/fed7aa/9a3412.png", aiHint: "woman professional", specialties: ["Financial Guidance", "Career Coaching"], verified: true },
-     { name: "David Chen", avatar: "https://placehold.co/100x100/a7f3d0/065f46.png", aiHint: "man outdoors", specialties: ["Conflict Resolution", "Mediation"], verified: true },
-]
+    { name: "Dr. Evans", avatar: "https://placehold.co/100x100/a5f3fc/0e7490.png", aiHint: "professional man", credentials: "PhD, Certified Counselor", specialties: ["Mental Health", "Pastoral Care", "Theology"], verified: true, approach: "Integrates faith-based principles with evidence-based therapeutic practices.", languages: ["English", "Swahili"], availability: "Mon-Fri, 9am - 5pm", rate: "120" },
+    { name: "The Jacksons", avatar: "https://placehold.co/100x100/d8b4fe/581c87.png", aiHint: "happy couple", credentials: "Certified Relationship Coaches", specialties: ["Marriage Counseling", "Family", "Relationships"], verified: true, approach: "Focuses on communication and building strong, lasting bonds.", languages: ["English"], availability: "Evenings & Weekends", rate: "150" },
+    { name: "Sarah Kim", avatar: "https://placehold.co/100x100/fed7aa/9a3412.png", aiHint: "woman professional", credentials: "Financial Advisor", specialties: ["Financial Guidance", "Career Coaching"], verified: true, approach: "Provides practical, values-driven financial and career advice.", languages: ["English", "Korean"], availability: "By appointment", rate: "100" },
+     { name: "David Chen", avatar: "https://placehold.co/100x100/a7f3d0/065f46.png", aiHint: "man outdoors", credentials: "Certified Mediator", specialties: ["Conflict Resolution", "Mediation"], verified: true, approach: "Helps parties find common ground and peaceful resolutions.", languages: ["English"], availability: "Flexible", rate: "90" },
+];
 
 function AiAssistantDialog({ title, description, trigger }: { title: string, description: string, trigger: React.ReactNode }) {
   const [messages, setMessages] = React.useState<{ role: 'user' | 'bot', text: string }[]>([]);
   const [input, setInput] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleSend = () => {
     if (!input) return;
+    setIsLoading(true);
     const newMessages = [...messages, { role: 'user' as const, text: input }];
     setMessages(newMessages);
     setInput('');
     setTimeout(() => {
-      setMessages([...newMessages, { role: 'bot' as const, text: `This is a placeholder response about ${title}. In a real app, Genkit would provide a thoughtful answer here.` }]);
+      setMessages([...newMessages, { role: 'bot' as const, text: `Thank you for sharing about ${title}. It takes courage to seek guidance. While I'm an AI and can't offer professional advice, I can provide some initial thoughts and resources based on timeless wisdom. It's often helpful to start by...` }]);
+      setIsLoading(false);
     }, 1000);
   };
   
@@ -123,6 +126,11 @@ function AiAssistantDialog({ title, description, trigger }: { title: string, des
                      <div className={`p-3 rounded-lg text-sm max-w-[80%] ${msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-background'}`}>
                         <p>{msg.text}</p>
                     </div>
+                     {msg.role === 'user' && isLoading && (
+                        <Avatar className="h-8 w-8 border">
+                            <AvatarFallback><User/></AvatarFallback>
+                        </Avatar>
+                     )}
                   </div>
                 ))}
               </div>
@@ -139,7 +147,7 @@ function AiAssistantDialog({ title, description, trigger }: { title: string, des
                     }
                 }}
               />
-              <Button onClick={handleSend}><Send/></Button>
+              <Button onClick={handleSend} disabled={isLoading}><Send/></Button>
             </div>
           </div>
         </DialogContent>
@@ -147,17 +155,111 @@ function AiAssistantDialog({ title, description, trigger }: { title: string, des
   );
 }
 
+function ProviderProfileDialog({ provider, trigger }: { provider: typeof providers[0], trigger: React.ReactNode }) {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <div className="flex flex-col items-center text-center gap-4">
+              <Avatar className="h-24 w-24">
+                  <AvatarImage src={provider.avatar} data-ai-hint={provider.aiHint} />
+                  <AvatarFallback>{provider.name.charAt(0)}</AvatarFallback>
+              </Avatar>
+              <div>
+                  <DialogTitle className="text-2xl">{provider.name}</DialogTitle>
+                  <DialogDescription>{provider.credentials}</DialogDescription>
+              </div>
+          </div>
+        </DialogHeader>
+        <div className="space-y-4 py-4">
+            <p className="text-sm text-center text-muted-foreground italic">&quot;{provider.approach}&quot;</p>
+            <div>
+              <h4 className="font-semibold">Specialties</h4>
+              <div className="flex flex-wrap gap-2 mt-1">
+                  {provider.specialties.map(s => <Badge key={s}>{s}</Badge>)}
+              </div>
+            </div>
+            <div>
+              <h4 className="font-semibold">Availability</h4>
+              <p className="text-sm text-muted-foreground">{provider.availability}</p>
+            </div>
+            <div>
+              <h4 className="font-semibold">Session Rate</h4>
+              <p className="text-sm text-muted-foreground">${provider.rate} / session</p>
+            </div>
+        </div>
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button className="w-full">Book a Consultation</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[625px]">
+                <BookSessionForm />
+            </DialogContent>
+        </Dialog>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+const helplines = {
+    crisis: [
+        { name: "Suicide & Crisis Lifeline (US)", number: "988", website: "https://988lifeline.org/" },
+        { name: "Samaritans (UK)", number: "116 123", website: "https://www.samaritans.org/" },
+        { name: "Mentally Aware Nigeria (NG)", number: "+234 806 210 6493", website: "https://www.mentallyaware.org/" },
+        { name: "Kenya Red Cross", number: "+254 722 178 177", website: "https://www.redcross.or.ke/" },
+        { name: "Crisis Text Line (International)", number: "Text HOME to 741741", website: "https://www.crisistextline.org/" },
+    ],
+    mental_health: [
+        { name: "NAMI Helpline (US)", number: "1-800-950-NAMI (6264)", website: "https://www.nami.org/help" },
+        { name: "Find a Helpline (Global)", number: "Website", website: "https://findahelpline.com/" },
+    ]
+}
+
+function CallHelplineDialog() {
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button variant="destructive" className="w-full"><Phone className="mr-2"/> Call a Helpline</Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Global Support Helplines</DialogTitle>
+                    <DialogDescription>
+                        If you are in immediate crisis, please reach out. You are not alone.
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                    <div>
+                        <h4 className="font-semibold mb-2">Crisis & Suicide Support</h4>
+                        <div className="space-y-2">
+                        {helplines.crisis.map(line => (
+                             <a key={line.name} href={line.website} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-2 rounded-md hover:bg-accent">
+                                <span>{line.name}</span>
+                                <span className="font-mono text-primary">{line.number}</span>
+                            </a>
+                        ))}
+                        </div>
+                    </div>
+                    <div>
+                        <h4 className="font-semibold mb-2">Mental Health Support</h4>
+                         <div className="space-y-2">
+                        {helplines.mental_health.map(line => (
+                             <a key={line.name} href={line.website} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-2 rounded-md hover:bg-accent">
+                                <span>{line.name}</span>
+                                <span className="font-mono text-primary">{line.number}</span>
+                            </a>
+                        ))}
+                         </div>
+                    </div>
+                </div>
+            </DialogContent>
+        </Dialog>
+    )
+}
+
 
 export function WellBeingContent() {
-  const { toast } = useToast();
-
-  const showComingSoon = () => {
-    toast({
-        title: "Feature Coming Soon",
-        description: "This resource will be available shortly."
-    })
-  }
-
   return (
     <div className="space-y-8">
       <div className="text-center max-w-3xl mx-auto">
@@ -189,6 +291,22 @@ export function WellBeingContent() {
       
        <div className="grid lg:grid-cols-3 gap-8 items-start">
         <div className="lg:col-span-2 space-y-6">
+             <Card>
+                <CardHeader>
+                    <CardTitle>Are you a professional?</CardTitle>
+                    <CardDescription>Partner with us to provide care and support to the community. All registrations are subject to verification.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button className="w-full">Register to Provide Services</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[625px]">
+                            <ProviderRegistrationForm />
+                        </DialogContent>
+                    </Dialog>
+                </CardContent>
+            </Card>
             <Card>
                 <CardHeader>
                     <CardTitle>Find a Provider</CardTitle>
@@ -210,7 +328,7 @@ export function WellBeingContent() {
                                 </div>
                             </CardHeader>
                             <CardFooter>
-                                <Button variant="outline" className="w-full">View Profile</Button>
+                                <ProviderProfileDialog provider={provider} trigger={<Button variant="outline" className="w-full">View Profile</Button>} />
                             </CardFooter>
                         </Card>
                     ))}
@@ -248,29 +366,13 @@ export function WellBeingContent() {
         </div>
 
         <div className="lg:col-span-1 space-y-6 lg:sticky top-8">
-            <Card>
-                <CardHeader>
-                    <CardTitle>Are you a professional?</CardTitle>
-                    <CardDescription>Register to offer your services.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <Dialog>
-                        <DialogTrigger asChild>
-                            <Button className="w-full">Register to Provide Services</Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[625px]">
-                            <ProviderRegistrationForm />
-                        </DialogContent>
-                    </Dialog>
-                </CardContent>
-            </Card>
             <Card className="bg-destructive/10 border-destructive">
                 <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-destructive"><LifeBuoy/> Emergency Support</CardTitle>
                     <CardDescription className="text-destructive/90">If you are in immediate crisis, please contact a professional.</CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <Button variant="destructive" className="w-full" onClick={showComingSoon}><Phone className="mr-2"/> Call a Helpline</Button>
+                    <CallHelplineDialog />
                 </CardContent>
             </Card>
         </div>

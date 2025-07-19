@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -51,7 +52,7 @@ export default function AcceptTermsPage() {
                     <Sparkles className="w-8 h-8 text-primary-foreground" />
                 </div>
             </div>
-          <CardTitle>One Last Step</CardTitle>
+          <DialogTitle>One Last Step</DialogTitle>
           <CardDescription>
             Please review and accept our terms to continue to your spiritual hub.
           </CardDescription>
