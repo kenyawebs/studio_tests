@@ -5,12 +5,29 @@ This document tracks all major feature updates and architectural changes for the
 
 ---
 
-## [3.0.2] - AI & Performance Enhancements - [Current Date]
+## [3.0.3] - Core Feature Activation - [Current Date]
+
+### ✨ New Features
+
+- **Mentorship Page Activated**: Implemented the foundational Mentorship page. Users can now browse a list of available mentors and apply to become a mentor through a dedicated form. This sets the stage for future AI-powered matching.
+- **Bible & Journal AI Assistants Activated**:
+  - The "Ask the Bible AI" feature on the Bible page is now fully functional, leveraging a real scripture lookup tool to provide informed answers.
+  - The "AI Assistant" on the Journal page is now active, providing users with thoughtful prompts to help them begin their journal entries.
+
+### 🛠️ Bug Fixes & Architectural Improvements
+
+- **Performance Overhaul on Prayer Wall**: Refactored data fetching on the Prayer Wall to use efficient pagination (`getDocs`) instead of costly real-time listeners (`onSnapshot`), significantly improving page load times and responsiveness.
+- **Architectural Refactor on Core Pages**: Stabilized the `faith-reels` and `sermon-remix` pages by refactoring them to use the robust Server/Client component pattern, preventing future "chunk loading" errors.
+- **Auth Persistence Fix**: Corrected the "Remember Me" logic on the Login page to ensure user sessions are reliably persisted across browser sessions.
+- **Legal Page Fix**: Resolved a critical hydration error by creating a dedicated layout for legal pages (`/legal/terms` and `/legal/privacy`), separating them from the main application shell.
+
+---
+
+## [3.0.2] - AI & Performance Enhancements
 
 ### ✨ New Features
 
 -   **AI-Powered Prayer Assistant**: Activated the AI Prayer Assistant on the Prayer Wall. Users can now receive AI-generated prayer suggestions to help them articulate their thoughts and needs.
--   **AI-Powered Journal Assistant**: Activated the AI Journal Assistant on the Journal page. Users can now get AI-powered prompts and suggestions to help them start their reflections.
 -   **AI-Powered Post Classification**: New posts on the Social Feed are now automatically categorized by an AI model that analyzes the content for its spiritual theme (e.g., Healing, Breakthrough, Provision).
 -   **Dynamic Category Filtering**: The "Filter" button on the Social Feed is now active, allowing users to select multiple spiritual categories to fine-tune the content they see.
 -   **Silent Cultural Intelligence**: Added a new backend service to silently collect cultural metadata (like regional spiritual terminology) from new posts. This creates a dataset for future AI-powered cultural adaptation features without impacting current app performance.
