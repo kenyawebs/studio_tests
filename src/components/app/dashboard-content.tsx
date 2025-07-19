@@ -41,15 +41,15 @@ import { Skeleton } from "../ui/skeleton";
 const theVibeAndCoreItems = [
     { 
         pillar: "DayInTheLife", 
-        title: "Faith in the Fast Lane",
-        description: "A day in the life of a student, gamer, and believer.",
+        title: "A Day in the Life",
+        description: "A day in the life of a student, gamer, and creative.",
         icon: Film,
         image: "https://placehold.co/600x400.png",
         aiHint: "student studying laptop"
     },
     { 
         pillar: "HonestTalks",
-        title: "Q&A: Doubt & Faith",
+        title: "Q&A: Navigating Challenges",
         description: "Clips from our latest live stream on navigating tough questions.",
         icon: MessagesSquare,
         image: "https://placehold.co/600x400.png",
@@ -57,24 +57,24 @@ const theVibeAndCoreItems = [
     },
     { 
         pillar: "UGCShowcase",
-        title: "Sunday Showcase: #FaithInAction",
-        description: "Featuring a powerful testimony from @user.name this week.",
+        title: "Community Showcase: #LifeInAction",
+        description: "Featuring a powerful story from @user.name this week.",
         icon: Award,
         image: "https://placehold.co/600x400.png",
         aiHint: "person helping another"
     },
     { 
         pillar: "BiteSizedTheology",
-        title: "Theology Thursday: What is Grace?",
-        description: "A 60-second deep dive into one of the biggest concepts in the Bible.",
+        title: "Wisdom Wednesday: What is Grace?",
+        description: "A 60-second deep dive into a powerful concept for life.",
         icon: GraduationCap,
         image: "https://placehold.co/600x400.png",
         aiHint: "abstract shapes"
     },
     { 
         pillar: "WorshipMoment",
-        title: "Acoustic Worship Session",
-        description: "A moment of peace with scrolling lyrics to guide your prayer.",
+        title: "Acoustic Reflection Session",
+        description: "A moment of peace with scrolling lyrics to guide your thoughts.",
         icon: Music2,
         image: "https://placehold.co/600x400.png",
         aiHint: "acoustic guitar"
@@ -82,7 +82,7 @@ const theVibeAndCoreItems = [
     { 
         pillar: "SocialImpact",
         title: "Serving the City",
-        description: "Highlighting a story of young Christians making a difference locally.",
+        description: "Highlighting a story of young people making a difference locally.",
         icon: HeartHandshake,
         image: "https://placehold.co/600x400.png",
         aiHint: "volunteers community"
@@ -90,9 +90,9 @@ const theVibeAndCoreItems = [
 ];
 
 const quickLinks = [
-    { label: "Share a Testimony", icon: Newspaper, href: "/social-feed", color: "text-blue-500", bgColor: "bg-blue-500/10" },
-    { label: "Create a Reel", icon: Clapperboard, href: "/faith-reels", color: "text-rose-500", bgColor: "bg-rose-500/10" },
-    { label: "Find a Mentor", icon: Users, href: "/mentorship", color: "text-green-500", bgColor: "bg-green-500/10" },
+    { label: "Share a Milestone", icon: Newspaper, href: "/social-feed", color: "text-blue-500", bgColor: "bg-blue-500/10" },
+    { label: "Create a Story", icon: Clapperboard, href: "/life-stories", color: "text-rose-500", bgColor: "bg-rose-500/10" },
+    { label: "Find a Mentor", icon: Users, href: "/life-mentoring", color: "text-green-500", bgColor: "bg-green-500/10" },
     { label: "Well-being Hub", icon: HeartPulse, href: "/well-being", color: "text-cyan-500", bgColor: "bg-cyan-500/10" },
 ];
 
@@ -106,7 +106,7 @@ const wellBeingResources = [
   {
     icon: BrainCircuit,
     title: "Stress & Anxiety",
-    description: "Get biblical guidance.",
+    description: "Get practical guidance.",
     href: "/well-being",
   },
   {
@@ -118,8 +118,8 @@ const wellBeingResources = [
 ];
 
 const prayerRequests = [
-    { id: "dashboard-jessica-l", name: "Jessica L.", request: "Praying for strength and wisdom for my upcoming exams.", avatar: "https://placehold.co/100x100/f9a8d4/4c1d95.png", aiHint: "woman portrait", initialPrayers: 12 },
-    { id: "dashboard-david-r", name: "David R.", request: "Please pray for my family's health and protection.", avatar: "https://placehold.co/100x100/a5b4fc/1e3a8a.png", aiHint: "man portrait", initialPrayers: 28 },
+    { id: "dashboard-jessica-l", name: "Jessica L.", request: "Hoping for strength and wisdom for my upcoming exams.", avatar: "https://placehold.co/100x100/f9a8d4/4c1d95.png", aiHint: "woman portrait", initialPrayers: 12 },
+    { id: "dashboard-david-r", name: "David R.", request: "Hoping for my family's health and protection.", avatar: "https://placehold.co/100x100/a5b4fc/1e3a8a.png", aiHint: "man portrait", initialPrayers: 28 },
 ];
 
 type UserStats = {
@@ -173,8 +173,8 @@ export function DashboardContent() {
     const userStats = [
       { label: 'Posts', value: stats?.posts, icon: Newspaper, href: '/social-feed', color: 'text-blue-500', bgColor: 'bg-blue-500/10' },
       { label: 'Following', value: 72, icon: UserCheck, href: '#', color: 'text-teal-500', bgColor: 'bg-teal-500/10' },
-      { label: 'Prayers', value: stats?.prayerRequests, icon: Heart, href: '/prayer-wall', color: 'text-rose-500', bgColor: 'bg-rose-500/10' },
-      { label: 'Streak', value: stats?.journalEntries, icon: Flame, href: '/journal', unit: 'days', color: 'text-orange-500', bgColor: 'bg-orange-500/10' },
+      { label: 'Encouragements', value: stats?.prayerRequests, icon: Heart, href: '/community-wall', color: 'text-rose-500', bgColor: 'bg-rose-500/10' },
+      { label: 'Streak', value: stats?.journalEntries, icon: Flame, href: '/personal-journal', unit: 'days', color: 'text-orange-500', bgColor: 'bg-orange-500/10' },
       { label: 'Groups', value: 5, icon: Users, href: '#', color: 'text-indigo-500', bgColor: 'bg-indigo-500/10' },
       { label: 'Events', value: 3, icon: Calendar, href: '/events', color: 'text-purple-500', bgColor: 'bg-purple-500/10' },
     ];
@@ -189,7 +189,7 @@ export function DashboardContent() {
                             <AvatarFallback>{user?.displayName?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
                         </Avatar>
                         <div>
-                            <h1 className="text-3xl font-bold">Welcome, {user?.displayName || "Believer"}!</h1>
+                            <h1 className="text-3xl font-bold">Welcome, {user?.displayName || "Explorer"}!</h1>
                             <p className="opacity-80">Your personalized hub is buzzing with activity.</p>
                         </div>
                     </div>
@@ -220,7 +220,7 @@ export function DashboardContent() {
                     <Card>
                         <CardHeader>
                             <CardTitle>The Vibe & Core</CardTitle>
-                            <CardDescription>Vibes & content curated for you. Here's what's resonating in the community right now.</CardDescription>
+                            <CardDescription>Content curated for you. Here's what's resonating in the community right now.</CardDescription>
                         </CardHeader>
                         <CardContent>
                            <Carousel opts={{ align: "start" }} className="w-full">
@@ -256,7 +256,7 @@ export function DashboardContent() {
                     <Card>
                         <CardHeader>
                             <CardTitle>Quick Links</CardTitle>
-                             <CardDescription>Provoking your engagement. What will you do next?</CardDescription>
+                             <CardDescription>What will you do next?</CardDescription>
                         </CardHeader>
                         <CardContent className="grid grid-cols-2 md:grid-cols-4 gap-4">
                              {quickLinks.map(link => (
@@ -303,7 +303,7 @@ export function DashboardContent() {
                     </Card>
                     <Card>
                         <CardHeader>
-                            <CardTitle>Prayer Wall</CardTitle>
+                            <CardTitle>Community Wall</CardTitle>
                             <CardDescription>Lift up your community.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
@@ -323,8 +323,8 @@ export function DashboardContent() {
                         </CardContent>
                          <CardFooter>
                             <Button variant="outline" className="w-full" asChild>
-                                <Link href="/prayer-wall">
-                                    View Prayer Wall <ArrowRight className="ml-2 h-4 w-4"/>
+                                <Link href="/community-wall">
+                                    View Community Wall <ArrowRight className="ml-2 h-4 w-4"/>
                                 </Link>
                             </Button>
                          </CardFooter>

@@ -11,7 +11,7 @@ import Link from "next/link";
 
 const titles: { [key: string]: string } = {
   "/dashboard": "Dashboard",
-  "/social-feed": "Testimony Feed",
+  "/social-feed": "Testimony & Milestone Feed",
   "/life-stories": "Life Stories",
   "/community-wall": "Community Wall",
   "/sermon-remix": "Sermon Remix",
