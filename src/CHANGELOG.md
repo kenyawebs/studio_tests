@@ -5,6 +5,23 @@ This document tracks all major feature updates and architectural changes for the
 
 ---
 
+## [3.0.5] - Community Impact & Service Activation - [Current Date]
+
+### ✨ New Features
+- **Volunteer Board Activated**: Implemented the foundational "Volunteer Board" page. This replaces the previous placeholder and provides a fully interactive experience for users to find and engage with service opportunities.
+- **Inclusive Language**: The feature is framed as a "Volunteer Board" or "Community Impact Hub," using universal language that appeals to all users who want to make a difference.
+- **Create & Suggest Opportunities**:
+    - Users can now post new volunteer opportunities through a dedicated "Create Opportunity" form, which includes fields for logistics and benefits (e.g., stipends, food, fare refund).
+    - A "Suggest an Opportunity" form allows users to submit ideas for new community initiatives.
+- **Apply for Opportunities**: A streamlined application form enables users to express their interest in specific roles directly.
+
+### 🎯 User Experience
+- Provides a clear and accessible pathway for users to get involved in community service.
+- Encourages user-generated content by allowing them to post and suggest opportunities.
+- Aligns with the "Fishing Net" strategy by focusing on universal themes of service, impact, and connection.
+
+---
+
 ## [3.0.4] - The Fishing Net Retrofit - [Current Date]
 
 ### ✨ New Features & Strategic Pivot
@@ -81,5 +98,3 @@ This document tracks all major feature updates and architectural changes for the
 ### 📝 Project Management
 
 -   **Added CHANGELOG.md**: This file was created to formally track all future changes and provide a clear history of the project's evolution.
-
----

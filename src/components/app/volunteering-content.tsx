@@ -7,92 +7,68 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { HandHelping, Music, Search, Video, UtensilsCrossed, HeartHandshake, Construction, Code, Church, Building, User, PlusCircle, Heart, PenSquare, Info, MapPin, Map } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription, DialogClose, DialogFooter } from "@/components/ui/dialog";
+import { HandHelping, Music, Search, Video, UtensilsCrossed, HeartHandshake, Construction, Code, Church, Building, User, PlusCircle, Heart, PenSquare, Info, MapPin, Map, Leaf, Users2 } from "lucide-react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CreateOpportunityForm } from "@/components/app/create-opportunity-form";
-import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { VolunteerApplicationForm } from "@/components/app/volunteer-application-form";
 import { SuggestOpportunityForm } from "@/components/app/suggest-opportunity-form";
 import Image from "next/image";
 
 const opportunityIcons: { [key: string]: React.ElementType } = {
-    "Hospitality": HandHelping,
-    "Worship": Music,
-    "Outreach": UtensilsCrossed,
-    "Media": Video,
-    "Facilities": Construction,
-    "Tech": Code,
-    "Default": HeartHandshake
-}
+    "Youth Mentoring": Users2,
+    "Environmental Action": Leaf,
+    "Elderly Companionship": HeartHandshake,
+    "Community Building": Construction,
+    "Hunger Relief": UtensilsCrossed,
+    "Default": HandHelping
+};
 
 const opportunities = [
-  {
-    title: "Sunday Morning Welcome Team",
-    ministry: "Hospitality",
-    location: "Local Church",
-    commitment: "2 hours/week",
-    description: "Be the first friendly face visitors see! Help greet, hand out bulletins, and answer questions.",
-    skills: ["Friendly", "Welcoming"],
-    postedBy: { type: 'Church', name: 'Connect Hub Church' },
-    likes: 18,
-    details: { ageRestriction: "18+", foodProvided: "Coffee & Donuts", stipend: "None" }
-  },
-  {
-    title: "Youth Worship Guitarist",
-    ministry: "Worship",
-    location: "Local Church",
-    commitment: "3 hours/week (incl. practice)",
-    description: "Use your musical gifts to lead our youth in worship on Wednesday nights.",
-    skills: ["Guitar", "Worship Leading"],
-    postedBy: { type: 'Church', name: 'Connect Hub Church' },
-    likes: 32,
-    details: { equipmentNeeded: "Your own guitar" }
-  },
-  {
-    title: "Food Pantry Server",
-    ministry: "Outreach",
-    location: "Regional Event",
-    commitment: "4 hours/month",
-    description: "Help organize, pack, and distribute food to families in need in our community.",
-    skills: ["Organized", "Service-oriented"],
-    postedBy: { type: 'NGO', name: 'City Serve Foundation' },
-    likes: 74,
-    details: { certificateProvided: true, fareRefund: "Up to $10" }
-  },
-  {
-    title: "Online Community Moderator",
-    ministry: "Tech",
-    location: "Global / Online",
-    commitment: "5 hours/week (Flexible)",
-    description: "Help keep our online community safe and welcoming by moderating posts and comments.",
-    skills: ["Communication", "Discernment"],
-    postedBy: { type: 'User', name: 'Admin Team' },
-    likes: 45,
-    details: {}
-  },
-  {
-    title: "Church Website Videographer",
-    ministry: "Media",
-    location: "Local Church",
-    commitment: "Flexible",
-    description: "Help capture testimonies, event recaps, and other video content for our online presence.",
-    skills: ["Videography", "Editing"],
-    postedBy: { type: 'Church', name: 'Grace Fellowship' },
-    likes: 21,
-    details: { stipend: "$50 per project" }
-  },
-   {
-    title: "Mission Trip Support (Admin)",
-    ministry: "Outreach",
-    location: "Global / Online",
-    commitment: "Flexible",
-    description: "Assist with administrative tasks for our upcoming global mission trips.",
-    skills: ["Admin", "Planning"],
-     postedBy: { type: 'NGO', name: 'Hope International' },
-     likes: 15,
-     details: {}
-  },
+    {
+        title: "Young Leaders Mentorship",
+        ministry: "Youth Mentoring",
+        location: "Local Community Center",
+        commitment: "2 hours/week",
+        description: "Guide teenagers toward their potential through one-on-one mentoring. Share your life experience.",
+        skills: ["Listening", "Encouragement"],
+        postedBy: { type: 'NGO', name: 'Future Builders Initiative' },
+        likes: 28,
+        details: { ageRestriction: "21+", certificateProvided: true }
+    },
+    {
+        title: "Urban Garden Project",
+        ministry: "Environmental Action",
+        location: "City Parks",
+        commitment: "4 hours/month (weekends)",
+        description: "Transform vacant lots into thriving community gardens. Create beauty and grow food together.",
+        skills: ["Gardening", "Teamwork"],
+        postedBy: { type: 'Community Group', name: 'Green Future Coalition' },
+        likes: 41,
+        details: { foodProvided: "Snacks & Water" }
+    },
+    {
+        title: "Wisdom & Friendship Program",
+        ministry: "Elderly Companionship",
+        location: "Various Locations",
+        commitment: "Flexible",
+        description: "Connect with older adults who have incredible stories and wisdom to share. Combat loneliness while gaining life insights.",
+        skills: ["Patience", "Storytelling"],
+        postedBy: { type: 'NGO', name: 'Generations United' },
+        likes: 62,
+        details: { fareRefund: "Up to $5" }
+    },
+    {
+        title: "Community Meal Program",
+        ministry: "Hunger Relief",
+        location: "Neighborhood Care Network",
+        commitment: "3 hours on weekends",
+        description: "Help prepare and serve meals while building connections with neighbors from all walks of life.",
+        skills: ["Cooking", "Conversation"],
+        postedBy: { type: 'Church', name: 'Connect Hub Church' },
+        likes: 55,
+        details: {}
+    },
 ];
 
 export function VolunteeringContent() {
@@ -101,7 +77,7 @@ export function VolunteeringContent() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">Volunteer Board</h1>
-          <p className="text-muted-foreground mt-1">Find or post opportunities to serve and use your gifts for the kingdom.</p>
+          <p className="text-muted-foreground mt-1">Find opportunities to make an impact and connect with your community.</p>
         </div>
         <Dialog>
             <DialogTrigger asChild>
@@ -137,13 +113,13 @@ export function VolunteeringContent() {
                         <Input placeholder="Search opportunities..." className="pl-10"/>
                     </div>
                     <Select>
-                        <SelectTrigger><SelectValue placeholder="Category" /></SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="Impact Area" /></SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="hospitality">Hospitality</SelectItem>
-                            <SelectItem value="worship">Worship</SelectItem>
-                            <SelectItem value="outreach">Outreach</SelectItem>
-                            <SelectItem value="media">Media</SelectItem>
-                            <SelectItem value="tech">Tech</SelectItem>
+                            <SelectItem value="youth">Youth Mentoring</SelectItem>
+                            <SelectItem value="environment">Environmental Action</SelectItem>
+                            <SelectItem value="elderly">Elderly Companionship</SelectItem>
+                            <SelectItem value="community">Community Building</SelectItem>
+                            <SelectItem value="hunger">Hunger Relief</SelectItem>
                         </SelectContent>
                     </Select>
                      <Select>
@@ -167,7 +143,7 @@ export function VolunteeringContent() {
                         <PenSquare className="h-8 w-8 text-muted-foreground" />
                     </div>
                     <h3 className="font-semibold text-lg">Have an Idea?</h3>
-                    <p className="text-muted-foreground text-sm mb-4">Suggest a new volunteer opportunity for our community.</p>
+                    <p className="text-muted-foreground text-sm mb-4">Suggest a new community initiative or project.</p>
                     <Dialog>
                         <DialogTrigger asChild>
                             <Button variant="outline">Make a Suggestion</Button>
@@ -190,7 +166,8 @@ function OpportunityCard({ opportunity }: { opportunity: typeof opportunities[0]
   const PostedByIcon = {
       'Church': Church,
       'NGO': Building,
-      'User': User
+      'User': User,
+      'Community Group': Users2,
   }[opportunity.postedBy.type] || Building;
 
   const detailBadges = Object.entries(opportunity.details)
