@@ -52,17 +52,17 @@ type MenuItem = {
 const menuItems: MenuItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, tooltip: "Dashboard", color: "text-sky-500" },
   { href: "/social-feed", label: "Testimony Feed", icon: Newspaper, tooltip: "Testimony Feed", color: "text-blue-500" },
-  { href: "/faith-reels", label: "Life Stories", icon: Clapperboard, tooltip: "Life Stories", color: "text-rose-500" },
-  { href: "/prayer-wall", label: "Community Wall", icon: MessageSquare, tooltip: "Community Wall", color: "text-fuchsia-500" },
+  { href: "/life-stories", label: "Life Stories", icon: Clapperboard, tooltip: "Life Stories", color: "text-rose-500" },
+  { href: "/community-wall", label: "Community Wall", icon: MessageSquare, tooltip: "Community Wall", color: "text-fuchsia-500" },
   { href: "/sermon-remix", label: "Sermon Remix", icon: Scissors, tooltip: "Sermon Remix", color: "text-violet-500" },
 ];
 
 const secondaryMenuItems: MenuItem[] = [
   { href: "/events", label: "Events Hub", icon: Calendar, tooltip: "Events", color: "text-purple-500" },
   { href: "/giving", label: "Giving", icon: Gift, tooltip: "Giving", color: "text-red-500" },
-  { href: "/journal", label: "Personal Journal", icon: BookOpen, tooltip: "Journal", color: "text-orange-500" },
-  { href: "/bible", label: "Wisdom Texts", icon: BookText, tooltip: "Bible", color: "text-amber-500" },
-  { href: "/mentorship", label: "Life Mentoring", icon: Users, tooltip: "Mentorship", color: "text-green-500" },
+  { href: "/personal-journal", label: "Personal Journal", icon: BookOpen, tooltip: "Journal", color: "text-orange-500" },
+  { href: "/wisdom-texts", label: "Wisdom Texts", icon: BookText, tooltip: "Bible", color: "text-amber-500" },
+  { href: "/life-mentoring", label: "Life Mentoring", icon: Users, tooltip: "Mentorship", color: "text-green-500" },
   { href: "/volunteering", label: "Volunteering", icon: HeartHandshake, tooltip: "Volunteering", color: "text-teal-500" },
   { href: "/well-being", label: "Well-being", icon: HeartPulse, tooltip: "Well-being", color: "text-cyan-500" },
 ];

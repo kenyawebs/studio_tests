@@ -260,7 +260,7 @@ export function PrayerWallContent() {
                     </CardContent>
                     <CardFooter>
                         <Button asChild variant="secondary" className="w-full">
-                            <Link href="/bible">
+                            <Link href="/wisdom-texts">
                                 <BookOpen className="mr-2 h-4 w-4" /> Explore Wisdom Texts
                             </Link>
                         </Button>
@@ -269,7 +269,7 @@ export function PrayerWallContent() {
                  <Card>
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
-                           <Wand2 className="text-primary"/> Peace & Wisdom AI
+                           <Wand2 className="text-primary"/> Life Guidance AI
                         </CardTitle>
                         <CardDescription>Need help finding the words? Let our AI provide some guidance.</CardDescription>
                     </CardHeader>
@@ -281,7 +281,7 @@ export function PrayerWallContent() {
                             </div>
                         )}
                         <Textarea 
-                            placeholder="e.g., I'm feeling stressed about work..."
+                            placeholder="What's on your mind? Share any concern, challenge, or question you're facing..."
                             value={prayerTopic}
                             onChange={(e) => setPrayerTopic(e.target.value)}
                             disabled={!isAiConfigured || loadingPrayer}
@@ -299,7 +299,7 @@ export function PrayerWallContent() {
                                 <TooltipTrigger asChild>
                                     <div className="w-full">
                                         <Button className="w-full" onClick={handleGetPrayer} disabled={loadingPrayer || !prayerTopic.trim() || !isAiConfigured}>
-                                            {loadingPrayer ? "Generating..." : "Ask for Guidance"}
+                                            {loadingPrayer ? "Generating..." : "Get Guidance"}
                                         </Button>
                                     </div>
                                 </TooltipTrigger>

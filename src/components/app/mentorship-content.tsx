@@ -36,8 +36,8 @@ export function MentorshipContent() {
     <div className="grid lg:grid-cols-3 gap-8 items-start">
       <div className="lg:col-span-2 space-y-8">
           <div className="text-center">
-            <h1 className="text-4xl font-bold">Life Mentoring</h1>
-            <p className="text-muted-foreground mt-2 text-lg max-w-2xl mx-auto">Connect with experienced people who can guide you on your personal growth journey.</p>
+            <h1 className="text-4xl font-bold">Life Mentoring Network</h1>
+            <p className="text-muted-foreground mt-2 text-lg max-w-2xl mx-auto">Find mentors, become a mentor, grow together in life.</p>
           </div>
 
           <Card>

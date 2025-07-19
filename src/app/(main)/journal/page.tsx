@@ -7,6 +7,6 @@ export const metadata: Metadata = {
   description: "Privately log or publicly share life reflections, dreams, and personal insights with the community.",
 };
 
-export default function JournalPage() {
+export default function PersonalJournalPage() {
   return <JournalContent />;
 }

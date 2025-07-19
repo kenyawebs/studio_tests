@@ -16,7 +16,7 @@ This document tracks all major feature updates and architectural changes for the
   - Bible Page → **Wisdom Texts**
   - Journal Page → **Personal Journal**
   - Mentorship → **Life Mentoring**
-  - AI Prayer Assistant → **Peace & Wisdom AI**
+  - AI Prayer Assistant → **Life Guidance AI**
   - AI Bible Chat → **Life Wisdom AI**
 - **Inclusive AI Prompts**: Rewrote AI prompts for the Guidance and Wisdom assistants to be more compassionate, welcoming, and adaptable to users from any background.
 - **Universal Reactions**: Updated the reaction system on "Life Stories" to be more universal (Inspiring, Encouraging, Hopeful, Life-Changing).

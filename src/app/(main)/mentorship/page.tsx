@@ -7,6 +7,6 @@ export const metadata: Metadata = {
   description: "Connect with experienced mentors who can guide you on your personal growth journey.",
 };
 
-export default function MentorshipPage() {
+export default function LifeMentoringPage() {
   return <MentorshipContent />;
 }

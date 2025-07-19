@@ -41,14 +41,14 @@ const universalReactions = [
 const reels = [
   {
     id: 1,
-    user: { name: "Grace Notes", avatar: "https://placehold.co/100x100/f9a8d4/4c1d95.png", aiHint: "woman singing" },
+    user: { name: "Sarah M.", avatar: "https://placehold.co/100x100/f9a8d4/4c1d95.png", aiHint: "woman smiling" },
     videoUrl: "https://placehold.co/540x960.png",
     aiHint: "inspirational video",
-    caption: "A moment of peace and reflection from my evening walk. 🙌 #hope",
-    audio: "Original Audio by Grace Notes",
+    caption: "From Anxiety to Peace: My Journey. How I found inner peace after years of anxiety.",
+    audio: "Original Audio by Sarah M.",
     likes: 1200,
     comments: 48,
-    category: 'inspiration'
+    category: 'personal_growth'
   },
   {
     id: 2,

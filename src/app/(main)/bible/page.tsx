@@ -7,6 +7,6 @@ export const metadata: Metadata = {
   description: "Explore ancient wisdom, find guidance for life's questions, and ask our AI assistant for insights.",
 };
 
-export default function BiblePage() {
+export default function WisdomTextsPage() {
   return <BibleContent />;
 }
