@@ -334,7 +334,7 @@ export function BibleContent() {
                          <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <Button size="icon" className="absolute right-2 bottom-2 h-8 w-8" onClick={handleAskAi} disabled={isAiLoading || !question.trim() || !isAiConfigurated}>
+                                    <Button size="icon" className="absolute right-2 bottom-2 h-8 w-8" onClick={handleAskAi} disabled={isAiLoading || !question.trim() || !isAiConfigured}>
                                        {isAiLoading ? <span className="animate-spin h-4 w-4 rounded-full border-2 border-transparent border-t-primary-foreground"></span> : <Send className="h-4 w-4"/>}
                                     </Button>
                                 </TooltipTrigger>
