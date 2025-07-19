@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Gift, Landmark, Globe, CreditCard, PiggyBank, University, HeartHandshake, ShieldQuestion, Loader2, Mail } from "lucide-react";
+import { Gift, Landmark, Globe, CreditCard, PiggyBank, University, HeartHandshake, ShieldQuestion, Loader2, Mail, CheckCheck, Sparkles, Trophy, BookOpen, UserCheck, MessageSquare, BrainCircuit, Ear, Scale, Baby, FileCheck, Phone, LifeBuoy, CalendarPlus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

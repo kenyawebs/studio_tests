@@ -100,7 +100,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           </ErrorBoundary>
         </SidebarInset>
       </SidebarProvider>
-      <Dialog open={showTermsModal}>
+      <Dialog open={showTermsModal} onOpenChange={setShowTermsModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Welcome to Connect Hub!</DialogTitle>
