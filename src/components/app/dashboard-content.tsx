@@ -31,6 +31,7 @@ import {
     BrainCircuit,
     Ear,
     Scale,
+    Gift,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -91,7 +92,7 @@ const theVibeAndCoreItems = [
 
 const quickLinks = [
     { label: "Share a Milestone", icon: Newspaper, href: "/social-feed", color: "text-blue-500", bgColor: "bg-blue-500/10" },
-    { label: "Create a Story", icon: Clapperboard, href: "/life-stories", color: "text-rose-500", bgColor: "bg-rose-500/10" },
+    { label: "Give Now", icon: Gift, href: "/giving", color: "text-rose-500", bgColor: "bg-rose-500/10" },
     { label: "Find a Mentor", icon: Users, href: "/life-mentoring", color: "text-green-500", bgColor: "bg-green-500/10" },
     { label: "Well-being Hub", icon: HeartPulse, href: "/well-being", color: "text-cyan-500", bgColor: "bg-cyan-500/10" },
 ];

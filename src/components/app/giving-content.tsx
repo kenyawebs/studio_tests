@@ -184,38 +184,44 @@ export function GivingContent() {
         <Card>
             <CardHeader>
                 <CardTitle><ShieldQuestion className="inline-block mr-2 text-primary"/>Where Your Gift Goes</CardTitle>
-                <CardDescription>We believe in transparency and good stewardship. Here are some of the areas your giving supports:</CardDescription>
+                <CardDescription>We believe in transparency and good stewardship. Your generosity supports these key areas:</CardDescription>
             </CardHeader>
-            <CardContent className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                <div className="flex items-center gap-3">
-                     <div className="p-2 bg-primary/10 rounded-md">
-                        <HeartHandshake className="w-5 h-5 text-primary"/>
+            <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+                <div className="flex items-start gap-4">
+                     <div className="p-3 bg-primary/10 rounded-lg shrink-0">
+                        <HeartHandshake className="w-6 h-6 text-primary"/>
                     </div>
-                    <span>Widows & Orphans</span>
+                    <div>
+                        <h4 className="font-semibold">Community Outreach</h4>
+                        <p className="text-sm text-muted-foreground">Funding local food drives, homeless support initiatives, and community events that bring people together.</p>
+                    </div>
                 </div>
-                 <div className="flex items-center gap-3">
-                     <div className="p-2 bg-primary/10 rounded-md">
-                        <Globe className="w-5 h-5 text-primary"/>
+                 <div className="flex items-start gap-4">
+                     <div className="p-3 bg-primary/10 rounded-lg shrink-0">
+                        <Globe className="w-6 h-6 text-primary"/>
                     </div>
-                    <span>Global Missions</span>
+                     <div>
+                        <h4 className="font-semibold">Global Missions</h4>
+                        <p className="text-sm text-muted-foreground">Supporting our partners abroad in education, clean water projects, and church planting efforts.</p>
+                    </div>
                 </div>
-                 <div className="flex items-center gap-3">
-                     <div className="p-2 bg-primary/10 rounded-md">
-                        <University className="w-5 h-5 text-primary"/>
+                 <div className="flex items-start gap-4">
+                     <div className="p-3 bg-primary/10 rounded-lg shrink-0">
+                        <University className="w-6 h-6 text-primary"/>
                     </div>
-                    <span>Building Fund</span>
+                    <div>
+                        <h4 className="font-semibold">Building & Facilities</h4>
+                        <p className="text-sm text-muted-foreground">Maintaining and improving our physical spaces to create a welcoming environment for all.</p>
+                    </div>
                 </div>
-                 <div className="flex items-center gap-3">
-                     <div className="p-2 bg-primary/10 rounded-md">
-                        <Gift className="w-5 h-5 text-primary"/>
+                 <div className="flex items-start gap-4">
+                     <div className="p-3 bg-primary/10 rounded-lg shrink-0">
+                        <PiggyBank className="w-6 h-6 text-primary"/>
                     </div>
-                    <span>Disaster Relief</span>
-                </div>
-                 <div className="flex items-center gap-3">
-                     <div className="p-2 bg-primary/10 rounded-md">
-                        <PiggyBank className="w-5 h-5 text-primary"/>
+                    <div>
+                        <h4 className="font-semibold">App & Digital Ministry</h4>
+                        <p className="text-sm text-muted-foreground">Keeping this platform running, secure, and developing new tools for our digital community.</p>
                     </div>
-                    <span>Community Outreach</span>
                 </div>
             </CardContent>
         </Card>
@@ -255,5 +261,3 @@ export function GivingContent() {
     </div>
   );
 }
-
-    
