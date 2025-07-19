@@ -40,15 +40,15 @@ import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff, CheckCircle, XCircle } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
-const passwordValidation = new RegExp(
+const passwordValidationRegex = new RegExp(
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/
 );
 
 const formSchema = z.object({
     email: z.string().email({ message: "Please enter a valid email address." }),
     password: z.string().min(8, { message: "Password must be at least 8 characters." })
-        .regex(passwordValidation, {
-            message: "Password must contain an uppercase letter, a lowercase letter, a number, and a special character.",
+        .regex(passwordValidationRegex, {
+            message: "Password does not meet all requirements.",
         }),
     confirmPassword: z.string(),
     agreedToTerms: z.boolean().refine(val => val === true, {
@@ -172,8 +172,8 @@ export default function SignupPage() {
           description = "An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address.";
           break;
         case 'auth/popup-closed-by-user':
-          description = "The sign-in popup was closed before completing. Please try again.";
-          return; // Don't show toast for this
+          // Don't show toast for this common user action
+          return;
         default:
           description = error.message;
       }
@@ -273,15 +273,6 @@ export default function SignupPage() {
                                     placeholder="Re-enter your password"
                                     {...field}
                                 />
-                                <Button 
-                                    type="button" 
-                                    variant="ghost" 
-                                    size="icon" 
-                                    className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
-                                    onClick={() => setShowPassword(prev => !prev)}
-                                >
-                                    {showPassword ? <EyeOff className="h-4 w-4"/> : <Eye className="h-4 w-4"/>}
-                                </Button>
                             </div>
                         </FormControl>
                         <FormMessage />
@@ -329,3 +320,5 @@ export default function SignupPage() {
     </Card>
   );
 }
+
+    
