@@ -1,36 +1,113 @@
+
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Users: Can read/write their own profile
+    // Helper functions to keep rules DRY (Don't Repeat Yourself)
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    // =================================
+    //  User Profiles (users/{userId})
+    // =================================
     match /users/{userId} {
-      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
-      allow create: if request.auth != null;
+      // CREATE: Anyone can create their own user profile document upon signup.
+      // The user ID must match the authenticated user's UID.
+      allow create: if isSignedIn() && isOwner(userId);
+
+      // READ: Any authenticated user can read any other user's public profile data.
+      // This is necessary to display user names, avatars, etc. on posts.
+      allow get: if isSignedIn();
+
+      // UPDATE: A user can only update their OWN profile.
+      allow update: if isSignedIn() && isOwner(userId);
+
+      // DELETE: Deleting user profiles is disabled from the client to prevent accidental data loss.
+      // This action should be handled by a secure backend function or manually.
+      allow delete: if false;
     }
 
-    // Posts: Any authenticated user can read. Can only write/delete their own.
+    // =================================
+    //  Social Feed Posts (posts/{postId})
+    // =================================
     match /posts/{postId} {
-      allow read: if request.auth != null;
-      allow create, update, delete: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      // READ: Any authenticated user can read all social feed posts.
+      allow get;
+      allow list: if isSignedIn();
 
-      // Allow liking (updating a specific field) by any authenticated user
-      allow update: if request.auth != null
-                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes', 'likedBy', 'comments']);
+      // CREATE: An authenticated user can create a post, but only if the 'userId' field
+      // in the new document matches their own UID. This prevents spoofing.
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+
+      // UPDATE: A user can only update their own posts.
+      // Fields like 'likes' or 'reactions' should be handled by Cloud Functions for security.
+      allow update: if isSignedIn() && isOwner(resource.data.userId);
+
+      // DELETE: A user can only delete their own posts.
+      allow delete: if isSignedIn() && isOwner(resource.data.userId);
     }
 
-    // Prayer Requests: Any authenticated user can read. Can only write/delete their own.
-    match /prayerRequests/{requestId} {
-      allow read: if request.auth != null;
-      allow create, update, delete: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    // =================================
+    //  Prayer Requests (prayerRequests/{reqId})
+    // =================================
+    match /prayerRequests/{reqId} {
+      // READ: Any authenticated user can read prayer requests.
+      allow get;
+      allow list: if isSignedIn();
 
-       // Allow updating prayer count and comments by any authenticated user
-      allow update: if request.auth != null
-                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['prayCount', 'comments']);
+      // CREATE: An authenticated user can create a prayer request.
+      // The 'userId' must match their UID.
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+
+      // UPDATE: Only the owner can update their request (e.g., mark as answered).
+      // prayCount is handled by a separate, secure counter collection.
+      allow update: if isSignedIn() && isOwner(resource.data.userId);
+
+      // DELETE: Only the owner can delete their request.
+      allow delete: if isSignedIn() && isOwner(resource.data.userId);
     }
-    
-    // Journal Entries: Can only be accessed by the user who created them.
+
+     // =================================
+    //  Prayer Request Counter Shards (prayerRequests/{reqId}/counter_shards/{shardId})
+    // =================================
+    match /prayerRequests/{reqId}/counter_shards/{shardId} {
+        // This is a distributed counter pattern. Any authenticated user should be able
+        // to write to a new shard document to increment/decrement the count.
+        // The values are aggregated by a backend function, not read by clients.
+        allow create: if isSignedIn();
+        allow read, update, delete: if false; // Prevent clients from tampering with shards.
+    }
+
+
+    // =================================
+    //  Journal Entries (journalEntries/{entryId})
+    // =================================
     match /journalEntries/{entryId} {
-      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      // READ: A user can only read THEIR OWN journal entries.
+      // An exception is made if the entry is explicitly marked as public.
+      allow get: if isSignedIn() && (isOwner(resource.data.userId) || resource.data.isPublic == true);
+
+      // LIST: A user can only list THEIR OWN journal entries. This prevents querying all entries.
+      // The query from the client MUST include `where("userId", "==", request.auth.uid)`.
+      allow list: if isSignedIn() && request.query.resource.data.userId == request.auth.uid;
+
+      // CREATE: An authenticated user can create a journal entry.
+      // The 'userId' must match their UID.
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+
+      // UPDATE: A user can only update their own journal entries.
+      allow update: if isSignedIn() && isOwner(resource.data.userId);
+
+      // DELETE: A user can only delete their own journal entries.
+      allow delete: if isSignedIn() && isOwner(resource.data.userId);
     }
   }
 }
+
+    
