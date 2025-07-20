@@ -14,7 +14,25 @@ This document outlines the logical flow of data and user interactions throughout
 
 ---
 
-## 2. Enhanced Security Layer
+## 2. Recommended Firebase Extensions
+
+Firebase Extensions are pre-packaged serverless solutions that handle common development tasks, saving significant time. For a cost-conscious solo developer, the following extensions are recommended.
+
+-   **Image Resize (`storage-resize-images`) - Highly Recommended**
+    -   **Purpose:** Automatically creates thumbnails of user-uploaded images (e.g., profile pictures, post images). This is crucial for performance and reducing bandwidth costs.
+    -   **Cost:** Very low. You only pay for Cloud Function invocations during image uploads, which is typically well within the free tier for an application at our scale.
+
+-   **Distributed Counter (`firestore-counter`) - In Use**
+    -   **Purpose:** Powers the "Pray" button and other reaction counts. It enables many users to increment a counter simultaneously without database conflicts.
+    -   **Cost:** Extremely low. Each reaction costs a few Firestore document writes, making it very friendly for the free tier.
+
+-   **Full-text Search (`firestore-search-text`) - Future Recommendation**
+    -   **Purpose:** Integrates with a third-party search service (like Algolia, which has a generous free tier) to provide powerful, instant search capabilities for posts, events, and users. This is for when the app's content grows.
+    -   **Cost:** The extension is free. The cost is tied to the third-party search service, but their free tiers are sufficient for initial launch and growth.
+
+---
+
+## 3. Enhanced Security Layer
 
 This diagram illustrates the ideal security model for handling client requests that modify data. Each request passes through multiple layers of validation and protection.
 
@@ -38,7 +56,7 @@ graph TD
 
 ---
 
-## 3. Error Handling & Resilience
+## 4. Error Handling & Resilience
 
 This diagram outlines the ideal model for creating a resilient user experience, where network issues and other errors are handled gracefully.
 
@@ -62,7 +80,7 @@ graph TD
 
 ---
 
-## 4. Performance Optimization
+## 5. Performance Optimization
 
 This diagram outlines strategies to ensure the application remains fast and responsive as it scales.
 
@@ -90,7 +108,7 @@ graph TD
 
 ---
 
-## 5. Testing & Monitoring
+## 6. Testing & Monitoring
 
 This diagram outlines the ideal software development lifecycle to ensure application quality and stability from development to production.
 
@@ -114,7 +132,7 @@ graph TD
 
 ---
 
-## 6. User Authentication & Profile Flow
+## 7. User Authentication & Profile Flow
 
 This is the foundational flow for the entire application.
 
@@ -147,7 +165,7 @@ graph TD
 
 ---
 
-## 7. Social Feed & Prayer Wall Flow (Content Creation & Display)
+## 8. Social Feed & Prayer Wall Flow (Content Creation & Display)
 
 This flow is nearly identical for the Social Feed and Prayer Wall and demonstrates the core content loop.
 
@@ -185,7 +203,7 @@ graph TD
 
 ---
 
-## 8. Faith Reels & Sermon Remix Flow (UGC & Creative Tools)
+## 9. Faith Reels & Sermon Remix Flow (UGC & Creative Tools)
 
 This flow outlines how user-generated video content would be handled.
 
