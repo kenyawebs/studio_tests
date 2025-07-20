@@ -4,6 +4,8 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { AppShell } from "@/components/app/app-shell";
+import { ClientOnly } from '@/components/app/client-only';
+import { AuthLoader } from '@/components/app/auth-provider';
 
 // This layout is now a pure Server Component.
 // All client-side logic and hooks have been moved to the <AppShell> component.
@@ -18,5 +20,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  return <AppShell>{children}</AppShell>;
+  return (
+    <ClientOnly fallback={<AuthLoader />}>
+        <AppShell>{children}</AppShell>
+    </ClientOnly>
+  );
 }
