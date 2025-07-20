@@ -48,12 +48,28 @@ const AIMetadata = () => {
         ]
     };
 
+    const faviconSvg = `
+    <svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+          <stop stop-color="#FF00FF" offset="0%"/>
+          <stop stop-color="#E000E0" offset="100%"/>
+        </linearGradient>
+      </defs>
+      <path d="M50 5 L61.2 35.8 L95 38.2 L70.5 59.8 L78.4 92 L50 75 L21.6 92 L29.5 59.8 L5 38.2 L38.8 35.8 Z" fill="url(#g)"/>
+      <circle cx="50" cy="50" r="4" fill="white" opacity="0.8"/>
+      <path d="M50,15 L53,23 L61,25 L53,27 L50,35 L47,27 L39,25 L47,23 Z" fill="white" opacity="0.9"/>
+    </svg>
+  `;
+    const faviconDataUri = `data:image/svg+xml;base64,${Buffer.from(faviconSvg).toString('base64')}`;
+
     return (
         <>
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
             />
+            <link rel="icon" href={faviconDataUri} type="image/svg+xml" />
             <meta name="ai:purpose" content={structuredData.description} />
             <meta name="ai:type" content="webapp" />
             <meta name="ai:features" content={structuredData.featureList.join(', ')} />

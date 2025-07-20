@@ -97,7 +97,7 @@
 
 @layer utilities {
   .bg-gradient-pan {
-    @apply bg-gradient-to-r from-primary via-fuchsia-500 to-accent;
+    @apply bg-gradient-to-r from-primary via-purple-500 to-accent;
     background-size: 400% 400%;
     animation: gradient-pan 10s ease infinite;
   }
