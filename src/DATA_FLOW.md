@@ -30,6 +30,11 @@ Firebase Extensions are pre-packaged serverless solutions that handle common dev
     -   **Purpose:** Integrates with a third-party search service (like Algolia, which has a generous free tier) to provide powerful, instant search capabilities for posts, events, and users. This is for when the app's content grows.
     -   **Cost:** The extension is free. The cost is tied to the third-party search service, but their free tiers are sufficient for initial launch and growth.
 
+-   **Translate Text (`firestore-translate-text`) - Future Recommendation**
+    -   **Purpose:** Automatically translate text in Firestore documents using Google Translate.
+    -   **Why:** Essential for the "Fishing Net" strategy's Global South expansion, allowing content to be accessible across different languages.
+    -   **Cost:** Pay-as-you-go based on Google Translate API usage, which is cost-effective at scale.
+
 ---
 
 ## 3. Enhanced Security Layer
