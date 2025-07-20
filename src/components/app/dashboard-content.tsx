@@ -7,13 +7,11 @@ import { getUserStats } from "@/lib/firestore";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { PrayButton } from "@/components/app/pray-button";
 import {
     ArrowRight,
     Newspaper,
     Users,
     UserCheck,
-    Heart,
     Calendar,
     Film,
     MessagesSquare,
@@ -21,74 +19,54 @@ import {
     GraduationCap,
     Music2,
     HeartHandshake,
-    PenSquare,
-    Sparkles,
+    Gift,
+    Flame,
     HeartPulse,
     BrainCircuit,
     Ear,
-    Scale,
-    Gift,
-    Flame
+    Scale
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Skeleton } from "../ui/skeleton";
+import { PrayButton } from "./pray-button";
 
 const theVibeAndCoreItems = [
     { 
-        pillar: "DayInTheLife", 
         title: "A Day in the Life",
         description: "A student's journey of creativity and focus.",
         icon: Film,
-        image: "https://placehold.co/600x400.png",
-        aiHint: "student studying laptop",
         href: "/life-stories"
     },
     { 
-        pillar: "HonestTalks",
         title: "Q&A: Navigating Challenges",
         description: "Clips from our latest live stream on tough questions.",
         icon: MessagesSquare,
-        image: "https://placehold.co/600x400.png",
-        aiHint: "podcast interview",
         href: "/life-stories"
     },
     { 
-        pillar: "UGCShowcase",
         title: "Community Showcase: #LifeInAction",
         description: "Featuring a powerful story from @user.name this week.",
         icon: Award,
-        image: "https://placehold.co/600x400.png",
-        aiHint: "person helping another",
         href: "/social-feed"
     },
     { 
-        pillar: "BiteSizedTheology",
         title: "Wisdom Wednesday: What is Grace?",
         description: "A 60-second deep dive into a powerful concept for life.",
         icon: GraduationCap,
-        image: "https://placehold.co/600x400.png",
-        aiHint: "abstract shapes",
         href: "/wisdom-texts"
     },
     { 
-        pillar: "WorshipMoment",
         title: "Acoustic Reflection Session",
         description: "A moment of peace with scrolling lyrics to guide thoughts.",
         icon: Music2,
-        image: "https://placehold.co/600x400.png",
-        aiHint: "acoustic guitar",
         href: "/life-stories"
     },
     { 
-        pillar: "SocialImpact",
         title: "Serving the City",
         description: "Highlighting a story of young people making a difference.",
         icon: HeartHandshake,
-        image: "https://placehold.co/600x400.png",
-        aiHint: "volunteers community",
         href: "/volunteering"
     },
 ];
@@ -104,19 +82,16 @@ const wellBeingResources = [
   {
     icon: Ear,
     title: "Guided Meditation",
-    description: "Find peace and focus.",
     href: "/well-being",
   },
   {
     icon: BrainCircuit,
     title: "Stress & Anxiety",
-    description: "Get practical guidance.",
     href: "/well-being",
   },
   {
     icon: Scale,
     title: "Conflict Resolution",
-    description: "Tools for harmony.",
     href: "/well-being",
   },
 ];
@@ -177,7 +152,7 @@ export function DashboardContent() {
     const userStats = [
       { label: 'Posts', value: stats?.posts, icon: Newspaper, href: '/social-feed', color: 'text-blue-500', bgColor: 'bg-blue-500/10' },
       { label: 'Following', value: 72, icon: UserCheck, href: '#', color: 'text-teal-500', bgColor: 'bg-teal-500/10' },
-      { label: 'Encouragements', value: stats?.prayerRequests, icon: Heart, href: '/community-wall', color: 'text-rose-500', bgColor: 'bg-rose-500/10' },
+      { label: 'Prayers', value: stats?.prayerRequests, icon: HeartPulse, href: '/community-wall', color: 'text-rose-500', bgColor: 'bg-rose-500/10' },
       { label: 'Streak', value: stats?.journalEntries, icon: Flame, href: '/personal-journal', unit: 'days', color: 'text-orange-500', bgColor: 'bg-orange-500/10' },
       { label: 'Groups', value: 5, icon: Users, href: '#', color: 'text-indigo-500', bgColor: 'bg-indigo-500/10' },
       { label: 'Events', value: 3, icon: Calendar, href: '/events', color: 'text-purple-500', bgColor: 'bg-purple-500/10' },
@@ -235,8 +210,8 @@ export function DashboardContent() {
                                             <Link href={item.href} className="group block">
                                                 <Card className="overflow-hidden">
                                                     <CardContent className="p-0">
-                                                        <div className="aspect-video relative">
-                                                            <Image src={item.image} alt={item.title} fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover group-hover:scale-105 transition-transform" data-ai-hint={item.aiHint} />
+                                                        <div className="aspect-video relative overflow-hidden rounded-t-lg">
+                                                            <div className="absolute inset-0 bg-gradient-pan" />
                                                             <div className="absolute top-2 left-2 bg-black/50 text-white p-1 rounded-full">
                                                                 <item.icon className="h-4 w-4" />
                                                             </div>
