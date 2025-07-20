@@ -269,7 +269,6 @@ export function SettingsContent() {
                                     value={profile.church || ''}
                                     onValueChange={(value) => handleLocationSelect('church', value)}
                                     placeholder="e.g., Connect Hub Central"
-                                    types={['establishment']}
                                 />
                             </div>
                             <div className="space-y-2">
