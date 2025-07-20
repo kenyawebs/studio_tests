@@ -50,15 +50,10 @@ const AIMetadata = () => {
 
     const faviconSvg = `
     <svg width="32" height="32" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
-          <stop stop-color="#FF00FF" offset="0%"/>
-          <stop stop-color="#E000E0" offset="100%"/>
-        </linearGradient>
-      </defs>
-      <path d="M50 5 L61.2 35.8 L95 38.2 L70.5 59.8 L78.4 92 L50 75 L21.6 92 L29.5 59.8 L5 38.2 L38.8 35.8 Z" fill="url(#g)"/>
-      <circle cx="50" cy="50" r="4" fill="white" opacity="0.8"/>
-      <path d="M50,15 L53,23 L61,25 L53,27 L50,35 L47,27 L39,25 L47,23 Z" fill="white" opacity="0.9"/>
+      <rect width="100" height="100" rx="20" fill="#FF00FF"/>
+      <path d="M50 30 L55 45 L70 50 L55 55 L50 70 L45 55 L30 50 L45 45 Z" fill="white" opacity="0.9"/>
+      <path d="M75 25 L78 33 L85 36 L78 39 L75 47 L72 39 L65 36 L72 33 Z" fill="white" opacity="0.7"/>
+      <path d="M25 60 L28 65 L33 67 L28 69 L25 74 L22 69 L17 67 L22 65 Z" fill="white" opacity="0.6"/>
     </svg>
   `;
     const faviconDataUri = `data:image/svg+xml;base64,${Buffer.from(faviconSvg).toString('base64')}`;
