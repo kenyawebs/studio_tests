@@ -13,6 +13,12 @@ import { CreateOpportunityForm } from "@/components/app/create-opportunity-form"
 import { cn } from "@/lib/utils";
 import { VolunteerApplicationForm } from "@/components/app/volunteer-application-form";
 import { SuggestOpportunityForm } from "@/components/app/suggest-opportunity-form";
+import dynamic from 'next/dynamic';
+
+const LeafletMap = dynamic(() => import('@/components/app/leaflet-map'), { 
+    ssr: false,
+    loading: () => <div className="aspect-square bg-muted rounded-lg animate-pulse" />
+});
 
 const opportunityIcons: { [key: string]: React.ElementType } = {
     "Youth Development": Users2,
@@ -109,15 +115,7 @@ export function VolunteeringContent() {
                 </CardHeader>
                 <CardContent>
                     <div className="aspect-square bg-muted rounded-lg overflow-hidden">
-                        <iframe
-                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158857.7281062025!2d-0.24168124930353412!3d51.52877184089922!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2sus!4v1625841006459!5m2!1sen!2sus"
-                          width="100%"
-                          height="100%"
-                          style={{ border: 0 }}
-                          allowFullScreen={false}
-                          loading="lazy"
-                          title="Volunteer Opportunities Map"
-                        ></iframe>
+                       <LeafletMap />
                     </div>
                 </CardContent>
             </Card>

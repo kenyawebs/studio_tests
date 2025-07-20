@@ -220,7 +220,7 @@ export function DashboardContent() {
                 <div className="lg:col-span-2 space-y-6">
                     <Card>
                         <CardHeader>
-                            <CardTitle>The Vibe & Core</CardTitle>
+                            <CardTitle>The Vibe &amp; Core</CardTitle>
                             <CardDescription>Content curated for you. Here's what's resonating in the community right now.</CardDescription>
                         </CardHeader>
                         <CardContent>
