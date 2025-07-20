@@ -5,12 +5,12 @@ import path from 'path';
 // Read from default ".env" file.
 require('dotenv').config();
 
-const PORT = process.env.PORT || 9002;
+const PORT = process.env.PORT || 9003;
 const baseURL = process.env.PLAYWRIGHT_TEST_BASE_URL || `http://localhost:${PORT}`;
 
 export default defineConfig({
   timeout: 30 * 1000,
-  testDir: path.join(__dirname, 'tests'),
+  testDir: path.join(__dirname, 'tests/e2e'),
   retries: 2,
   outputDir: 'test-results/',
   
