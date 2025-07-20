@@ -10,11 +10,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { PrayButton } from "@/components/app/pray-button";
 import {
     ArrowRight,
-    Clapperboard,
-    Flame,
     Newspaper,
     Users,
-    BookOpen,
     UserCheck,
     Heart,
     Calendar,
@@ -24,7 +21,6 @@ import {
     GraduationCap,
     Music2,
     HeartHandshake,
-    Wand2,
     PenSquare,
     Sparkles,
     HeartPulse,
@@ -32,6 +28,7 @@ import {
     Ear,
     Scale,
     Gift,
+    Flame
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -341,6 +338,3 @@ export function DashboardContent() {
         </div>
     );
 }
-
-
-    
