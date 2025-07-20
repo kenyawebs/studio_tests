@@ -22,27 +22,25 @@ test.describe('Authentication Flow', () => {
     // 3. Submit the form
     await page.getByTestId('signup-button').click();
 
-    // 4. Assert that the user is redirected to the legal acceptance page
-    await page.waitForURL('/legal/accept');
-    await expect(page).toHaveURL('/legal/accept');
-
-    // 5. Accept the terms
-    await page.getByRole('button', { name: 'I Agree and Continue' }).click();
-
-    // 6. Assert that the user is now on the dashboard
+    // 4. Assert that the user is now on the dashboard and the terms modal appears.
     await page.waitForURL('/dashboard');
-    await expect(page).toHaveURL('/dashboard');
+    await expect(page.getByText("Welcome to Connect Hub!")).toBeVisible();
+    
+    // 5. Accept the terms in the modal.
+    await page.getByRole('button', { name: 'I Agree and Continue' }).click();
+    await expect(page.getByText("Welcome to Connect Hub!")).not.toBeVisible();
 
-    // 7. Assert that the user's name is in the user menu, confirming they are logged in
+
+    // 6. Assert that the user's name is in the user menu, confirming they are logged in.
     await page.getByTestId('user-menu').click();
     const userDisplayName = page.getByTestId('user-display-name');
     await expect(userDisplayName).toBeVisible();
     await expect(userDisplayName).toHaveText(newUser.email.split('@')[0]);
 
-    // 8. Log out
+    // 7. Log out
     await page.getByTestId('logout-button').click();
 
-    // 9. Assert that the user is redirected to the login page
+    // 8. Assert that the user is redirected to the login page.
     await page.waitForURL('/login');
     await expect(page).toHaveURL('/login');
   });
@@ -57,16 +55,14 @@ test.describe('Authentication Flow', () => {
     await page.getByLabel('Confirm Password').fill(existingUser.password);
     await page.getByLabel(/I agree to the/).check();
     await page.getByTestId('signup-button').click();
-    await page.waitForURL(/\/legal\/accept|\/dashboard/);
+    await page.waitForURL(/\/dashboard/);
     
     // Log out to try again
     if (page.url().includes('/dashboard')) {
+      // The modal might still be open. We can ignore it and just log out.
       await page.getByTestId('user-menu').click();
       await page.getByTestId('logout-button').click();
       await page.waitForURL('/login');
-    } else {
-       // if on /legal/accept we can't log out, so just go back to signup
-       await page.goto('/signup');
     }
 
     // Attempt to sign up again with the same email

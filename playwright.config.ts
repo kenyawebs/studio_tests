@@ -1,3 +1,4 @@
+
 import { defineConfig, devices } from '@playwright/test';
 import path from 'path';
 
@@ -9,7 +10,7 @@ const baseURL = process.env.PLAYWRIGHT_TEST_BASE_URL || `http://localhost:${PORT
 
 export default defineConfig({
   timeout: 30 * 1000,
-  testDir: path.join(__dirname, 'tests/e2e'),
+  testDir: path.join(__dirname, 'tests'),
   retries: 2,
   outputDir: 'test-results/',
   
