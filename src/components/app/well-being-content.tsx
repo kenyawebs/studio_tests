@@ -162,17 +162,17 @@ function ProviderProfileDialog({ provider, trigger }: { provider: typeof provide
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Provider Profile</DialogTitle>
-          <div className="flex flex-col items-center text-center gap-4 pt-4">
-              <Avatar className="h-24 w-24">
-                  <AvatarImage src={provider.avatar} data-ai-hint={provider.aiHint} />
-                  <AvatarFallback>{provider.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <div>
-                  <h3 className="text-2xl font-bold">{provider.name}</h3>
-                  <p className="text-muted-foreground">{provider.credentials}</p>
-              </div>
-          </div>
         </DialogHeader>
+        <div className="flex flex-col items-center text-center gap-4 pt-4">
+            <Avatar className="h-24 w-24">
+                <AvatarImage src={provider.avatar} data-ai-hint={provider.aiHint} />
+                <AvatarFallback>{provider.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div>
+                <h3 className="text-2xl font-bold">{provider.name}</h3>
+                <p className="text-muted-foreground">{provider.credentials}</p>
+            </div>
+        </div>
         <div className="space-y-4 py-4">
             <p className="text-sm text-center text-muted-foreground italic">&quot;{provider.approach}&quot;</p>
             <div>
@@ -315,7 +315,7 @@ export function WellBeingContent() {
                 </CardHeader>
                 <CardContent className="grid gap-4 sm:grid-cols-2">
                     {providers.map(provider => (
-                        <Card key={provider.name}>
+                        <Card key={provider.name} className="flex flex-col">
                             <CardHeader className="flex-row gap-4 items-center">
                                 <Avatar>
                                     <AvatarImage src={provider.avatar} data-ai-hint={provider.aiHint}/>
@@ -323,11 +323,14 @@ export function WellBeingContent() {
                                 </Avatar>
                                 <div>
                                     <h3 className="font-semibold flex items-center gap-1.5">{provider.name} {provider.verified && <UserCheck className="h-4 w-4 text-green-500"/>}</h3>
-                                    <div className="flex flex-wrap gap-1 mt-1">
-                                      {provider.specialties.slice(0,2).map(s => <Badge key={s} variant="secondary">{s}</Badge>)}
-                                    </div>
+                                    <p className="text-sm text-muted-foreground">{provider.credentials}</p>
                                 </div>
                             </CardHeader>
+                            <CardContent className="flex-grow">
+                                <div className="flex flex-wrap gap-1">
+                                    {provider.specialties.map(s => <Badge key={s} variant="secondary">{s}</Badge>)}
+                                </div>
+                            </CardContent>
                             <CardFooter>
                                 <ProviderProfileDialog provider={provider} trigger={<Button variant="outline" className="w-full">View Profile</Button>} />
                             </CardFooter>
