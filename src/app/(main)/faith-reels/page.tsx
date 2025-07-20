@@ -1,7 +1,6 @@
 
-
 import type { Metadata } from "next";
-import { FaithReelsContent } from "@/components/app/faith-reels-content";
+import { LifeStoriesContent } from "@/components/app/life-stories-content";
 
 export const metadata: Metadata = {
   title: "Life Stories | Connect Hub",
@@ -9,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function LifeStoriesPage() {
-  return <FaithReelsContent />;
+  return <LifeStoriesContent />;
 }

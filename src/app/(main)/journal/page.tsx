@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import { JournalContent } from "@/components/app/journal-content";
+import { PersonalJournalContent } from "@/components/app/personal-journal-content";
 
 export const metadata: Metadata = {
   title: "Personal Journal | Connect Hub",
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function PersonalJournalPage() {
-  return <JournalContent />;
+  return <PersonalJournalContent />;
 }

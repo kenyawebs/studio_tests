@@ -1,7 +1,7 @@
 
 'use server';
 /**
- * @fileOverview An AI flow for classifying social post content into a spiritual category.
+ * @fileOverview An AI flow for classifying social post content into a meaningful category.
  *
  * - classifyPost - A function that analyzes post text and returns a category.
  * - ClassifyPostInput - The input type for the classifyPost function.
@@ -18,7 +18,7 @@ export type ClassifyPostInput = z.infer<typeof ClassifyPostInputSchema>;
 
 const ClassifyPostOutputSchema = z.object({
     category: z.enum(['breakthrough', 'healing', 'provision', 'restoration', 'calling', 'growth'])
-        .describe("The single most relevant spiritual category for the post."),
+        .describe("The single most relevant category for the post."),
 });
 export type ClassifyPostOutput = z.infer<typeof ClassifyPostOutputSchema>;
 
@@ -31,15 +31,15 @@ const prompt = ai.definePrompt({
   name: 'classifyPostPrompt',
   input: {schema: ClassifyPostInputSchema},
   output: {schema: ClassifyPostOutputSchema},
-  prompt: `You are an AI content moderator for a Christian social media platform. Your task is to classify a user's post into the single most appropriate spiritual category based on its content.
+  prompt: `You are an AI content moderator for a community platform. Your task is to classify a user's post into the single most appropriate category based on its content.
 
 Analyze the post for its primary theme. Here are the categories and their meanings:
-- "breakthrough": Miraculous victories, doors opening, obstacles overcome, answered prayers.
+- "breakthrough": Stories of victories, overcoming obstacles, answered prayers.
 - "healing": Testimonies of physical, emotional, or mental restoration.
-- "provision": Stories of financial miracles, getting a new job, or material needs being met.
-- "restoration": Accounts of healed relationships, reconciliation, or restored situations.
-- "calling": Posts about discovering purpose, ministry, or divine assignments.
-- "growth": Reflections on spiritual maturity, learning, discipleship, or personal development.
+- "provision": Stories of needs being met, whether financial, material, or relational.
+- "restoration": Accounts of healed relationships or reconciled situations.
+- "calling": Posts about discovering purpose, mission, or new direction.
+- "growth": Reflections on personal development, learning, or maturity.
 
 Post Content:
 "{{{content}}}"

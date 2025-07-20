@@ -1,7 +1,6 @@
 
-
 import type { Metadata } from "next";
-import { PrayerWallContent } from "@/components/app/prayer-wall-content";
+import { CommunityWallContent } from "@/components/app/community-wall-content";
 
 export const metadata: Metadata = {
   title: "Community Wall | Connect Hub",
@@ -9,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function CommunityWallPage() {
-    return <PrayerWallContent />;
+    return <CommunityWallContent />;
 }

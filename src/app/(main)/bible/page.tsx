@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import { BibleContent } from "@/components/app/bible-content";
+import { WisdomTextsContent } from "@/components/app/wisdom-texts-content";
 
 export const metadata: Metadata = {
   title: "Wisdom Texts | Connect Hub",
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function WisdomTextsPage() {
-  return <BibleContent />;
+  return <WisdomTextsContent />;
 }

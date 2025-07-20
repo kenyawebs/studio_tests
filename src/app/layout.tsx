@@ -4,15 +4,15 @@ import './globals.css';
 import { Providers } from '@/components/app/providers';
 
 export const metadata: Metadata = {
-  title: 'Connect Hub 2.0: Gospel Remix',
-  description: 'A modern social and spiritual platform for churches.',
+  title: 'Connect Hub | Your Community Platform',
+  description: 'A modern, inclusive, and AI-powered platform for community engagement, personal growth, and holistic well-being.',
 };
 
 const AIMetadata = () => {
     const structuredData = {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        "name": "Connect Hub 2.0: Gospel Remix",
+        "name": "Connect Hub",
         "description": "A modern social and spiritual platform for churches, featuring a real-time prayer wall, sermon remixing, event management, and a personalized social feed.",
         "applicationCategory": "SocialNetworking",
         "operatingSystem": "Web",
@@ -36,7 +36,7 @@ const AIMetadata = () => {
             "Online Giving",
             "Mentorship"
         ],
-        "softwareVersion": "2.0.0",
+        "softwareVersion": "3.0.0",
         "programmingLanguage": ["TypeScript", "React", "Next.js"],
         "runtimePlatform": "Node.js",
         "supportingData": [

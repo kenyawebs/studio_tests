@@ -1,55 +1,49 @@
-# Future Feature & Enhancement Log
+# Connect Hub: Development Roadmap
 
-This document tracks major feature requests and enhancements to be implemented after the initial stabilization process is complete.
+This document tracks our development roadmap. We have a stable, feature-rich application ready for user testing. The next priorities focus on scaling the platform and deepening user engagement.
 
-## High Priority / Blocking Tasks
+---
 
-- **Create Firestore Indexes:**
-  - **What:** Create two single-field indexes in the Firebase Console.
-    - 1. **Collection:** `posts`, **Field:** `timestamp`, **Order:** Descending
-    - 2. **Collection:** `prayerRequests`, **Field:** `timestamp`, **Order:** Descending
-  - **Why:** This is a **critical backend task** required to fix data loading errors on the Social Feed and Prayer Wall. The app will not function correctly without these.
+## 🚀 **Immediate Development Priorities**
 
-- **Set Up Google AI API Key:**
-  - **What:** Follow the instructions in `AI_SETUP.md` to generate a free API key and add it to your `.env.local` file.
-  - **Why:** This is required to enable all AI-powered features, such as the Journal Assistant, Prayer Assistant, and Bible Chat AI.
+### **1. Performance & Scalability: Implement Pagination (High Priority)**
+-   **What:** Refactor the Social Feed and Community Wall to use pagination or "infinite scroll". Instead of loading all documents, fetch a limited number (e.g., 10) initially and load more as the user scrolls.
+-   **Why:** This is a **critical architectural improvement** to ensure the app remains fast, responsive, and cost-effective as the amount of content grows. It's the most important step before a wider public launch.
 
-## High Priority Enhancements
+### **2. Deepen AI Integration: Conversational AI**
+-   **What:** Enhance the AI interactions. For features like the "Life Wisdom AI" and the "Well-being Hub" assistants, clicking the button should open a dedicated, interactive chat modal where users can have a proper back-and-forth conversation with the AI.
+-   **Why:** This elevates our AI from a simple suggestion tool to a genuine "guidance system," which is a core part of the app's unique value.
 
-- **Implement Data Flow Map:**
-  - **What:** I will provide a detailed, text-based flow diagram explaining how content like posts, prayers, and reels moves through the app from creation to display.
-  - **Why:** To serve as an architectural blueprint, ensuring the app behaves exactly as we envision it. We will use it to verify all data pathways are logical and correct.
+### **3. Enhance Community Features: Comments & Following**
+-   **What:**
+    -   Implement a full commenting system on the Testimony Feed.
+    -   Build a "follow" system allowing users to connect with each other, which will enable a personalized "Following" feed in the future.
+-   **Why:** These are foundational social features that are essential for building a vibrant, long-term community.
 
-- **Full End-to-End (E2E) Testing:**
-  - **What:** Set up the Playwright testing framework and write comprehensive tests for all critical user journeys (authentication, posting, profile updates, etc.).
-  - **Why:** To ensure long-term stability and catch regressions before they affect users.
+### **4. Comprehensive E2E Testing (Ongoing)**
+-   **What:** Continue to expand the Playwright test suite to cover all newly activated features, including the Giving flow, event creation, volunteering, and interactions with AI modals.
+-   **Why:** To guarantee application stability and catch regressions as we add more complex features.
 
-## Future Social Ecosystem Features
+---
 
-- **Full Friends/Following & Groups System:**
-  - **What:** Implement the backend logic and UI for a complete social graph.
-  - **Features:**
-    - Users can follow/unfollow each other.
-    - A dedicated "Following" feed showing content only from followed users.
-    - User profiles show follower/following counts.
-    - Users can create and join public or private "Groups" based on topics or interests.
-    - Groups have their own dedicated feed and member list.
-  - **Considerations:** This is a major feature requiring new Firestore collections (`following`, `groups`, etc.), complex security rules, and significant UI work.
+## 🌟 **Future Feature Wishlist (Post-Priorities)**
 
-## Additional Integrations & Enhancements
+This section contains exciting new features to consider after the immediate priorities are addressed.
 
-- **Admin Panel & Functionality:**
-  - **What:** Build a dedicated, secure admin dashboard.
-  - **Features:** User management (view, disable, make admin), content moderation (review/approve events, posts), view app statistics.
+### **Richer Content & Social Interaction**
+-   **Live Streaming**: Integrate functionality to live stream sermons and community events.
+-   **Video & Carousel Posts**: Allow users to upload short video clips and multi-image posts.
+-   **Direct Messaging**: Implement a private, one-to-one chat system.
 
-- **Profile Picture Uploads:**
-  - **What:** Integrate Firebase Storage for user avatar uploads.
-  - **Features:** A secure upload mechanism on the Settings page, with image resizing/compression for performance.
+### **Community & Family Features**
+-   **Dedicated Group Tabs**: Create dedicated sections for a user's home church or interest groups, with specific announcements and member lists.
+-   **Family Profiles**: Allow creating profiles for family units and features for connecting relatives.
 
-- **Map-Based Location & Church Finders:**
-  - **What:** Integrate a mapping service (e.g., Google Maps Places API).
-  - **Features:** Replace text inputs for "Location" and "Home Church" with an interactive map/autocomplete search. Use this data to power map views on the Events and Volunteering pages.
+### **Advanced AI & Matching**
+-   **Prayer Matching Engine**: Implement the backend logic to intelligently match users for prayer partnerships based on shared experiences.
+-   **AI-Powered Mentorship Matching**: Fulfill the vision of automatically suggesting mentors to mentees based on their profiles.
 
-- **Expanded Social Logins:**
-  - **What:** Add support for other authentication providers like TikTok, X (formerly Twitter), etc.
-  - **Why:** To increase user accessibility and sign-up conversion. Requires configuration in Firebase and UI updates.
+### **Global South & Monetization**
+-   **Regional Payment Gateways**: Integrate M-Pesa, Flutterwave, and other regional payment systems into the Giving page.
+-   **E-commerce Store**: Build an integrated store for selling spiritual resources.
+-   **Push Notifications**: Implement push notifications for key events, announcements, and social interactions.

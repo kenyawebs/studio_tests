@@ -30,7 +30,7 @@ export async function askBibleAi(input: BibleChatInput): Promise<BibleChatOutput
 const scriptureLookupTool = ai.defineTool(
     {
         name: 'lookupScripture',
-        description: 'Looks up the text of a specific scripture passage from ancient texts (e.g., "John 3:16" or "Romans 12:1-2").',
+        description: 'Looks up the text of a specific scripture passage from ancient wisdom texts (e.g., "John 3:16" or "Romans 12:1-2").',
         inputSchema: z.object({
             passage: z.string().describe('The passage to look up, e.g., "John 3:16" or "Romans 12:1-2".'),
         }),
@@ -44,7 +44,7 @@ const prompt = ai.definePrompt({
   input: {schema: BibleChatInputSchema},
   output: {schema: BibleChatOutputSchema},
   tools: [scriptureLookupTool],
-  prompt: `You are a wise, compassionate life guidance AI helping people find wisdom and peace in life's challenges. Your knowledge is based on ancient wisdom texts, primarily the Bible.
+  prompt: `You are a wise, compassionate life guidance AI helping people find wisdom and peace in life's challenges. Your knowledge is based on ancient wisdom texts.
 
 A user has asked: "{{{question}}}"
 

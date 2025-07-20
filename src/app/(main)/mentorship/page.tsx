@@ -1,6 +1,6 @@
 
 import type { Metadata } from "next";
-import { MentorshipContent } from "@/components/app/mentorship-content";
+import { LifeMentoringContent } from "@/components/app/life-mentoring-content";
 
 export const metadata: Metadata = {
   title: "Life Mentoring | Connect Hub",
@@ -8,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function LifeMentoringPage() {
-  return <MentorshipContent />;
+  return <LifeMentoringContent />;
 }

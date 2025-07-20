@@ -1,8 +1,9 @@
 
 {
-  "name": "nextn",
-  "version": "0.1.0",
+  "name": "connect-hub",
+  "version": "3.0.0",
   "private": true,
+  "description": "A modern, inclusive, and AI-powered platform for community engagement, personal growth, and holistic well-being.",
   "scripts": {
     "dev": "next dev --turbopack -p 9003",
     "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
