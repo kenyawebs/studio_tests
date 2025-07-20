@@ -1,50 +1,54 @@
-# Connect Hub 2.0: Gospel Remix
+# Connect Hub: The Modern Community Platform
 
-Connect Hub is a modern social and spiritual platform designed to provide a positive, secure, and engaging online experience for Christians.
+Connect Hub is a modern, inclusive, and AI-powered platform designed for community engagement, personal growth, and holistic well-being. Built on a robust, scalable tech stack, it provides a positive and secure online experience for users from all backgrounds.
 
----
-
-## Key Features & Benefits
-
--   ** Engage with Your Community**: An ever-changing newsfeed with relevant content from your church and Christian influencers.
--   ** Share Your Faith**: Share videos, songs, Bible verses, memes, and images with your followers.
--   ** Global Devotionals**: Discover and share devotionals from creators across the globe, with recommendations tailored for you.
--   ** Multiple Bible Translations**: Choose from a wide selection of Bible translations for your study and reading.
--   ** A Positive Social Experience**: We focus on providing a space that's better for your mental and spiritual health.
--   ** State-of-the-Art Security**: Your privacy and security are our top priority.
+Our core philosophy is the **"Fishing Net" strategy**: creating a welcoming environment that focuses on universal human themes of connection, purpose, service, and personal development, while providing deeper spiritual resources for those who seek them.
 
 ---
 
-## App Features
+## ✨ Key Features & User Experience
 
-Here are some of the most important features for church and community management:
-
--   **Digital Church Management**: Manage your members and other church resources effectively.
--   **Donation and Tithes**: Receive donations and tithes from members and followers worldwide through secure payment gateways.
--   **Real-time Church Updates**: Provide real-time updates to your members and followers instantly.
--   **Events on the Go**: Create events and set reminders with a simple click.
--   **Church Media**: A dedicated platform to share your media content and worship God.
--   **Reach Globally**: Increase your global views and acquire users from around the world.
--   **Data Privacy**: Ensuring GDPR and CCPA compliance to protect your users' data.
+-   **🫂 Community Engagement**: A dynamic social feed for sharing life milestones, a community wall for mutual support, and a comprehensive events hub.
+-   **🌱 Personal Growth**: An AI-assisted personal journal, a life mentoring network, and a "Wisdom Texts" section for exploring ancient wisdom.
+-   **❤️ Community Impact**: A volunteer board to find and post service opportunities, and a secure giving platform to support the community's mission.
+-   **🧠 Holistic Well-being**: A dedicated hub with resources for mental and spiritual health, including access to professional providers and AI-powered guidance.
+-   **🎨 Creative Tools**: A "Sermon Remix" studio for creating and sharing short-form video content from longer talks and sermons.
+-   **🔐 Secure & Private**: Built with Firebase Authentication and Firestore, ensuring user data is secure and private by default.
 
 ---
 
-## Join The Next Revolution
+## 🚀 Tech Stack
 
-We are on a mission to connect Christians with greater access to community and spiritual resources! To accomplish this audacious vision, we are open to investments with great people, who can travel with us for the long term.
+Connect Hub is built with a modern, production-ready technology stack for performance and scalability:
 
-### Investment Profile
-This journey is very tough and it will have a lot of ups & downs. We will make investments only from seasoned entrepreneurs, professional VCs, and individuals who have been through an entrepreneurial journey. This is a high-risk, high-return investment.
+-   **Framework**: [Next.js](https://nextjs.org/) with App Router
+-   **Language**: [TypeScript](https://www.typescriptlang.org/)
+-   **UI**: [React](https://react.dev/), [ShadCN UI](https://ui.shadcn.com/), and [Tailwind CSS](https://tailwindcss.com/)
+-   **Backend & Database**: [Firebase](https://firebase.google.com/) (Authentication, Firestore, Storage)
+-   **Generative AI**: [Google AI & Genkit](https://firebase.google.com/docs/genkit)
+-   **Testing**: [Playwright](https://playwright.dev/) for End-to-End testing
 
-### Our Vision
-The intention is to build a great company that will touch people's lives in a positive way; money will be a byproduct. We are aiming for a huge impact and returns as well. We have a clear vision of creating great values for the people, and along the way, we will be making a billion-dollar company.
+---
 
-### Principles For Investments
--   **Culture is Core**: We will not change the culture or the people who trusted us in the early days. Our value system is our core strength, and we will scale exponentially without losing it.
--   **Long-Term Partners**: We are not just looking for money; we look for long-term partners who respect and value the vision and can strategically help us grow. If you are just looking to put money and double or 10x it, we may not be the right partner for you.
--   **No "Mentor" Equity**: We don't believe in mentors as people who can't give quick solutions without knowing the contexts; hence, we don't give free equity for mentors or brand ambassadors.
--   **Mutual Respect & Freedom**: We must mutually respect, give space, and grant freedom to each other for the benefit of the bigger purpose. We respect decisions taken in challenging situations.
--   **Trust Over Paper**: We believe in people; we value trust and a person's word rather than signed papers.
--   **Open to Suggestions**: We are open to suggestions and ideas told with the right intentions. You can suggest good things, but the final decisions are always ours.
--   **Peace of Mind**: End of the day, we have to happily sleep. Let's happily travel towards the vision and trust each other. It's a long-term relationship.
--   **Operational Independence**: We will provide quarterly updates and other key important updates. But just because you are an investor, you can't be involved in our day-to-day operations and decisions. We respect your time and expect the same.
+## 🎯 Project Status
+
+The application has completed its initial development phase and is now **Testing Ready**. Core features have been activated, the architecture has been stabilized, and a comprehensive end-to-end test suite has been implemented.
+
+### Next Steps:
+1.  **User Acceptance Testing (UAT)**: Deploying to select test users to gather feedback.
+2.  **Performance & Scalability Enhancements**: Implementing pagination for feeds to ensure long-term performance.
+3.  **Deepening AI & Social Features**: Building out conversational AI, a commenting system, and a friends/following model.
+
+See `TODO.md` for a detailed development roadmap.
+
+---
+## ⚙️ Getting Started
+
+To run this project locally, follow these steps:
+
+1.  **Clone the repository.**
+2.  **Set up Firebase**: Create a Firebase project and populate a `.env.local` file with your project credentials (see `.env.example`).
+3.  **Install dependencies**: `npm install`
+4.  **Run the development server**: `npm run dev`
+
+For testing, please see the detailed instructions in `TESTING.md`.
