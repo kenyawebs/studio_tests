@@ -18,11 +18,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // Add this to resolve Genkit/OpenTelemetry related package warnings
-  serverComponentsExternalPackages: [
-    '@opentelemetry/instrumentation',
-    'express',
-  ],
 };
 
 export default nextConfig;
