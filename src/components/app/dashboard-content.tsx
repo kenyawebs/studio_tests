@@ -119,8 +119,8 @@ const wellBeingResources = [
 ];
 
 const prayerRequests = [
-    { id: "dashboard-jessica-l", name: "Jessica L.", request: "Hoping for strength and wisdom for my upcoming exams.", avatar: "https://placehold.co/100x100/f9a8d4/4c1d95.png", aiHint: "woman portrait", initialPrayers: 12 },
-    { id: "dashboard-david-r", name: "David R.", request: "Hoping for my family's health and protection.", avatar: "https://placehold.co/100x100/a5b4fc/1e3a8a.png", aiHint: "man portrait", initialPrayers: 28 },
+    { id: "dashboard-jessica-l", name: "Jessica L.", request: "Hoping for strength and wisdom for my upcoming exams.", avatar: "https://placehold.co/100x100.png", aiHint: "woman portrait", initialPrayers: 12 },
+    { id: "dashboard-david-r", name: "David R.", request: "Hoping for my family's health and protection.", avatar: "https://placehold.co/100x100.png", aiHint: "man portrait", initialPrayers: 28 },
 ];
 
 type UserStats = {
@@ -186,7 +186,7 @@ export function DashboardContent() {
                 <div className="bg-gradient-to-br from-primary via-fuchsia-500 to-rose-500 text-primary-foreground p-6">
                     <div className="flex items-center gap-4">
                         <Avatar className="h-16 w-16 border-2 border-primary-foreground/50">
-                            <Image src={user?.photoURL || 'https://placehold.co/100x100.png'} alt={user?.displayName || ''} data-ai-hint="person portrait" priority width={64} height={64} />
+                            <AvatarImage src={user?.photoURL || 'https://placehold.co/100x100.png'} alt={user?.displayName || ''} data-ai-hint="person portrait" />
                             <AvatarFallback>{user?.displayName?.charAt(0).toUpperCase() || 'U'}</AvatarFallback>
                         </Avatar>
                         <div>
@@ -229,7 +229,7 @@ export function DashboardContent() {
                                     {theVibeAndCoreItems.map((item, index) => (
                                     <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                                         <div className="p-1">
-                                            <Link href="/social-feed" className="group block">
+                                            <Link href="/life-stories" className="group block">
                                                 <Card className="overflow-hidden">
                                                     <CardContent className="p-0">
                                                         <div className="aspect-video relative">
