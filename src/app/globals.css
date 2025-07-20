@@ -94,3 +94,11 @@
 .leaflet-popup-content-wrapper {
   border-radius: var(--radius);
 }
+
+@layer utilities {
+  .bg-gradient-pan {
+    @apply bg-gradient-to-r from-primary via-fuchsia-500 to-accent;
+    background-size: 400% 400%;
+    animation: gradient-pan 10s ease infinite;
+  }
+}

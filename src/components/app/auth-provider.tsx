@@ -8,6 +8,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { Sparkles, AlertTriangle } from "lucide-react";
 import { AuthContext } from "@/hooks/use-auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 const FirebaseNotConfigured = () => {
     return (
@@ -79,15 +80,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const AuthLoader = ({ children }: { children?: React.ReactNode }) => {
+export const AuthLoader = () => {
     return (
-        <div className="flex h-screen w-full flex-col items-center justify-center bg-background gap-4">
-             <div className="flex items-center gap-2">
-                <div className="bg-primary p-3 rounded-xl">
-                    <Sparkles className="w-8 h-8 text-primary-foreground animate-pulse" />
+        <div className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden">
+            <div className="absolute inset-0 z-0 bg-gradient-pan" />
+            <div className="relative z-10 flex flex-col items-center gap-4 text-center animate-fade-in-scale">
+                <div className="flex items-center gap-4">
+                    <div className="bg-white/20 p-4 rounded-2xl backdrop-blur-sm border border-white/30">
+                        <Sparkles className="w-12 h-12 text-white drop-shadow-lg" />
+                    </div>
+                    <h1 className="text-6xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white/90 to-white drop-shadow-lg animate-pulse">
+                        Connect Hub
+                    </h1>
                 </div>
+                <p className="text-white/80 drop-shadow-md">The Modern Community Platform</p>
             </div>
-            <p className="text-muted-foreground">Loading Connect Hub...</p>
         </div>
-    )
-}
+    );
+};
