@@ -7,14 +7,20 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar, MapPin, PlusCircle, Heart, Users, Search, Map, Share2, RotateCw } from "lucide-react";
-import Image from "next/image";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CreateEventForm } from "@/components/app/create-event-form";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import dynamic from 'next/dynamic';
+
+const LeafletMap = dynamic(() => import('@/components/app/leaflet-map'), { 
+    ssr: false,
+    loading: () => <div className="aspect-video bg-muted rounded-lg animate-pulse" />
+});
+
 
 const initialEvents = [
   {
@@ -135,15 +141,7 @@ export default function EventsPage() {
                 </CardHeader>
                 <CardContent>
                     <div className="aspect-video bg-muted rounded-lg overflow-hidden">
-                       <iframe
-                          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158857.7281062025!2d-0.24168124930353412!3d51.52877184089922!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon%2C%20UK!5e0!3m2!1sen!2sus!4v1625841006459!5m2!1sen!2sus"
-                          width="100%"
-                          height="100%"
-                          style={{ border: 0 }}
-                          allowFullScreen={false}
-                          loading="lazy"
-                          title="Event Locations Map"
-                        ></iframe>
+                       <LeafletMap />
                     </div>
                 </CardContent>
             </Card>
