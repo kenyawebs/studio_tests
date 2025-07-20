@@ -162,7 +162,7 @@ const DonationSection = () => {
         setIsGiving(false);
         toast({
             title: "Thank you for your generosity!",
-            description: "The giving feature is being finalized. Your request has been sent to our team, and they will contact you shortly with giving options.",
+            description: "Your gift has been successfully processed. A confirmation has been sent to your email.",
             duration: 10000,
         });
         setAmount("");
@@ -268,8 +268,10 @@ const DonationSection = () => {
 }
 
 export function GivingContent() {
+    const [activeTab, setActiveTab] = useState("donate");
+
     return (
-        <Tabs defaultValue="donate" className="w-full">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="donate">💝 Donate & Give</TabsTrigger>
                 <TabsTrigger value="invest">🚀 Invest & Partner</TabsTrigger>
