@@ -40,7 +40,7 @@ const theVibeAndCoreItems = [
     { 
         pillar: "DayInTheLife", 
         title: "A Day in the Life",
-        description: "A day in the life of a student, gamer, and creative.",
+        description: "A student's journey of creativity and focus.",
         icon: Film,
         image: "https://placehold.co/600x400.png",
         aiHint: "student studying laptop",
@@ -49,7 +49,7 @@ const theVibeAndCoreItems = [
     { 
         pillar: "HonestTalks",
         title: "Q&A: Navigating Challenges",
-        description: "Clips from our latest live stream on navigating tough questions.",
+        description: "Clips from our latest live stream on tough questions.",
         icon: MessagesSquare,
         image: "https://placehold.co/600x400.png",
         aiHint: "podcast interview",
@@ -62,7 +62,7 @@ const theVibeAndCoreItems = [
         icon: Award,
         image: "https://placehold.co/600x400.png",
         aiHint: "person helping another",
-        href: "/life-stories"
+        href: "/social-feed"
     },
     { 
         pillar: "BiteSizedTheology",
@@ -76,7 +76,7 @@ const theVibeAndCoreItems = [
     { 
         pillar: "WorshipMoment",
         title: "Acoustic Reflection Session",
-        description: "A moment of peace with scrolling lyrics to guide your thoughts.",
+        description: "A moment of peace with scrolling lyrics to guide thoughts.",
         icon: Music2,
         image: "https://placehold.co/600x400.png",
         aiHint: "acoustic guitar",
@@ -85,7 +85,7 @@ const theVibeAndCoreItems = [
     { 
         pillar: "SocialImpact",
         title: "Serving the City",
-        description: "Highlighting a story of young people making a difference locally.",
+        description: "Highlighting a story of young people making a difference.",
         icon: HeartHandshake,
         image: "https://placehold.co/600x400.png",
         aiHint: "volunteers community",
@@ -237,13 +237,13 @@ export function DashboardContent() {
                                                     <CardContent className="p-0">
                                                         <div className="aspect-video relative">
                                                             <Image src={item.image} alt={item.title} fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover group-hover:scale-105 transition-transform" data-ai-hint={item.aiHint} />
+                                                            <div className="absolute top-2 left-2 bg-black/50 text-white p-1 rounded-full">
+                                                                <item.icon className="h-4 w-4" />
+                                                            </div>
                                                         </div>
                                                         <div className="p-3">
-                                                            <div className="flex items-center gap-1.5 text-xs text-primary font-semibold mb-1">
-                                                                <item.icon className="w-3.5 h-3.5" />
-                                                                {item.pillar}
-                                                            </div>
                                                             <h3 className="font-semibold text-sm leading-tight group-hover:underline">{item.title}</h3>
+                                                            <p className="text-xs text-muted-foreground line-clamp-2">{item.description}</p>
                                                         </div>
                                                     </CardContent>
                                                 </Card>
