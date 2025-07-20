@@ -46,7 +46,8 @@ const theVibeAndCoreItems = [
         description: "A day in the life of a student, gamer, and creative.",
         icon: Film,
         image: "https://placehold.co/600x400.png",
-        aiHint: "student studying laptop"
+        aiHint: "student studying laptop",
+        href: "/life-stories"
     },
     { 
         pillar: "HonestTalks",
@@ -54,7 +55,8 @@ const theVibeAndCoreItems = [
         description: "Clips from our latest live stream on navigating tough questions.",
         icon: MessagesSquare,
         image: "https://placehold.co/600x400.png",
-        aiHint: "podcast interview"
+        aiHint: "podcast interview",
+        href: "/life-stories"
     },
     { 
         pillar: "UGCShowcase",
@@ -62,7 +64,8 @@ const theVibeAndCoreItems = [
         description: "Featuring a powerful story from @user.name this week.",
         icon: Award,
         image: "https://placehold.co/600x400.png",
-        aiHint: "person helping another"
+        aiHint: "person helping another",
+        href: "/life-stories"
     },
     { 
         pillar: "BiteSizedTheology",
@@ -70,7 +73,8 @@ const theVibeAndCoreItems = [
         description: "A 60-second deep dive into a powerful concept for life.",
         icon: GraduationCap,
         image: "https://placehold.co/600x400.png",
-        aiHint: "abstract shapes"
+        aiHint: "abstract shapes",
+        href: "/wisdom-texts"
     },
     { 
         pillar: "WorshipMoment",
@@ -78,7 +82,8 @@ const theVibeAndCoreItems = [
         description: "A moment of peace with scrolling lyrics to guide your thoughts.",
         icon: Music2,
         image: "https://placehold.co/600x400.png",
-        aiHint: "acoustic guitar"
+        aiHint: "acoustic guitar",
+        href: "/life-stories"
     },
     { 
         pillar: "SocialImpact",
@@ -86,7 +91,8 @@ const theVibeAndCoreItems = [
         description: "Highlighting a story of young people making a difference locally.",
         icon: HeartHandshake,
         image: "https://placehold.co/600x400.png",
-        aiHint: "volunteers community"
+        aiHint: "volunteers community",
+        href: "/volunteering"
     },
 ];
 
@@ -229,7 +235,7 @@ export function DashboardContent() {
                                     {theVibeAndCoreItems.map((item, index) => (
                                     <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                                         <div className="p-1">
-                                            <Link href="/life-stories" className="group block">
+                                            <Link href={item.href} className="group block">
                                                 <Card className="overflow-hidden">
                                                     <CardContent className="p-0">
                                                         <div className="aspect-video relative">
@@ -335,3 +341,6 @@ export function DashboardContent() {
         </div>
     );
 }
+
+
+    
