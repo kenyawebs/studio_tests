@@ -211,7 +211,7 @@ export function DashboardContent() {
                                                 <Card className="overflow-hidden">
                                                     <CardContent className="p-0">
                                                         <div className="aspect-video relative overflow-hidden rounded-t-lg">
-                                                            <div className="absolute inset-0 bg-gradient-pan" />
+                                                            <div className="absolute inset-0 bg-gradient-pan bg-400%" />
                                                             <div className="absolute top-2 left-2 bg-black/50 text-white p-1 rounded-full">
                                                                 <item.icon className="h-4 w-4" />
                                                             </div>
