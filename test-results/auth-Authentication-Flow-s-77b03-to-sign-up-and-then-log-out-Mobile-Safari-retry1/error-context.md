@@ -1,0 +1,49 @@
+# Page snapshot
+
+```yaml
+- img
+- heading "Connect Hub" [level=1]
+- heading "Create an Account" [level=3]
+- paragraph: Join the community in just a few clicks.
+- button "Google":
+  - img
+  - text: Google
+- button "Facebook":
+  - img
+  - text: Facebook
+- text: OR Email
+- textbox "Email": test-1753007621091@playwright.dev
+- text: Password
+- textbox "Create a strong password": TestPassword123!
+- button:
+  - img
+- img
+- text: 8+ characters
+- img
+- text: 1 uppercase
+- img
+- text: 1 lowercase
+- img
+- text: 1 number
+- img
+- text: 1 special char Confirm Password
+- textbox "Re-enter your password"
+- checkbox
+- text: I agree to the
+- link "Terms of Service":
+  - /url: /legal/terms
+- text: and
+- link "Privacy Policy":
+  - /url: /legal/privacy
+- text: .
+- button "Sign Up with Email"
+- paragraph:
+  - text: Already have an account?
+  - link "Sign in":
+    - /url: /login
+- region "Notifications (F8)":
+  - list
+- alert
+- button "Open Next.js Dev Tools":
+  - img
+```
