@@ -134,16 +134,13 @@ export function DashboardContent() {
                     setStats(userStats);
                 } catch (error) {
                     console.error("Failed to fetch user stats:", error);
-                    // Set stats to 0 on failure so UI doesn't break
                     setStats({ journalEntries: 0, prayerRequests: 0, posts: 0 });
                 } finally {
                     setLoadingStats(false);
                 }
             };
             fetchStats();
-        } else if (!authReady) {
-            setLoadingStats(true);
-        } else {
+        } else if (!user && authReady) { // If auth is ready but no user, we can stop loading.
             setLoadingStats(false);
             setStats({ journalEntries: 0, prayerRequests: 0, posts: 0 });
         }
