@@ -110,7 +110,7 @@ type UserStats = {
 const StatCardSkeleton = () => (
     <div className="grid grid-cols-3 md:grid-cols-6 gap-2 text-center w-full">
         {[...Array(6)].map((_, i) => (
-            <div key={i} className="rounded-lg p-2">
+            <div key={i} className="group rounded-lg p-2 transition-colors duration-200">
                 <Skeleton className="h-9 w-9 rounded-full mx-auto mb-2" />
                 <Skeleton className="h-4 w-10 mx-auto" />
                 <Skeleton className="h-3 w-12 mx-auto mt-1" />

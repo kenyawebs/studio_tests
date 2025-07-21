@@ -83,17 +83,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 export const AuthLoader = () => {
     return (
         <div className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden">
-            <div className="absolute inset-0 z-0 bg-gradient-pan" />
+            <div className="absolute inset-0 z-0 bg-gradient-pan bg-400%" />
             <div className="relative z-10 flex flex-col items-center gap-4 text-center animate-fade-in-scale">
                 <div className="flex items-center gap-4">
                     <div className="bg-white/20 p-4 rounded-2xl backdrop-blur-sm border border-white/30">
                         <Sparkles className="w-12 h-12 text-white drop-shadow-lg" />
                     </div>
-                    <h1 className="text-6xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white/90 to-white drop-shadow-lg animate-pulse">
+                    <h1 className="text-6xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-white/90 to-white drop-shadow-lg">
                         Connect Hub
                     </h1>
                 </div>
-                <p className="text-white/80 drop-shadow-md">The Modern Community Platform</p>
+                <p className="text-white/80 drop-shadow-md mt-2 animate-pulse">Loading Your Community...</p>
             </div>
         </div>
     );
