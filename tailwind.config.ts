@@ -110,6 +110,9 @@ export default {
         'gradient-pan': 'gradient-pan 10s ease infinite',
         'fade-in-scale': 'fade-in-scale 0.8s ease-out forwards',
       },
+      backgroundSize: {
+        '400%': '400% 400%',
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],
