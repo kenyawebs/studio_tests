@@ -157,6 +157,14 @@ const DonationSection = () => {
   }
 
   const handleGive = () => {
+    if (!amount) {
+        toast({
+            variant: "destructive",
+            title: "Amount Required",
+            description: "Please enter an amount to give."
+        });
+        return;
+    }
     setIsGiving(true);
     setTimeout(() => {
         setIsGiving(false);
@@ -285,3 +293,5 @@ export function GivingContent() {
         </Tabs>
     );
 }
+
+    

@@ -100,7 +100,7 @@ export function LifeMentoringContent() {
                                             <DialogTitle>AI Assistant: Draft Your Request</DialogTitle>
                                             <DialogDescription>Tell the AI what you want to say, and it will help you craft a message to {mentor.name}.</DialogDescription>
                                         </DialogHeader>
-                                         <div className="space-y-4">
+                                         <div className="space-y-4 py-4">
                                             <Textarea placeholder="e.g., Help me ask for guidance on my career path and how to integrate my values." className="min-h-[100px]"/>
                                             <Button>Generate Draft</Button>
                                             <Card className="bg-muted">
@@ -178,3 +178,5 @@ export function LifeMentoringContent() {
     </div>
   );
 }
+
+    

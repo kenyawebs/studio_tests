@@ -5,7 +5,7 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { BrainCircuit, CalendarPlus, Ear, HeartPulse, Users, Scale, ShieldCheck, LifeBuoy, Baby, FileCheck, Phone, UserCheck, Send, Bot, Wand2 } from "lucide-react";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { ProviderRegistrationForm } from "@/components/app/provider-registration-form";
 import { BookSessionForm } from "@/components/app/book-session-form";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -162,6 +162,7 @@ function ProviderProfileDialog({ provider, trigger }: { provider: typeof provide
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Provider Profile</DialogTitle>
+          <DialogDescription>Details for {provider.name}.</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col items-center text-center gap-4 pt-4">
             <Avatar className="h-24 w-24">
@@ -195,6 +196,10 @@ function ProviderProfileDialog({ provider, trigger }: { provider: typeof provide
                 <Button className="w-full">Book a Consultation</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[625px]">
+                <DialogHeader>
+                  <DialogTitle>Book a Confidential Session</DialogTitle>
+                  <DialogDescription>Connect with a trained lay counselor or pastor for support. Your request is private and secure.</DialogDescription>
+                </DialogHeader>
                 <BookSessionForm />
             </DialogContent>
         </Dialog>
@@ -230,7 +235,7 @@ function CallHelplineDialog() {
                         If you are in immediate crisis, please reach out. You are not alone.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="space-y-4">
+                <div className="space-y-4 py-4">
                     <div>
                         <h4 className="font-semibold mb-2">Crisis & Suicide Support</h4>
                         <div className="space-y-2">
@@ -284,6 +289,10 @@ export function WellBeingContent() {
                     <Button variant="secondary" size="lg" className="shrink-0">Request an Appointment</Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[625px]">
+                    <DialogHeader>
+                      <DialogTitle>Book a Confidential Session</DialogTitle>
+                      <DialogDescription>Connect with a trained lay counselor or pastor for support. Your request is private and secure.</DialogDescription>
+                    </DialogHeader>
                     <BookSessionForm />
                 </DialogContent>
             </Dialog>
@@ -303,6 +312,10 @@ export function WellBeingContent() {
                             <Button className="w-full">Register to Provide Services</Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[625px]">
+                            <DialogHeader>
+                              <DialogTitle>Register as a Provider</DialogTitle>
+                              <DialogDescription>Thank you for your interest. Please fill out the form below. Your submission will be reviewed by an admin.</DialogDescription>
+                            </DialogHeader>
                             <ProviderRegistrationForm />
                         </DialogContent>
                     </Dialog>
@@ -384,3 +397,5 @@ export function WellBeingContent() {
     </div>
   );
 }
+
+    
