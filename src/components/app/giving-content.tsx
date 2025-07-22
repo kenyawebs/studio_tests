@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Gift, Landmark, Globe, CreditCard, PiggyBank, University, HeartHandshake, ShieldQuestion, Loader2, Mail, CheckCheck, Sparkles, Trophy, BookOpen, UserCheck, MessageSquare, BrainCircuit, Ear, Scale, Baby, FileCheck, Phone, LifeBuoy, CalendarPlus } from "lucide-react";
+import { Gift, Landmark, Globe, CreditCard, PiggyBank, University, HeartHandshake, ShieldQuestion, Loader2, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -181,8 +181,8 @@ const DonationSection = () => {
   };
 
   return (
-    <div className="grid lg:grid-cols-3 gap-8 items-start">
-        <div className="lg:col-span-2 space-y-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+        <div className="md:col-span-2 space-y-8">
             <Card>
             <CardHeader>
                 <CardTitle>Secure Online Giving</CardTitle>
@@ -251,7 +251,7 @@ const DonationSection = () => {
                 </CardContent>
             </Card>
         </div>
-        <div className="space-y-6 lg:sticky top-8">
+        <div className="space-y-6 md:sticky top-8">
             <Card>
                 <CardHeader><CardTitle>Giving History</CardTitle><CardDescription>A record of your past contributions.</CardDescription></CardHeader>
                 <CardContent>

@@ -10,7 +10,7 @@ import { Calendar, MapPin, PlusCircle, Heart, Users, Search, Map, Share2, Rotate
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { CreateEventForm } from "@/components/app/create-event-form";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -115,7 +115,7 @@ export default function EventsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold">Events Hub</h1>
           <p className="text-muted-foreground">Discover what's happening and get involved.</p>
@@ -128,13 +128,19 @@ export default function EventsPage() {
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[625px]">
+             <DialogHeader>
+                <DialogTitle>Create a New Event</DialogTitle>
+                <DialogDescription>
+                  Fill out the details below to create a new event. All events are subject to admin approval before being published.
+                </DialogDescription>
+            </DialogHeader>
             <CreateEventForm />
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8 items-start">
-        <div className="lg:col-span-1 space-y-4 lg:sticky top-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+        <div className="md:col-span-1 space-y-4 md:sticky top-4">
             <Card>
                 <CardHeader>
                     <CardTitle className="text-lg flex items-center gap-2"><Map className="text-primary"/> Event Locations</CardTitle>
@@ -174,9 +180,9 @@ export default function EventsPage() {
                 </CardContent>
              </Card>
         </div>
-        <div className="lg:col-span-2">
+        <div className="md:col-span-2">
             <Tabs defaultValue="all" className="w-full">
-                <TabsList className="grid w-full grid-cols-4">
+                <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
                   <TabsTrigger value="all" onClick={() => setCategoryFilter('all')}>All Events</TabsTrigger>
                   <TabsTrigger value="community_building" onClick={() => setCategoryFilter('community_building')}>Community</TabsTrigger>
                   <TabsTrigger value="social_impact" onClick={() => setCategoryFilter('social_impact')}>Impact</TabsTrigger>

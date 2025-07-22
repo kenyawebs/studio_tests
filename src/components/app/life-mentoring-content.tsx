@@ -32,8 +32,8 @@ export function LifeMentoringContent() {
   const { toast } = useToast();
 
   return (
-    <div className="grid lg:grid-cols-3 gap-8 items-start">
-      <div className="lg:col-span-2 space-y-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+      <div className="md:col-span-2 space-y-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold">Life Mentoring Network</h1>
             <p className="text-muted-foreground mt-2 text-lg max-w-2xl mx-auto">Find mentors, become a mentor, grow together in life.</p>
@@ -127,7 +127,7 @@ export function LifeMentoringContent() {
               ))}
           </div>
       </div>
-      <div className="lg:col-span-1 space-y-6 lg:sticky top-8">
+      <div className="md:col-span-1 space-y-6 md:sticky top-8">
           <Card className="bg-primary/5">
             <CardHeader>
                 <CardTitle className="text-lg font-semibold flex items-center gap-2"><UserCheck />Become a Mentor</CardTitle>
@@ -141,6 +141,12 @@ export function LifeMentoringContent() {
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[625px]">
+                        <DialogHeader>
+                            <DialogTitle>Apply to be a Mentor</DialogTitle>
+                            <DialogDescription>
+                            Thank you for your interest in investing in our community. Please fill out the form below.
+                            </DialogDescription>
+                        </DialogHeader>
                         <MentorApplicationForm />
                     </DialogContent>
                 </Dialog>

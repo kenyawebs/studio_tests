@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { HandHelping, Search, PlusCircle, Heart, PenSquare, MapPin, Map, Leaf, Users2, HeartHandshake, Construction } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { CreateOpportunityForm } from "@/components/app/create-opportunity-form";
 import { cn } from "@/lib/utils";
 import { VolunteerApplicationForm } from "@/components/app/volunteer-application-form";
@@ -75,10 +75,10 @@ const opportunities = [
     },
 ];
 
-export function VolunteeringContent() {
+export default function VolunteeringPage() {
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold">Community Impact Hub</h1>
           <p className="text-muted-foreground mt-1">Find opportunities to make an impact and connect with your community.</p>
@@ -91,6 +91,12 @@ export function VolunteeringContent() {
                     </Button>
                 </DialogTrigger>
                 <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Suggest a Community Impact Opportunity</DialogTitle>
+                        <DialogDescription>
+                        Have an idea for how our community can serve? Let us know! Your suggestion will be sent to the admin team for consideration.
+                        </DialogDescription>
+                    </DialogHeader>
                     <SuggestOpportunityForm />
                 </DialogContent>
             </Dialog>
@@ -101,14 +107,20 @@ export function VolunteeringContent() {
                     </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[625px]">
+                    <DialogHeader>
+                        <DialogTitle>Post a Volunteer Opportunity</DialogTitle>
+                        <DialogDescription>
+                        Fill out the form below to create a new opportunity for others to serve. Provide as much detail as possible.
+                        </DialogDescription>
+                    </DialogHeader>
                     <CreateOpportunityForm />
                 </DialogContent>
             </Dialog>
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-8 items-start">
-        <div className="lg:col-span-1 space-y-4 lg:sticky top-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+        <div className="md:col-span-1 space-y-4 md:sticky top-4">
             <Card>
                 <CardHeader>
                     <CardTitle className="text-lg flex items-center gap-2"><Map className="text-primary"/> Opportunities Near You</CardTitle>
@@ -149,8 +161,8 @@ export function VolunteeringContent() {
                 </CardContent>
              </Card>
         </div>
-        <div className="lg:col-span-2">
-            <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
+        <div className="md:col-span-2">
+            <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
                 {opportunities.map(opp => <OpportunityCard key={opp.title} opportunity={opp} />)}
             </div>
         </div>
@@ -220,6 +232,12 @@ function OpportunityCard({ opportunity }: { opportunity: typeof opportunities[0]
                             <Button size="sm">Apply Now</Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[625px]">
+                            <DialogHeader>
+                                <DialogTitle>Apply for: {opportunity.title}</DialogTitle>
+                                <DialogDescription>
+                                Confirm your details and send your application. The organizer will contact you with next steps.
+                                </DialogDescription>
+                            </DialogHeader>
                            <VolunteerApplicationForm opportunityTitle={opportunity.title} />
                         </DialogContent>
                     </Dialog>

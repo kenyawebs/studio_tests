@@ -190,9 +190,9 @@ export function DashboardContent() {
                 </CardFooter>
             </Card>
             
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                 
-                <div className="lg:col-span-2 space-y-6">
+                <div className="xl:col-span-2 space-y-6">
                     <Card>
                         <CardHeader>
                             <CardTitle>The Vibe &amp; Core</CardTitle>
@@ -202,7 +202,7 @@ export function DashboardContent() {
                            <Carousel opts={{ align: "start" }} className="w-full">
                                 <CarouselContent>
                                     {theVibeAndCoreItems.map((item, index) => (
-                                    <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+                                    <CarouselItem key={index} className="md:basis-1/2">
                                         <div className="p-1">
                                             <Link href={item.href} className="group block">
                                                 <Card className="overflow-hidden">
