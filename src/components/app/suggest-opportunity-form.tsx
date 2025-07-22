@@ -58,12 +58,6 @@ export function SuggestOpportunityForm() {
 
   return (
     <>
-      <DialogHeader>
-        <DialogTitle>Suggest a Community Impact Opportunity</DialogTitle>
-        <DialogDescription>
-          Have an idea for how our community can serve? Let us know! Your suggestion will be sent to the admin team for consideration.
-        </DialogDescription>
-      </DialogHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4 max-h-[70vh] overflow-y-auto pr-6">
             <FormField

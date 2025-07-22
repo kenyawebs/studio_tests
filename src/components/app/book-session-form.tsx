@@ -80,12 +80,6 @@ export function BookSessionForm() {
 
   return (
     <>
-      <DialogHeader>
-        <DialogTitle>Request a Confidential Session</DialogTitle>
-        <DialogDescription>
-          Your privacy is important. This request will be sent securely to our care administrators who will coordinate with a provider.
-        </DialogDescription>
-      </DialogHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-h-[70vh] overflow-y-auto pr-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

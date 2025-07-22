@@ -88,12 +88,6 @@ export function CreateOpportunityForm() {
 
   return (
     <>
-      <DialogHeader>
-        <DialogTitle>Post a Volunteer Opportunity</DialogTitle>
-        <DialogDescription>
-          Fill out the form below to create a new opportunity for others to serve. Provide as much detail as possible.
-        </DialogDescription>
-      </DialogHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-h-[70vh] overflow-y-auto pr-6">
           <FormField

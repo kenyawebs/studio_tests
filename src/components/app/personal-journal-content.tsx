@@ -9,7 +9,7 @@ import { createJournalEntry, JournalEntryData } from "@/lib/firestore";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -190,9 +190,11 @@ export function PersonalJournalContent() {
                             <DialogContent>
                                 <DialogHeader>
                                     <DialogTitle>AI Journal Assistant</DialogTitle>
+                                    <DialogDescription>
+                                        What's on your mind? The AI can help you get started with a reflection or some guiding questions.
+                                    </DialogDescription>
                                 </DialogHeader>
                                 <div className="space-y-4">
-                                    <p className="text-sm text-muted-foreground">What's on your mind? The AI can help you get started with a reflection or some guiding questions.</p>
                                     <Textarea 
                                         placeholder="e.g., I had a stressful day at work"
                                         value={aiTopic}

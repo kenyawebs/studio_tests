@@ -72,12 +72,6 @@ export function VolunteerApplicationForm({ opportunityTitle }: VolunteerApplicat
 
   return (
     <>
-      <DialogHeader>
-        <DialogTitle>Apply for: {opportunityTitle}</DialogTitle>
-        <DialogDescription>
-          Confirm your details and send your application. The organizer will contact you with next steps.
-        </DialogDescription>
-      </DialogHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-h-[70vh] overflow-y-auto pr-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

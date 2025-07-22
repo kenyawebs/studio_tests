@@ -70,12 +70,6 @@ export function ProviderRegistrationForm() {
 
   return (
     <>
-      <DialogHeader>
-        <DialogTitle>Register as a Well-being Provider</DialogTitle>
-        <DialogDescription>
-          Partner with us to provide care and support to the community. All registrations are subject to verification.
-        </DialogDescription>
-      </DialogHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-h-[70vh] overflow-y-auto pr-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
