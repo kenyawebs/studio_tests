@@ -224,10 +224,6 @@ function EventCard({ event, onUpdate }: { event: Event, onUpdate: (event: Event)
   const handleRsvp = () => {
     const newRsvpState = !isRsvpd;
     setIsRsvpd(newRsvpState);
-    onUpdate({
-      ...event,
-      rsvps: event.rsvps + (newRsvpState ? 1 : -1)
-    });
     toast({
       title: newRsvpState ? "You're Going!" : "RSVP Canceled",
       description: `You have successfully ${newRsvpState ? 'RSVP\'d for' : 'canceled your RSVP for'} "${event.title}".`
