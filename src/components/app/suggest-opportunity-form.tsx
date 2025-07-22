@@ -15,9 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
@@ -139,7 +136,7 @@ export function SuggestOpportunityForm() {
                 <DialogClose asChild>
                     <Button type="button" variant="outline">Cancel</Button>
                 </DialogClose>
-                <Button type="submit">Submit Community Impact Suggestion</Button>
+                <Button type="submit" onClick={form.handleSubmit(onSubmit)}>Submit Community Impact Suggestion</Button>
             </DialogFooter>
         </form>
       </Form>

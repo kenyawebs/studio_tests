@@ -15,9 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
@@ -94,12 +91,6 @@ export function CreateEventForm() {
 
   return (
     <>
-      <DialogHeader>
-        <DialogTitle>Create a New Event</DialogTitle>
-        <DialogDescription>
-          Fill out the details below to create a new event. All events are subject to admin approval before being published.
-        </DialogDescription>
-      </DialogHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-h-[70vh] overflow-y-auto pr-6">
           <FormField
@@ -289,9 +280,7 @@ export function CreateEventForm() {
              <DialogClose asChild>
                 <Button type="button" variant="outline">Cancel</Button>
             </DialogClose>
-            <DialogClose asChild>
-                <Button type="submit" onClick={form.handleSubmit(onSubmit)}>Submit for Review</Button>
-            </DialogClose>
+            <Button type="submit" onClick={form.handleSubmit(onSubmit)}>Submit for Review</Button>
           </DialogFooter>
         </form>
       </Form>

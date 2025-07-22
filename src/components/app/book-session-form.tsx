@@ -15,9 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
@@ -222,9 +219,7 @@ export function BookSessionForm() {
              <DialogClose asChild>
                 <Button type="button" variant="outline">Cancel</Button>
             </DialogClose>
-            
-                <Button type="submit" onClick={form.handleSubmit(onSubmit)}>Send Confidential Request</Button>
-            
+            <Button type="submit" onClick={form.handleSubmit(onSubmit)}>Send Confidential Request</Button>
           </DialogFooter>
         </form>
       </Form>

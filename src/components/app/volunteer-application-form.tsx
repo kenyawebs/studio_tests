@@ -15,9 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
@@ -183,9 +180,7 @@ export function VolunteerApplicationForm({ opportunityTitle }: VolunteerApplicat
              <DialogClose asChild>
                 <Button type="button" variant="outline">Cancel</Button>
             </DialogClose>
-            <DialogClose asChild>
-                <Button type="submit" onClick={form.handleSubmit(onSubmit)}>Send Application</Button>
-            </DialogClose>
+            <Button type="submit" onClick={form.handleSubmit(onSubmit)}>Send Application</Button>
           </DialogFooter>
         </form>
       </Form>

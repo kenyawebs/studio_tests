@@ -86,6 +86,7 @@ export default function EventsPage() {
   const [filteredEvents, setFilteredEvents] = React.useState(initialEvents);
   const [searchTerm, setSearchTerm] = React.useState("");
   const [categoryFilter, setCategoryFilter] = React.useState("all");
+  const [activeTab, setActiveTab] = React.useState("all");
 
   React.useEffect(() => {
     let results = events;
@@ -94,15 +95,15 @@ export default function EventsPage() {
         event.title.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-    if (categoryFilter !== 'all') {
-      results = results.filter(event => event.type === categoryFilter);
+    if (activeTab !== 'all') {
+      results = results.filter(event => event.type === activeTab);
     }
     setFilteredEvents(results);
-  }, [searchTerm, categoryFilter, events]);
+  }, [searchTerm, activeTab, events]);
   
   const handleResetFilters = () => {
     setSearchTerm("");
-    setCategoryFilter("all");
+    setActiveTab("all");
   };
 
   const handleUpdateEvent = (updatedEvent: Event) => {
@@ -165,7 +166,7 @@ export default function EventsPage() {
                           onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </div>
-                    <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                    <Select value={activeTab} onValueChange={setActiveTab}>
                         <SelectTrigger><SelectValue placeholder="Category" /></SelectTrigger>
                         <SelectContent>
                             <SelectItem value="all">All Categories</SelectItem>
@@ -181,14 +182,14 @@ export default function EventsPage() {
              </Card>
         </div>
         <div className="md:col-span-2">
-            <Tabs defaultValue="all" className="w-full">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4">
-                  <TabsTrigger value="all" onClick={() => setCategoryFilter('all')}>All Events</TabsTrigger>
-                  <TabsTrigger value="community_building" onClick={() => setCategoryFilter('community_building')}>Community</TabsTrigger>
-                  <TabsTrigger value="social_impact" onClick={() => setCategoryFilter('social_impact')}>Impact</TabsTrigger>
-                  <TabsTrigger value="wellness" onClick={() => setCategoryFilter('wellness')}>Wellness</TabsTrigger>
+                  <TabsTrigger value="all">All Events</TabsTrigger>
+                  <TabsTrigger value="community_building">Community</TabsTrigger>
+                  <TabsTrigger value="social_impact">Impact</TabsTrigger>
+                  <TabsTrigger value="wellness">Wellness</TabsTrigger>
                 </TabsList>
-                <TabsContent value={categoryFilter} className="mt-6">
+                <TabsContent value={activeTab} className="mt-6">
                   <div className="grid gap-4">
                       {filteredEvents.length > 0 ? (
                         filteredEvents.map((event) => (

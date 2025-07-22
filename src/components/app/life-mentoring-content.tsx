@@ -116,9 +116,7 @@ export function LifeMentoringContent() {
                                 <DialogClose asChild>
                                     <Button variant="outline">Cancel</Button>
                                 </DialogClose>
-                                <DialogClose asChild>
-                                    <Button onClick={() => toast({ title: "Request Sent!", description: `Your mentorship request to ${mentor.name} has been sent.` })}>Send Request</Button>
-                                </DialogClose>
+                                <Button onClick={() => toast({ title: "Request Sent!", description: `Your mentorship request to ${mentor.name} has been sent.` })}>Send Request</Button>
                               </DialogFooter>
                             </DialogContent>
                           </Dialog>
@@ -141,6 +139,12 @@ export function LifeMentoringContent() {
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[625px]">
+                        <DialogHeader>
+                          <DialogTitle>Apply to be a Mentor</DialogTitle>
+                          <DialogDescription>
+                            Thank you for your interest in investing in our community. Please fill out the form below.
+                          </DialogDescription>
+                        </DialogHeader>
                         <MentorApplicationForm />
                     </DialogContent>
                 </Dialog>

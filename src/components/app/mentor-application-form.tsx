@@ -15,9 +15,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
@@ -69,12 +66,6 @@ export function MentorApplicationForm() {
 
   return (
     <>
-      <DialogHeader>
-        <DialogTitle>Apply to be a Mentor</DialogTitle>
-        <DialogDescription>
-          Thank you for your interest in investing in our community. Please fill out the form below.
-        </DialogDescription>
-      </DialogHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 max-h-[70vh] overflow-y-auto pr-6">
           <FormField
@@ -171,7 +162,7 @@ export function MentorApplicationForm() {
              <DialogClose asChild>
                 <Button type="button" variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit">Submit Application</Button>
+            <Button type="submit" onClick={form.handleSubmit(onSubmit)}>Submit Application</Button>
           </DialogFooter>
         </form>
       </Form>
