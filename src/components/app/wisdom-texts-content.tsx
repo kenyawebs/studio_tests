@@ -95,6 +95,7 @@ export function WisdomTextsContent() {
 
     useEffect(() => {
         handleSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); // Load initial scripture on mount
 
     const handleSearch = () => {
