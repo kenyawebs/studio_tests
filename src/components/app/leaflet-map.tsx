@@ -1,11 +1,15 @@
 
 'use client';
 
+// This component is currently not in use.
+// It has been temporarily replaced with a placeholder in the UI
+// to stabilize the application. The persistent error "Map container is already initialized"
+// needs to be resolved before this component can be safely re-integrated.
+// See the new `TODO.md` file for a detailed technical brief on this issue.
+
 import { useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import { cn } from '@/lib/utils';
 
 // Leaflet's default icons can sometimes have issues with bundlers like Webpack.
 // This code manually sets the paths to the icon images to ensure they load correctly.
@@ -23,29 +27,13 @@ let DefaultIcon = L.icon({
 
 L.Marker.prototype.options.icon = DefaultIcon;
 
-// This is a client component that renders an interactive map.
-// The default view is set to a central location (London, UK) as a placeholder.
-// In a real application, you might use the user's location or event locations
-// to set the initial view and markers.
 export default function LeafletMap() {
-  const position: L.LatLngExpression = [51.505, -0.09]; // Default to London
-
-  return (
-    <MapContainer 
-      center={position} 
-      zoom={13} 
-      scrollWheelZoom={false} 
-      className={cn("h-full w-full z-0")}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={position}>
-        <Popup>
-          A sample location. <br /> More markers can be added here.
-        </Popup>
-      </Marker>
-    </MapContainer>
-  );
+    return (
+        <div className="aspect-video bg-muted rounded-lg flex items-center justify-center text-center p-4">
+           <div>
+             <p className="text-sm font-semibold text-destructive">Map Temporarily Unavailable</p>
+             <p className="text-xs text-muted-foreground">Our interactive map is currently undergoing maintenance. Please check back soon.</p>
+           </div>
+        </div>
+    );
 }

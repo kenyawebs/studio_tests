@@ -13,6 +13,7 @@ const titles: { [key: string]: string } = {
   "/dashboard": "Dashboard",
   "/social-feed": "Testimony & Milestone Feed",
   "/life-stories": "Life Stories",
+  "/memes": "Meme Center",
   "/community-wall": "Community Wall",
   "/sermon-remix": "Sermon Remix",
   "/events": "Events Hub",

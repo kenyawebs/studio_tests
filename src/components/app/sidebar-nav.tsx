@@ -19,12 +19,11 @@ import {
   Newspaper,
   Scissors,
   Users,
-  Wallpaper,
+  Smile,
   HeartHandshake,
   Sparkles,
   Shield,
   MessageSquare,
-  Flame,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -53,6 +52,7 @@ const menuItems: MenuItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, tooltip: "Dashboard", color: "text-sky-500" },
   { href: "/social-feed", label: "Testimony Feed", icon: Newspaper, tooltip: "Testimony Feed", color: "text-blue-500" },
   { href: "/life-stories", label: "Life Stories", icon: Clapperboard, tooltip: "Life Stories", color: "text-rose-500" },
+  { href: "/memes", label: "Memes", icon: Smile, tooltip: "Memes", color: "text-yellow-500" },
   { href: "/community-wall", label: "Community Wall", icon: MessageSquare, tooltip: "Community Wall", color: "text-fuchsia-500" },
   { href: "/sermon-remix", label: "Sermon Remix", icon: Scissors, tooltip: "Sermon Remix", color: "text-violet-500" },
 ];
