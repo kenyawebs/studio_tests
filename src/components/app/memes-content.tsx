@@ -50,9 +50,7 @@ const memes = [
 export function MemesContent() {
     const [activeTab, setActiveTab] = React.useState("trending");
     
-    const filteredMemes = activeTab === 'all' 
-        ? memes 
-        : memes.filter(meme => meme.category === activeTab);
+    const filteredMemes = memes.filter(meme => activeTab === 'trending' || meme.category === activeTab);
 
     const showToast = (message: string) => {
         toast({

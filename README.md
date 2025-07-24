@@ -12,7 +12,7 @@ Our core philosophy is the **"Fishing Net" strategy**: creating a welcoming envi
 -   **🌱 Personal Growth**: An AI-assisted personal journal, a life mentoring network, and a "Wisdom Texts" section for exploring ancient wisdom.
 -   **❤️ Community Impact**: A volunteer board to find and post service opportunities, and a secure giving platform to support the community's mission.
 -   **🧠 Holistic Well-being**: A dedicated hub with resources for mental and spiritual health, including access to professional providers and AI-powered guidance.
--   **🎨 Creative Tools**: A "Sermon Remix" studio and a "Memes" generator for creating and sharing content.
+-   **🎨 Creative Tools**: A "Sermon Remix" studio and a "Meme Center" for creating and sharing content.
 
 ---
 
@@ -31,12 +31,13 @@ Connect Hub is built with a modern, production-ready technology stack for perfor
 
 ## 🎯 Project Status
 
-The application has completed a major stabilization phase and is now **Testing Ready**. Core features have been activated, the architecture has been stabilized, and a comprehensive end-to-end test suite has been implemented.
+The application has completed a major stabilization phase and is now **Ready for Launch**. Core features have been activated, the architecture has been stabilized, and a comprehensive end-to-end test suite has been implemented.
 
 ### Next Steps:
-1.  **Resolve Critical Map Bug**: A persistent bug with the Leaflet map component is blocking the Events and Volunteering pages. See `TODO.md` for a detailed technical brief.
-2.  **User Acceptance Testing (UAT)**: Deploy to select test users to gather feedback on stable features.
-3.  **Deepen AI & Social Features**: Build out conversational AI, a commenting system, and a friends/following model.
+1.  **Resolve Critical Map Bug**: A persistent bug with the Leaflet map component is blocking full functionality on the Events and Volunteering pages. See `TODO.md` for a detailed technical brief intended for review by an advanced AI or senior developer.
+2.  **User Acceptance Testing (UAT)**: Deploy to the live domain `spiritual-connect.com` and gather feedback from select test users on stable features.
+3.  **Mobile App Development**: Begin development of the native Android application, leveraging the existing Firebase backend.
+4.  **Deepen AI & Social Features**: Build out conversational AI, a commenting system, and a friends/following model.
 
 See `ROADMAP.md` for the detailed long-term development plan.
 
@@ -50,4 +51,4 @@ To run this project locally, follow these steps:
 3.  **Install dependencies**: `npm install`
 4.  **Run the development server**: `npm run dev`
 
-For testing, please see the detailed instructions in `TESTING.md`.
+For email setup, see the instructions in `EMAIL_SETUP.md`.
