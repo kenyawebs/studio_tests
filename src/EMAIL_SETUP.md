@@ -1,71 +1,68 @@
-# Email Setup and DNS Configuration for spiritual-connect.com
+# Connect Hub: Production DNS Configuration Guide
+This document contains the definitive DNS records required to run the `spiritual-connect.com` website on **Firebase Hosting** and handle email through **Zoho Mail**.
 
-This document contains the DNS records required to configure Zoho Mail for the `spiritual-connect.com` domain. These settings should be applied in the domain registrar's DNS management panel, not within this application's code.
-
----
-
-## 1. User Accounts
-
-The following email accounts have been provisioned:
-- `admin@spiritual-connect.com`
-- `dennis.m@spiritual-connect.com`
+**Action Required:** Log into your Jamii Host DNS management panel and update your records to match this configuration precisely. This will resolve the SSL errors and take your site live.
 
 ---
 
-## 2. DNS Records for Zoho Mail
+## **Part 1: Firebase Hosting Records (Website)**
+These records point your domain to the Firebase servers, making your website live.
 
-### MX Records (Mail Exchange)
-These records tell the internet where to deliver email for your domain.
+### **ACTION: REMOVE Old Hosting Records**
+First, **DELETE** the following `A` and `AAAA` records that point to your old host. They are conflicting with Firebase.
 
-| Type | Host | Value | Priority |
-|---|---|---|---|
-| MX | @ | mx.zoho.eu | 10 |
-| MX | @ | mx2.zoho.eu | 20 |
-| MX | @ | mx3.zoho.eu | 50 |
+| Type | Host / Name             | Value                  | ACTION      |
+|:-----|:------------------------|:-----------------------|:------------|
+| A    | ftp                     | 185.109.170.140        | **DELETE**  |
+| A    | mail                    | 185.109.170.140        | **DELETE**  |
+| A    | pop                     | 185.109.170.140        | **DELETE**  |
+| A    | smtp                    | 185.109.170.140        | **DELETE**  |
+| A    | `spiritual-connect.com` | 185.109.170.140        | **DELETE**  |
+| A    | webmail                 | 185.109.170.140        | **DELETE**  |
+| A    | www                     | 185.109.170.140        | **DELETE**  |
+| AAAA | (all records)           | 2a01:a500:3404:0:0:0:0:3| **DELETE ALL** |
 
-### SPF Record (Sender Policy Framework)
-This TXT record helps prevent email spoofing by specifying which servers are authorized to send email on behalf of your domain.
+### **ACTION: ADD Firebase Records**
+Now, **ADD** these two `A` records. These are the standard IP addresses for Firebase Hosting.
 
-- **Type:** `TXT`
-- **Host:** `@`
-- **Value:** `v=spf1 include:zohomail.eu a mx ip4:185.109.170.140 include:relay.mailchannels.net ip6:2a01:a500:3404:0:0:0:0:3 ~all`
+| Type | Host / Name             | Value         | ACTION |
+|:-----|:------------------------|:--------------|:-------|
+| A    | `spiritual-connect.com` | `199.36.158.100`| **ADD / KEEP** |
+| A    | www                     | `199.36.158.100`| **ADD**    |
 
-### DKIM Record (DomainKeys Identified Mail)
-This adds a digital signature to outgoing emails, allowing receiving servers to verify that the email actually came from your domain.
-
-- **Type:** `TXT`
-- **Host:** `zmail._domainkey`
-- **Value:** `v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCjvjXhlunoeurblFJpeDbZrePnZTQS9nJ5eo11bPVTb8E1/29hSDKOlZZWQsxD8J9lYoy+Do9aXim01VPvhqTPK3et6rJq/Xk2yVjdnYDGoMiChFAcuiHMCsigyg5TWePE0KJEyy8afPv+LG+0XBZf+ib+HbEJIysChCi+vTv1GQIDAQAB`
-
----
-
-## 3. Firewall Whitelisting
-
-If operating behind a corporate or restrictive firewall, ensure the following domains are whitelisted for both TCP and Web Socket protocols to allow full access to Zoho Mail services.
-
-- `*.zoho.eu`
-- `*.zohostatic.eu`
-- `*.zohocdn.com`
-- `*.sigmausercontent.com`
-- `https://fonts.gstatic.eu`
-- `https://fonts.zohowebstatic.eu`
-- `wss://mailws.zoho.eu`
-- `wss://mailwsorg.zoho.eu`
-- `wss://mailwsfree.zoho.eu`
+*Note: Firebase sometimes provides two different IP addresses. If they gave you two, add both as separate `A` records for `spiritual-connect.com` and `www`.*
 
 ---
 
-## 4. Other Provided DNS Information
+## **Part 2: Zoho Mail Records (Email)**
+These records tell the internet where to deliver your email. Your current Zoho setup is mostly correct.
 
-The following records were also provided and should be verified in the DNS control panel. The `A` records point various subdomains to your primary IP address.
+### **ACTION: KEEP Correct Zoho Records**
+These records are configured correctly. **DO NOT CHANGE THEM.**
 
-| Type | Host | Value |
-|---|---|---|
-| AAAA | ftp | 2a01:a500:3404:0:0:0:0:3 |
-| AAAA | mail | 2a01:a500:3404:0:0:0:0:3 |
-| A | ftp | 185.109.170.140 |
-| A | mail | 185.109.170.140 |
-| NS | spiritual-connect.com. | ns1.jamiihost.co.tz. |
-| NS | spiritual-connect.com. | ns2.jamiihost.co.tz. |
+| Type | Host / Name       | Value                       | Priority |
+|:-----|:------------------|:----------------------------|:---------|
+| MX   | @ or `spiritual-connect.com` | mx.zoho.eu                  | 10       |
+| MX   | @ or `spiritual-connect.com` | mx2.zoho.eu                 | 20       |
+| MX   | @ or `spiritual-connect.com` | mx3.zoho.eu                 | 50       |
+| TXT  | `zmail._domainkey`| `v=DKIM1; k=rsa; p=...` (Your long DKIM key) | N/A      |
 
-**Note:** The presence of both Zoho MX records and other `A` records for `mail` implies a potential conflict. Ensure that the primary mail handling is correctly configured to use the MX records pointing to Zoho.
+### **ACTION: CLEAN UP SPF Record**
+You have multiple conflicting SPF records. **DELETE** all old SPF records and keep only this one, which correctly authorizes both Zoho and MailChannels (another service your host may use).
+
+| Type | Host / Name | Value                                                                                           | ACTION      |
+|:-----|:------------|:------------------------------------------------------------------------------------------------|:------------|
+| TXT  | @           | `v=spf1 include:zohomail.eu include:relay.mailchannels.net ~all`                                  | **KEEP ONLY THIS ONE** |
+
+---
+
+## **Part 3: Nameserver Records (Do Not Touch)**
+These records tell the internet that Jamii Host is in charge of your DNS settings. These should remain unchanged.
+
+| Type | Host / Name             | Value                  |
+|:-----|:------------------------|:-----------------------|
+| NS   | `spiritual-connect.com` | `ns1.jamiihost.co.tz.` |
+| NS   | `spiritual-connect.com` | `ns2.jamiihost.co.tz.` |
+
+---
+After you have made these changes, it may take anywhere from a few minutes to a few hours for them to take effect across the internet. Once they do, the Firebase verification will pass, your SSL certificate will be issued, and `https://spiritual-connect.com` will be live.
