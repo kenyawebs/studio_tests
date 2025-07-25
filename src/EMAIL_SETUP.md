@@ -5,54 +5,46 @@ This document contains the definitive DNS records required to run the `spiritual
 
 ---
 
-## **Part 1: Firebase Hosting Records (Website)**
+## **Part 1: Website Hosting Records (Firebase)**
 These records point your domain to the Firebase servers, making your website live.
 
-### **ACTION: REMOVE Old Hosting Records**
-First, **DELETE** all of the following `A` and `AAAA` records that point to your old host (`185.109.170.140`). They are conflicting with Firebase.
+### **ACTION: DELETE ALL Old Hosting Records**
+First, **DELETE** all of the following old `A`, `AAAA`, and `TXT` records that are causing conflicts.
 
-| Type | Host / Name             | Value                  | ACTION      |
-|:-----|:------------------------|:-----------------------|:------------|
-| A    | ftp                     | 185.109.170.140        | **DELETE**  |
-| A    | mail                    | 185.109.170.140        | **DELETE**  |
-| A    | pop                     | 185.109.170.140        | **DELETE**  |
-| A    | smtp                    | 185.109.170.140        | **DELETE**  |
-| A    | `spiritual-connect.com` | 185.109.170.140        | **DELETE**  |
-| A    | webmail                 | 185.109.170.140        | **DELETE**  |
-| A    | www                     | 185.109.170.140        | **DELETE**  |
-| AAAA | (all records)           | (any value)            | **DELETE ALL** |
+| Type | Host / Name             | Value                                                          | ACTION                 |
+|:-----|:------------------------|:---------------------------------------------------------------|:-----------------------|
+| A    | (all records)           | `185.109.170.140`                                              | **DELETE ALL**         |
+| AAAA | (all records)           | (any `AAAA` value)                                             | **DELETE ALL**         |
+| TXT  | `spiritual-connect.com` | `"hosting-site=spiritual-connect-hub"`                         | **DELETE (Host Specific)** |
+| TXT  | `spiritual-connect.com` | `"v=spf1 a mx ip4:185.109.170.140..."`                          | **DELETE (Old SPF)**       |
+| TXT  | `x._domainkey`          | `"v=DKIM1; k=rsa; p=..."` (The key starting with `MIIBIjANBgk...`) | **DELETE (Old DKIM)**      |
+
 
 ### **ACTION: ADD/KEEP Correct Firebase Records**
 Now, ensure these two `A` records are present and correct. These are the standard IP addresses for Firebase Hosting.
 
-| Type | Host / Name             | Value         | ACTION |
-|:-----|:------------------------|:--------------|:-------|
+| Type | Host / Name             | Value         | ACTION         |
+|:-----|:------------------------|:--------------|:---------------|
 | A    | `spiritual-connect.com` | `199.36.158.100`| **ADD / KEEP** |
-| A    | www                     | `199.36.158.100`| **ADD / KEEP**    |
+| A    | `www`                     | `199.36.158.100`| **ADD / KEEP** |
 
-*Note: Firebase sometimes provides two different IP addresses. If they gave you two, add both as separate `A` records for `spiritual-connect.com` and `www`.*
+*Note: If Firebase provides a second IP address during setup, add it as another `A` record for both `spiritual-connect.com` and `www`.*
 
 ---
 
-## **Part 2: Zoho Mail Records (Email)**
-These records tell the internet where to deliver your email. Your current Zoho setup is mostly correct, but needs cleanup.
+## **Part 2: Email Records (Zoho Mail)**
+These records tell the internet to deliver your email to Zoho.
 
-### **ACTION: KEEP Correct Zoho MX Records**
-Make sure your MX records look exactly like this. The "Host / Name" should be `@` or `spiritual-connect.com`, and the "Value" must be **only** the Zoho server name.
+### **ACTION: ADD/KEEP Correct Zoho Records**
+Make sure your email records look **exactly** like this. The "Value" must be only the Zoho server name, without your domain attached.
 
-| Type | Host / Name       | Value                       | Priority |
-|:-----|:------------------|:----------------------------|:---------|
-| MX   | @ or `spiritual-connect.com` | mx.zoho.eu                  | 10       |
-| MX   | @ or `spiritual-connect.com` | mx2.zoho.eu                 | 20       |
-| MX   | @ or `spiritual-connect.com` | mx3.zoho.eu                 | 50       |
-
-### **ACTION: CLEAN UP SPF & DKIM Records**
-You have multiple conflicting text records. **DELETE** all old `SPF` and `DKIM` records and keep only these two:
-
-| Type | Host / Name       | Value                                                              | ACTION                 |
-|:-----|:------------------|:-------------------------------------------------------------------|:-----------------------|
-| TXT  | @                 | `v=spf1 include:zohomail.eu include:relay.mailchannels.net ~all`   | **KEEP/ADD THIS SPF**  |
-| TXT  | `zmail._domainkey`| `v=DKIM1; k=rsa; p=...` (Your long DKIM key from Zoho)             | **KEEP/ADD THIS DKIM** |
+| Type | Host / Name       | Value                                                              | Priority | ACTION         |
+|:-----|:------------------|:-------------------------------------------------------------------|:---------|:---------------|
+| MX   | @                 | `mx.zoho.eu`                                                       | 10       | **ADD / KEEP** |
+| MX   | @                 | `mx2.zoho.eu`                                                      | 20       | **ADD / KEEP** |
+| MX   | @                 | `mx3.zoho.eu`                                                      | 50       | **ADD / KEEP** |
+| TXT  | @                 | `v=spf1 include:zohomail.eu ~all`                                  | -        | **ADD / KEEP** |
+| TXT  | `zmail._domainkey`| `v=DKIM1; k=rsa; p=...` (Your long DKIM key from Zoho)             | -        | **ADD / KEEP** |
 
 ---
 
