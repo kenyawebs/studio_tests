@@ -43,9 +43,9 @@ const firebaseConfig: FirebaseOptions = {
 
 // Check if all essential Firebase config keys are provided and are not placeholder values
 if (
-  firebaseConfig.apiKey && firebaseConfig.apiKey !== 'your-api-key-here' &&
-  firebaseConfig.authDomain &&
-  firebaseConfig.projectId
+  firebaseConfig.apiKey && !firebaseConfig.apiKey.includes('your-api-key') &&
+  firebaseConfig.authDomain && !firebaseConfig.authDomain.includes('your-auth-domain') &&
+  firebaseConfig.projectId && !firebaseConfig.projectId.includes('your-project-id')
 ) {
   try {
     app = getApps().length ? getApp() : initializeApp(firebaseConfig);
@@ -55,11 +55,13 @@ if (
     firebaseConfigured = true;
   } catch (error) {
     console.error("Firebase initialization failed. Check your .env.local credentials.", error);
+    firebaseConfigured = false;
   }
 } else {
     // This is a client-side check, so we don't throw an error,
     // as that would crash the app. The AuthProvider will handle showing a UI message.
     console.warn("Firebase configuration is incomplete or uses placeholder values. The app will not function correctly.");
+    firebaseConfigured = false;
 }
 
 
