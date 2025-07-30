@@ -1,3 +1,4 @@
+
 // src/lib/firebase.ts
 
 // Import the functions you need from the SDKs you need
@@ -43,9 +44,9 @@ const firebaseConfig: FirebaseOptions = {
 
 // Check if all essential Firebase config keys are provided and are not placeholder values
 if (
-  firebaseConfig.apiKey && !firebaseConfig.apiKey.includes('your-api-key') &&
-  firebaseConfig.authDomain && !firebaseConfig.authDomain.includes('your-auth-domain') &&
-  firebaseConfig.projectId && !firebaseConfig.projectId.includes('your-project-id')
+  firebaseConfig.apiKey && !firebaseConfig.apiKey.includes('dummy-key') &&
+  firebaseConfig.authDomain && !firebaseConfig.authDomain.includes('dummy.firebaseapp.com') &&
+  firebaseConfig.projectId && !firebaseConfig.projectId.includes('dummy-project')
 ) {
   try {
     app = getApps().length ? getApp() : initializeApp(firebaseConfig);
