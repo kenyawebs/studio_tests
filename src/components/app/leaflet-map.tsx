@@ -1,39 +1,88 @@
 
 'use client';
 
-// This component is currently not in use.
-// It has been temporarily replaced with a placeholder in the UI
-// to stabilize the application. The persistent error "Map container is already initialized"
-// needs to be resolved before this component can be safely re-integrated.
-// See the new `TODO.md` file for a detailed technical brief on this issue.
+import React from 'react';
+import { GoogleMap, useJsApiLoader, MarkerF } from '@react-google-maps/api';
+import { Skeleton } from '../ui/skeleton';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import { AlertTriangle } from 'lucide-react';
 
-import { useEffect, useRef } from 'react';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
+const containerStyle = {
+  width: '100%',
+  height: '100%',
+  borderRadius: 'inherit',
+};
 
-// Leaflet's default icons can sometimes have issues with bundlers like Webpack.
-// This code manually sets the paths to the icon images to ensure they load correctly.
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+// A default center, e.g., Nairobi, KE. Can be changed.
+const center = {
+  lat: -1.286389,
+  lng: 36.817223
+};
 
-let DefaultIcon = L.icon({
-    iconUrl: icon.src,
-    shadowUrl: iconShadow.src,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
+// Example markers. In a real app, these would come from props.
+const markers = [
+  { lat: -1.286389, lng: 36.817223, title: 'Community Networking Night' },
+  { lat: -1.292066, lng: 36.821945, title: 'Community Food Drive' },
+  { lat: -1.28325, lng: 36.81667, title: 'Weekend Growth Seminar' }
+];
 
-L.Marker.prototype.options.icon = DefaultIcon;
+export default function GoogleMapWrapper() {
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-export default function LeafletMap() {
+  if (!apiKey) {
     return (
-        <div className="aspect-video bg-muted rounded-lg flex items-center justify-center text-center p-4">
-           <div>
-             <p className="text-sm font-semibold text-destructive">Map Temporarily Unavailable</p>
-             <p className="text-xs text-muted-foreground">Our interactive map is currently undergoing maintenance. Please check back soon.</p>
-           </div>
-        </div>
+        <Alert variant="destructive">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Google Maps API Key Missing</AlertTitle>
+            <AlertDescription>
+            The Google Maps API key is not configured. Please add `NEXT_PUBLIC_GOOGLE_MAPS_API_KEY` to your `.env.local` file.
+            </AlertDescription>
+        </Alert>
     );
+  }
+
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: apiKey,
+  });
+
+  const [map, setMap] = React.useState<google.maps.Map | null>(null);
+
+  const onLoad = React.useCallback(function callback(mapInstance: google.maps.Map) {
+    const bounds = new window.google.maps.LatLngBounds(center);
+    markers.forEach(marker => {
+      bounds.extend(new window.google.maps.LatLng(marker.lat, marker.lng));
+    });
+    // In a real app with dynamic markers, you would fit bounds here.
+    // For now, we'll just set a default zoom and center.
+    // mapInstance.fitBounds(bounds);
+    mapInstance.setCenter(center);
+    mapInstance.setZoom(12);
+    setMap(mapInstance);
+  }, []);
+
+  const onUnmount = React.useCallback(function callback() {
+    setMap(null);
+  }, []);
+
+  return isLoaded ? (
+    <GoogleMap
+      mapContainerStyle={containerStyle}
+      center={center}
+      zoom={12}
+      onLoad={onLoad}
+      onUnmount={onUnmount}
+      options={{
+        streetViewControl: false,
+        mapTypeControl: false,
+        fullscreenControl: false,
+      }}
+    >
+      {markers.map((marker, index) => (
+        <MarkerF key={index} position={{ lat: marker.lat, lng: marker.lng }} title={marker.title} />
+      ))}
+    </GoogleMap>
+  ) : (
+    <Skeleton className="w-full h-full" />
+  );
 }

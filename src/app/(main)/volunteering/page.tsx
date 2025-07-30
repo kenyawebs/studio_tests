@@ -13,7 +13,12 @@ import { CreateOpportunityForm } from "@/components/app/create-opportunity-form"
 import { cn } from "@/lib/utils";
 import { VolunteerApplicationForm } from "@/components/app/volunteer-application-form";
 import { SuggestOpportunityForm } from "@/components/app/suggest-opportunity-form";
-import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const GoogleMapWrapper = dynamic(() => import('@/components/app/leaflet-map'), { 
+    ssr: false,
+    loading: () => <div className="aspect-square bg-muted rounded-lg animate-pulse" />
+});
 
 const opportunityIcons: { [key: string]: React.ElementType } = {
     "Youth Development": Users2,
@@ -121,11 +126,8 @@ export default function VolunteeringPage() {
                     <CardTitle className="text-lg flex items-center gap-2"><Map className="text-primary"/> Opportunities Near You</CardTitle>
                 </CardHeader>
                 <CardContent>
-                     <div className="aspect-square bg-muted rounded-lg overflow-hidden flex items-center justify-center text-center p-4">
-                       <div>
-                         <p className="text-sm font-semibold text-destructive">Map Temporarily Unavailable</p>
-                         <p className="text-xs text-muted-foreground">Our interactive map is currently undergoing maintenance. Please check back soon.</p>
-                       </div>
+                     <div className="aspect-square bg-muted rounded-lg overflow-hidden">
+                       <GoogleMapWrapper />
                     </div>
                 </CardContent>
             </Card>

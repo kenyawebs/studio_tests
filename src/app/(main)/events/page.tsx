@@ -14,7 +14,12 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, Dialog
 import { CreateEventForm } from "@/components/app/create-event-form";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
-import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const GoogleMapWrapper = dynamic(() => import('@/components/app/leaflet-map'), { 
+    ssr: false,
+    loading: () => <div className="aspect-video bg-muted rounded-lg animate-pulse" />
+});
 
 
 const initialEvents = [
@@ -141,11 +146,8 @@ export default function EventsPage() {
                     <CardTitle className="text-lg flex items-center gap-2"><Map className="text-primary"/> Event Locations</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="aspect-video bg-muted rounded-lg overflow-hidden flex items-center justify-center text-center p-4">
-                       <div>
-                         <p className="text-sm font-semibold text-destructive">Map Temporarily Unavailable</p>
-                         <p className="text-xs text-muted-foreground">Our interactive map is currently undergoing maintenance. Please check back soon.</p>
-                       </div>
+                    <div className="aspect-video bg-muted rounded-lg overflow-hidden">
+                       <GoogleMapWrapper />
                     </div>
                 </CardContent>
             </Card>
