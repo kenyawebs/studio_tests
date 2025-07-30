@@ -4,3 +4,4 @@ import './flows/bible-chat-flow';
 import './flows/journal-assistant-flow';
 import './flows/prayer-assistant-flow';
 import './flows/classify-post-flow';
+import './flows/geocode-address-flow';
