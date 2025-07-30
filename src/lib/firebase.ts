@@ -1,3 +1,4 @@
+// src/lib/firebase.ts
 
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps, getApp, FirebaseOptions } from "firebase/app";
@@ -40,9 +41,9 @@ const firebaseConfig: FirebaseOptions = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Check if all essential Firebase config keys are provided
+// Check if all essential Firebase config keys are provided and are not placeholder values
 if (
-  firebaseConfig.apiKey &&
+  firebaseConfig.apiKey && firebaseConfig.apiKey !== 'your-api-key-here' &&
   firebaseConfig.authDomain &&
   firebaseConfig.projectId
 ) {
@@ -58,7 +59,7 @@ if (
 } else {
     // This is a client-side check, so we don't throw an error,
     // as that would crash the app. The AuthProvider will handle showing a UI message.
-    console.warn("Firebase configuration is incomplete. The app will not function correctly.");
+    console.warn("Firebase configuration is incomplete or uses placeholder values. The app will not function correctly.");
 }
 
 
