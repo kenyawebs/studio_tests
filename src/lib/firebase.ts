@@ -1,4 +1,3 @@
-
 // src/lib/firebase.ts
 
 // Import the functions you need from the SDKs you need
@@ -31,7 +30,6 @@ let app;
 let auth: Auth;
 let db: Firestore;
 let storage: FirebaseStorage;
-let firebaseConfigured = false;
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -42,28 +40,45 @@ const firebaseConfig: FirebaseOptions = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Check if all essential Firebase config keys are provided and are not placeholder values
-if (
-  firebaseConfig.apiKey && !firebaseConfig.apiKey.includes('dummy-key') &&
-  firebaseConfig.authDomain && !firebaseConfig.authDomain.includes('dummy.firebaseapp.com') &&
-  firebaseConfig.projectId && !firebaseConfig.projectId.includes('dummy-project')
-) {
+// Function to check if the configuration is valid
+function isFirebaseConfigValid(config: FirebaseOptions): boolean {
+  return !!(
+    config.apiKey && !config.apiKey.includes('dummy-key') &&
+    config.authDomain && !config.authDomain.includes('dummy.firebaseapp.com') &&
+    config.projectId && !config.projectId.includes('dummy-project') &&
+    config.apiKey !== 'your-api-key-here'
+  );
+}
+
+export const firebaseConfigured = isFirebaseConfigValid(firebaseConfig);
+
+// Initialize Firebase only if the configuration is valid
+if (firebaseConfigured) {
   try {
     app = getApps().length ? getApp() : initializeApp(firebaseConfig);
     auth = getAuth(app);
     db = getFirestore(app);
     storage = getStorage(app);
-    firebaseConfigured = true;
   } catch (error) {
-    console.error("Firebase initialization failed. Check your .env.local credentials.", error);
-    firebaseConfigured = false;
+    console.error("Firebase initialization failed despite valid config. Check your .env.local credentials.", error);
+    // @ts-ignore
+    auth = undefined;
+    // @ts-ignore
+    db = undefined;
+    // @ts-ignore
+    storage = undefined;
   }
 } else {
     // This is a client-side check, so we don't throw an error,
     // as that would crash the app. The AuthProvider will handle showing a UI message.
     console.warn("Firebase configuration is incomplete or uses placeholder values. The app will not function correctly.");
-    firebaseConfigured = false;
+    // @ts-ignore
+    auth = undefined;
+    // @ts-ignore
+    db = undefined;
+    // @ts-ignore
+    storage = undefined;
 }
 
 
-export { app, auth, db, storage, firebaseConfigured, GoogleAuthProvider, FacebookAuthProvider };
+export { app, auth, db, storage, GoogleAuthProvider, FacebookAuthProvider };
