@@ -3,12 +3,12 @@
 
 import React, { useState, useEffect } from "react";
 import type { User } from "firebase/auth";
-import { auth, firebaseConfigured } from "@/lib/firebase";
+import { auth, firebaseConfigStatus } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { Sparkles, AlertTriangle } from "lucide-react";
 import { AuthContext } from "@/hooks/use-auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { ClientOnly } from "./client-only";
 
 const FirebaseNotConfigured = () => {
     return (
@@ -51,11 +51,11 @@ NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id`}
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [authReady, setAuthReady] = useState(false); // New state
+  const [authReady, setAuthReady] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    if (!firebaseConfigured) {
+    if (!firebaseConfigStatus.isValid) {
       setLoading(false);
       setAuthReady(true);
       return;
@@ -71,20 +71,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setIsAdmin(false);
       }
       setLoading(false);
-      setAuthReady(true); // Signal that initial auth check is complete
+      setAuthReady(true);
     });
 
     return () => unsubscribe();
   }, []);
 
-  if (!firebaseConfigured) {
-    return <FirebaseNotConfigured />;
-  }
-
   return (
-    <AuthContext.Provider value={{ user, loading, authReady, isAdmin }}>
-      {children}
-    </AuthContext.Provider>
+    <ClientOnly>
+        {!firebaseConfigStatus.isValid ? (
+            <FirebaseNotConfigured />
+        ) : (
+            <AuthContext.Provider value={{ user, loading, authReady, isAdmin }}>
+            {children}
+            </AuthContext.Provider>
+        )}
+    </ClientOnly>
   );
 };
 

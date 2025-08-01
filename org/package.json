@@ -1,0 +1,17 @@
+{
+  "name": "@org/source",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {},
+  "private": true,
+  "dependencies": {
+    "@nx/next": "21.3.10"
+  },
+  "devDependencies": {
+    "@nx/workspace": "21.3.10",
+    "nx": "21.3.10"
+  },
+  "workspaces": [
+    "apps/*"
+  ]
+}
