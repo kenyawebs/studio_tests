@@ -49,3 +49,4 @@ With a secure foundation and scalable architecture in place, this phase focuses 
 | **Build High-Performance AI**     | Pending   | Migrate existing AI logic from the simple Genkit setup to dedicated, high-performance Cloud Functions that call the Vertex AI Gemini API directly. Configure "minimum instances" to eliminate cold-start lag. |
 | **Implement Core Social Features**| Pending   | Build out foundational community features from the roadmap, such as a full commenting system on posts and a "follow" system for users.                                                                      |
 | **Integrate Advanced AI**         | Future    | Explore more advanced AI capabilities, such as the "Cultural Intelligence Engine" for content adaptation, once the high-performance backend is established.                                                 |
+
