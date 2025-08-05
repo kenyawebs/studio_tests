@@ -1,0 +1,911 @@
+{
+  "version": "6.0",
+  "nxVersion": "21.3.11",
+  "pathMappings": {
+    "@/*": [
+      "./src/*"
+    ]
+  },
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {},
+    "nonProjectFiles": [
+      {
+        "file": ".env",
+        "hash": "2736647446130849937"
+      },
+      {
+        "file": ".env.example",
+        "hash": "8272275975791339349"
+      },
+      {
+        "file": ".github/workflows/ci.yml",
+        "hash": "6231748313434784721"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "8959248883044988077"
+      },
+      {
+        "file": ".idx/dev.nix",
+        "hash": "3088258304930933180"
+      },
+      {
+        "file": ".modified",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": ".vscode/settings.json",
+        "hash": "12393575495095090047"
+      },
+      {
+        "file": ".vscode/tasks.json",
+        "hash": "9926397738825634818"
+      },
+      {
+        "file": "AI_SETUP.md",
+        "hash": "16426762299803987106"
+      },
+      {
+        "file": "CHANGELOG.md",
+        "hash": "9012893505113169496"
+      },
+      {
+        "file": "README.md",
+        "hash": "2673634138393545142"
+      },
+      {
+        "file": "STRATEGY.md",
+        "hash": "3454991714941380360"
+      },
+      {
+        "file": "TESTING.md",
+        "hash": "10070740096065692693"
+      },
+      {
+        "file": "TODO.md",
+        "hash": "172733984799917111"
+      },
+      {
+        "file": "apphosting.yaml",
+        "hash": "6018759874393723843"
+      },
+      {
+        "file": "components.json",
+        "hash": "1907311716869265486"
+      },
+      {
+        "file": "docs/blueprint.md",
+        "hash": "15048895392094177603"
+      },
+      {
+        "file": "essential_pre_testing_requirements_privacy_ai_tools_agents_legal.pdf",
+        "hash": "10918895980385113302"
+      },
+      {
+        "file": "firebase-debug.log",
+        "hash": "16645169587870522211"
+      },
+      {
+        "file": "firestore-debug.log",
+        "hash": "15106349502997785758"
+      },
+      {
+        "file": "firestore.rules",
+        "hash": "6208245840612782174"
+      },
+      {
+        "file": "next.config.ts",
+        "hash": "6112724433268178233"
+      },
+      {
+        "file": "org/.editorconfig",
+        "hash": "5443105041930014821"
+      },
+      {
+        "file": "org/.github/workflows/ci.yml",
+        "hash": "6497572080451217363"
+      },
+      {
+        "file": "org/.gitignore",
+        "hash": "15397233327289499588"
+      },
+      {
+        "file": "org/.prettierignore",
+        "hash": "14688272390704683536"
+      },
+      {
+        "file": "org/.prettierrc",
+        "hash": "16267754514737964994"
+      },
+      {
+        "file": "org/.vscode/extensions.json",
+        "hash": "11309362834336059819"
+      },
+      {
+        "file": "org/README.md",
+        "hash": "14936113041883377057"
+      },
+      {
+        "file": "org/apps/org-e2e/eslint.config.mjs",
+        "hash": "1172734138943286526"
+      },
+      {
+        "file": "org/apps/org-e2e/package.json",
+        "hash": "17587079948476132118"
+      },
+      {
+        "file": "org/apps/org-e2e/playwright.config.ts",
+        "hash": "11556998102754381976"
+      },
+      {
+        "file": "org/apps/org-e2e/src/example.spec.ts",
+        "hash": "16019101014373124625"
+      },
+      {
+        "file": "org/apps/org-e2e/tsconfig.json",
+        "hash": "15001458170383955177"
+      },
+      {
+        "file": "org/apps/org/.swcrc",
+        "hash": "2742566327615098680"
+      },
+      {
+        "file": "org/apps/org/eslint.config.mjs",
+        "hash": "10818484782922660641"
+      },
+      {
+        "file": "org/apps/org/index.d.ts",
+        "hash": "5498222895072842432"
+      },
+      {
+        "file": "org/apps/org/jest.config.ts",
+        "hash": "3965183259481254815"
+      },
+      {
+        "file": "org/apps/org/next.config.js",
+        "hash": "5443563404894739361"
+      },
+      {
+        "file": "org/apps/org/package.json",
+        "hash": "13084030174719595957"
+      },
+      {
+        "file": "org/apps/org/public/.gitkeep",
+        "hash": "3244421341483603138"
+      },
+      {
+        "file": "org/apps/org/public/favicon.ico",
+        "hash": "9303420814833116677"
+      },
+      {
+        "file": "org/apps/org/specs/index.spec.tsx",
+        "hash": "2873936096691223229"
+      },
+      {
+        "file": "org/apps/org/src/app/api/hello/route.ts",
+        "hash": "495073956729887886"
+      },
+      {
+        "file": "org/apps/org/src/app/global.css",
+        "hash": "2063387531564215811"
+      },
+      {
+        "file": "org/apps/org/src/app/layout.tsx",
+        "hash": "17768227939851893254"
+      },
+      {
+        "file": "org/apps/org/src/app/page.module.css",
+        "hash": "4786619528779355986"
+      },
+      {
+        "file": "org/apps/org/src/app/page.tsx",
+        "hash": "2072696959188548423"
+      },
+      {
+        "file": "org/apps/org/tsconfig.json",
+        "hash": "15610513314877440511"
+      },
+      {
+        "file": "org/apps/org/tsconfig.spec.json",
+        "hash": "5667077840779508676"
+      },
+      {
+        "file": "org/error.log",
+        "hash": "558682433862130126"
+      },
+      {
+        "file": "org/eslint.config.mjs",
+        "hash": "10770449096712831357"
+      },
+      {
+        "file": "org/jest.config.ts",
+        "hash": "6870352021923392442"
+      },
+      {
+        "file": "org/jest.preset.js",
+        "hash": "9430166341120122740"
+      },
+      {
+        "file": "org/nx.json",
+        "hash": "1396537243442500679"
+      },
+      {
+        "file": "org/package-lock.json",
+        "hash": "1341129272468073228"
+      },
+      {
+        "file": "org/package.json",
+        "hash": "7882092460010053808"
+      },
+      {
+        "file": "org/tsconfig.base.json",
+        "hash": "18132073024976155609"
+      },
+      {
+        "file": "org/tsconfig.json",
+        "hash": "12602441501517384676"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "8829055401532461934"
+      },
+      {
+        "file": "package.json",
+        "hash": "10880034842977728663"
+      },
+      {
+        "file": "playwright.config.ts",
+        "hash": "10974732548326109611"
+      },
+      {
+        "file": "postcss.config.mjs",
+        "hash": "2557392112968376575"
+      },
+      {
+        "file": "src/CHANGELOG.md",
+        "hash": "7910295036527678236"
+      },
+      {
+        "file": "src/DATA_FLOW.md",
+        "hash": "8807954395343916005"
+      },
+      {
+        "file": "src/EMAIL_SETUP.md",
+        "hash": "10077130971140428078"
+      },
+      {
+        "file": "src/MARKETING_STRATEGY.md",
+        "hash": "8714066991291619585"
+      },
+      {
+        "file": "src/ROADMAP.md",
+        "hash": "3343322219456342137"
+      },
+      {
+        "file": "src/STRATEGY.md",
+        "hash": "5784276253388431859"
+      },
+      {
+        "file": "src/TODO.md",
+        "hash": "449446572807115645"
+      },
+      {
+        "file": "src/ai/dev.ts",
+        "hash": "1614911733876726641"
+      },
+      {
+        "file": "src/ai/flows/bible-chat-flow.ts",
+        "hash": "10679735849465347284"
+      },
+      {
+        "file": "src/ai/flows/classify-post-flow.ts",
+        "hash": "7781660889366827923"
+      },
+      {
+        "file": "src/ai/flows/geocode-address-flow.ts",
+        "hash": "1193100686282522971"
+      },
+      {
+        "file": "src/ai/flows/journal-assistant-flow.ts",
+        "hash": "3451441251483511941"
+      },
+      {
+        "file": "src/ai/flows/prayer-assistant-flow.ts",
+        "hash": "6522140421411365005"
+      },
+      {
+        "file": "src/ai/genkit.ts",
+        "hash": "10916945604413713373"
+      },
+      {
+        "file": "src/app/(auth)/forgot-password/page.tsx",
+        "hash": "2287483814978471571"
+      },
+      {
+        "file": "src/app/(auth)/layout.tsx",
+        "hash": "6207129915948707222"
+      },
+      {
+        "file": "src/app/(auth)/login/page.tsx",
+        "hash": "16194744125083338543"
+      },
+      {
+        "file": "src/app/(auth)/signup/page.tsx",
+        "hash": "12201982253039336823"
+      },
+      {
+        "file": "src/app/(main)/admin/page.tsx",
+        "hash": "15169304250562010117"
+      },
+      {
+        "file": "src/app/(main)/bible/page.tsx",
+        "hash": "9016880619962376551"
+      },
+      {
+        "file": "src/app/(main)/community-wall/page.tsx",
+        "hash": "734183916886150363"
+      },
+      {
+        "file": "src/app/(main)/dashboard/page.tsx",
+        "hash": "17511519834236941213"
+      },
+      {
+        "file": "src/app/(main)/events/page.tsx",
+        "hash": "14321608395180921425"
+      },
+      {
+        "file": "src/app/(main)/faith-reels/page.tsx",
+        "hash": "9859900292596337117"
+      },
+      {
+        "file": "src/app/(main)/giving/page.tsx",
+        "hash": "3994797406423912440"
+      },
+      {
+        "file": "src/app/(main)/header.tsx",
+        "hash": "10186934080259048863"
+      },
+      {
+        "file": "src/app/(main)/journal/page.tsx",
+        "hash": "16146697228697240266"
+      },
+      {
+        "file": "src/app/(main)/layout.tsx",
+        "hash": "7252192739799885000"
+      },
+      {
+        "file": "src/app/(main)/legal/accept/page.tsx",
+        "hash": "3036391894494824788"
+      },
+      {
+        "file": "src/app/(main)/legal/layout.tsx",
+        "hash": "12454968912174075836"
+      },
+      {
+        "file": "src/app/(main)/legal/privacy/page.tsx",
+        "hash": "17336979929505424395"
+      },
+      {
+        "file": "src/app/(main)/legal/terms/page.tsx",
+        "hash": "7488984020414459093"
+      },
+      {
+        "file": "src/app/(main)/life-mentoring/page.tsx",
+        "hash": "4677327449216438463"
+      },
+      {
+        "file": "src/app/(main)/life-stories/page.tsx",
+        "hash": "9859900292596337117"
+      },
+      {
+        "file": "src/app/(main)/memes/page.tsx",
+        "hash": "468991683381659585"
+      },
+      {
+        "file": "src/app/(main)/mentorship/page.tsx",
+        "hash": "4677327449216438463"
+      },
+      {
+        "file": "src/app/(main)/personal-journal/page.tsx",
+        "hash": "16146697228697240266"
+      },
+      {
+        "file": "src/app/(main)/prayer-wall/page.tsx",
+        "hash": "734183916886150363"
+      },
+      {
+        "file": "src/app/(main)/sermon-remix/page.tsx",
+        "hash": "4991632913412650083"
+      },
+      {
+        "file": "src/app/(main)/settings/page.tsx",
+        "hash": "3996050829848557359"
+      },
+      {
+        "file": "src/app/(main)/social-feed/page.tsx",
+        "hash": "2453232521203254499"
+      },
+      {
+        "file": "src/app/(main)/volunteering/page.tsx",
+        "hash": "6000451929596215859"
+      },
+      {
+        "file": "src/app/(main)/well-being/page.tsx",
+        "hash": "9610267579012818173"
+      },
+      {
+        "file": "src/app/(main)/wisdom-texts/page.tsx",
+        "hash": "9016880619962376551"
+      },
+      {
+        "file": "src/app/favicon.ico",
+        "hash": "7425710272746114310"
+      },
+      {
+        "file": "src/app/globals.css",
+        "hash": "18193354758463093683"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "hash": "7085403732127896143"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "hash": "12318670716461057939"
+      },
+      {
+        "file": "src/components/app/app-shell.tsx",
+        "hash": "5119200310038138556"
+      },
+      {
+        "file": "src/components/app/auth-provider.tsx",
+        "hash": "1407598055286218905"
+      },
+      {
+        "file": "src/components/app/bible-content.tsx",
+        "hash": "9482019537896849032"
+      },
+      {
+        "file": "src/components/app/book-session-form.tsx",
+        "hash": "13849356716066359381"
+      },
+      {
+        "file": "src/components/app/client-only.tsx",
+        "hash": "6734129985300916921"
+      },
+      {
+        "file": "src/components/app/community-wall-content.tsx",
+        "hash": "17421313872418330514"
+      },
+      {
+        "file": "src/components/app/create-event-form.tsx",
+        "hash": "5398055564729868783"
+      },
+      {
+        "file": "src/components/app/create-opportunity-form.tsx",
+        "hash": "17284398076589575978"
+      },
+      {
+        "file": "src/components/app/dashboard-content.tsx",
+        "hash": "5297813789323877357"
+      },
+      {
+        "file": "src/components/app/error-boundary.tsx",
+        "hash": "16922184704635830761"
+      },
+      {
+        "file": "src/components/app/events/page.tsx",
+        "hash": "12886574799143204049"
+      },
+      {
+        "file": "src/components/app/faith-reels-content.tsx",
+        "hash": "3644435197702241190"
+      },
+      {
+        "file": "src/components/app/giving-content.tsx",
+        "hash": "1839957579959384023"
+      },
+      {
+        "file": "src/components/app/header.tsx",
+        "hash": "12823220297183015451"
+      },
+      {
+        "file": "src/components/app/journal-content.tsx",
+        "hash": "6667318724789239929"
+      },
+      {
+        "file": "src/components/app/leaflet-map.tsx",
+        "hash": "175476723603835865"
+      },
+      {
+        "file": "src/components/app/life-mentoring-content.tsx",
+        "hash": "6724831876952920192"
+      },
+      {
+        "file": "src/components/app/life-stories-content.tsx",
+        "hash": "6157908175685264597"
+      },
+      {
+        "file": "src/components/app/location-input.tsx",
+        "hash": "10100491203140129211"
+      },
+      {
+        "file": "src/components/app/memes-content.tsx",
+        "hash": "15159787035972365768"
+      },
+      {
+        "file": "src/components/app/mentor-application-form.tsx",
+        "hash": "5001116055524704446"
+      },
+      {
+        "file": "src/components/app/mentorship-content.tsx",
+        "hash": "7940277926886062140"
+      },
+      {
+        "file": "src/components/app/personal-journal-content.tsx",
+        "hash": "7263279024480622015"
+      },
+      {
+        "file": "src/components/app/pray-button.tsx",
+        "hash": "15078924125777705146"
+      },
+      {
+        "file": "src/components/app/prayer-wall-content.tsx",
+        "hash": "6119777941832599159"
+      },
+      {
+        "file": "src/components/app/provider-registration-form.tsx",
+        "hash": "10149687810154558015"
+      },
+      {
+        "file": "src/components/app/providers.tsx",
+        "hash": "11389457825576460350"
+      },
+      {
+        "file": "src/components/app/sermon-remix-content.tsx",
+        "hash": "3558305177986982282"
+      },
+      {
+        "file": "src/components/app/settings-content.tsx",
+        "hash": "9967373958553124471"
+      },
+      {
+        "file": "src/components/app/sidebar-nav.tsx",
+        "hash": "16166571261893319511"
+      },
+      {
+        "file": "src/components/app/social-feed-content.tsx",
+        "hash": "18178864501215349507"
+      },
+      {
+        "file": "src/components/app/spiritual-reactions.tsx",
+        "hash": "7057148886821546509"
+      },
+      {
+        "file": "src/components/app/suggest-opportunity-form.tsx",
+        "hash": "3461028550759962380"
+      },
+      {
+        "file": "src/components/app/user-nav.tsx",
+        "hash": "14624677043531339479"
+      },
+      {
+        "file": "src/components/app/volunteer-application-form.tsx",
+        "hash": "3148482123413281371"
+      },
+      {
+        "file": "src/components/app/volunteering-content.tsx",
+        "hash": "8410565672065338633"
+      },
+      {
+        "file": "src/components/app/well-being-content.tsx",
+        "hash": "1795372812044666952"
+      },
+      {
+        "file": "src/components/app/wisdom-texts-content.tsx",
+        "hash": "10557506917421543441"
+      },
+      {
+        "file": "src/components/ui/accordion.tsx",
+        "hash": "13528365161596224788"
+      },
+      {
+        "file": "src/components/ui/alert-dialog.tsx",
+        "hash": "11015655068511686163"
+      },
+      {
+        "file": "src/components/ui/alert.tsx",
+        "hash": "1861621377426642757"
+      },
+      {
+        "file": "src/components/ui/avatar.tsx",
+        "hash": "8660661188500548189"
+      },
+      {
+        "file": "src/components/ui/badge.tsx",
+        "hash": "17728818806538962085"
+      },
+      {
+        "file": "src/components/ui/button.tsx",
+        "hash": "11257389123344437734"
+      },
+      {
+        "file": "src/components/ui/calendar.tsx",
+        "hash": "5479500782881706249"
+      },
+      {
+        "file": "src/components/ui/card.tsx",
+        "hash": "7290457965305507455"
+      },
+      {
+        "file": "src/components/ui/carousel.tsx",
+        "hash": "7809358582496626023"
+      },
+      {
+        "file": "src/components/ui/chart.tsx",
+        "hash": "4587680353265420567"
+      },
+      {
+        "file": "src/components/ui/checkbox.tsx",
+        "hash": "3030074975486641973"
+      },
+      {
+        "file": "src/components/ui/collapsible.tsx",
+        "hash": "11550741736187478023"
+      },
+      {
+        "file": "src/components/ui/dialog.tsx",
+        "hash": "6257434488129205118"
+      },
+      {
+        "file": "src/components/ui/dropdown-menu.tsx",
+        "hash": "3762317119239581082"
+      },
+      {
+        "file": "src/components/ui/form.tsx",
+        "hash": "14373301194178947649"
+      },
+      {
+        "file": "src/components/ui/input.tsx",
+        "hash": "16402505626366557914"
+      },
+      {
+        "file": "src/components/ui/label.tsx",
+        "hash": "17461498100996495370"
+      },
+      {
+        "file": "src/components/ui/menubar.tsx",
+        "hash": "15588426639867591240"
+      },
+      {
+        "file": "src/components/ui/popover.tsx",
+        "hash": "17435332130791270188"
+      },
+      {
+        "file": "src/components/ui/progress.tsx",
+        "hash": "17647409214643394547"
+      },
+      {
+        "file": "src/components/ui/radio-group.tsx",
+        "hash": "10646533303141561680"
+      },
+      {
+        "file": "src/components/ui/scroll-area.tsx",
+        "hash": "17018798627201134961"
+      },
+      {
+        "file": "src/components/ui/select.tsx",
+        "hash": "9158532778847058189"
+      },
+      {
+        "file": "src/components/ui/separator.tsx",
+        "hash": "1978076718437868180"
+      },
+      {
+        "file": "src/components/ui/sheet.tsx",
+        "hash": "13209475715203076961"
+      },
+      {
+        "file": "src/components/ui/sidebar.tsx",
+        "hash": "16123506131687322554"
+      },
+      {
+        "file": "src/components/ui/skeleton.tsx",
+        "hash": "7739192301396167804"
+      },
+      {
+        "file": "src/components/ui/slider.tsx",
+        "hash": "9902970018556264173"
+      },
+      {
+        "file": "src/components/ui/switch.tsx",
+        "hash": "13395189205378817470"
+      },
+      {
+        "file": "src/components/ui/table.tsx",
+        "hash": "12220893068497995597"
+      },
+      {
+        "file": "src/components/ui/tabs.tsx",
+        "hash": "12745308935332524510"
+      },
+      {
+        "file": "src/components/ui/textarea.tsx",
+        "hash": "4358044032186871309"
+      },
+      {
+        "file": "src/components/ui/toast.tsx",
+        "hash": "14657746038572471583"
+      },
+      {
+        "file": "src/components/ui/toaster.tsx",
+        "hash": "12424583411356286543"
+      },
+      {
+        "file": "src/components/ui/tooltip.tsx",
+        "hash": "15991294883522004040"
+      },
+      {
+        "file": "src/hooks/use-auth.ts",
+        "hash": "15609720011104105959"
+      },
+      {
+        "file": "src/hooks/use-mobile.tsx",
+        "hash": "14900138732519213047"
+      },
+      {
+        "file": "src/hooks/use-toast.ts",
+        "hash": "1926694879104732356"
+      },
+      {
+        "file": "src/lib/firebase.ts",
+        "hash": "2911991701779199037"
+      },
+      {
+        "file": "src/lib/firestore.ts",
+        "hash": "11667012794785222026"
+      },
+      {
+        "file": "src/lib/utils.ts",
+        "hash": "6483145186850064023"
+      },
+      {
+        "file": "src/services/bible.ts",
+        "hash": "3652388022325952484"
+      },
+      {
+        "file": "src/services/cultural-intelligence.ts",
+        "hash": "11960493242406580443"
+      },
+      {
+        "file": "storage.rules",
+        "hash": "1750833291530802525"
+      },
+      {
+        "file": "tailwind.config.ts",
+        "hash": "16682659336766245369"
+      },
+      {
+        "file": "test-results/.last-run.json",
+        "hash": "14431912725686987171"
+      },
+      {
+        "file": "test-results/admin-Admin-Access-Control-5a717-om-accessing-the-admin-page-Desktop-Chrome-retry1/trace.zip",
+        "hash": "9044441114728447566"
+      },
+      {
+        "file": "test-results/admin-Admin-Access-Control-5a717-om-accessing-the-admin-page-Mobile-Safari-retry1/trace.zip",
+        "hash": "4619449191885832116"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-77b03-to-sign-up-and-then-log-out-Desktop-Chrome-retry1/error-context.md",
+        "hash": "14302537813685793387"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-77b03-to-sign-up-and-then-log-out-Desktop-Chrome-retry1/trace.zip",
+        "hash": "11458658694800650337"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-77b03-to-sign-up-and-then-log-out-Desktop-Chrome-retry2/error-context.md",
+        "hash": "8928438905608736236"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-77b03-to-sign-up-and-then-log-out-Desktop-Chrome/error-context.md",
+        "hash": "1787667459898630829"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-77b03-to-sign-up-and-then-log-out-Mobile-Safari-retry1/error-context.md",
+        "hash": "18442618783362613899"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-77b03-to-sign-up-and-then-log-out-Mobile-Safari-retry1/trace.zip",
+        "hash": "13203413372900355139"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-77b03-to-sign-up-and-then-log-out-Mobile-Safari-retry2/error-context.md",
+        "hash": "1874165326114764000"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-77b03-to-sign-up-and-then-log-out-Mobile-Safari/error-context.md",
+        "hash": "2727975784870558552"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-f091e-xisting-email-during-signup-Desktop-Chrome-retry1/error-context.md",
+        "hash": "18419758085679896767"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-f091e-xisting-email-during-signup-Desktop-Chrome-retry1/trace.zip",
+        "hash": "953282145923463311"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-f091e-xisting-email-during-signup-Desktop-Chrome-retry2/error-context.md",
+        "hash": "8390287914938393449"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-f091e-xisting-email-during-signup-Desktop-Chrome/error-context.md",
+        "hash": "10369307483550112955"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-f091e-xisting-email-during-signup-Mobile-Safari-retry1/error-context.md",
+        "hash": "2086461671461760115"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-f091e-xisting-email-during-signup-Mobile-Safari-retry1/trace.zip",
+        "hash": "654719799886223232"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-f091e-xisting-email-during-signup-Mobile-Safari-retry2/error-context.md",
+        "hash": "12033385742894224457"
+      },
+      {
+        "file": "test-results/auth-Authentication-Flow-s-f091e-xisting-email-during-signup-Mobile-Safari/error-context.md",
+        "hash": "15809183761905919307"
+      },
+      {
+        "file": "test-results/core-features-Core-Feature-590e4-ser-to-update-their-profile-Desktop-Chrome-retry1/trace.zip",
+        "hash": "8446426106333536794"
+      },
+      {
+        "file": "test-results/core-features-Core-Feature-590e4-ser-to-update-their-profile-Mobile-Safari-retry1/trace.zip",
+        "hash": "10963176780347256219"
+      },
+      {
+        "file": "test-results/core-features-Core-Feature-b7030-new-post-on-the-social-feed-Desktop-Chrome-retry1/trace.zip",
+        "hash": "2550385146264586784"
+      },
+      {
+        "file": "test-results/core-features-Core-Feature-b7030-new-post-on-the-social-feed-Mobile-Safari-retry1/trace.zip",
+        "hash": "3804347209243362683"
+      },
+      {
+        "file": "test-results/core-features-Core-Feature-f60d8-quest-on-the-community-wall-Desktop-Chrome-retry1/trace.zip",
+        "hash": "9753979333467487080"
+      },
+      {
+        "file": "test-results/core-features-Core-Feature-f60d8-quest-on-the-community-wall-Mobile-Safari-retry1/trace.zip",
+        "hash": "15430621697919894105"
+      },
+      {
+        "file": "tests/e2e/admin.spec.ts",
+        "hash": "5960891589576530853"
+      },
+      {
+        "file": "tests/e2e/auth.spec.ts",
+        "hash": "13901238548259246635"
+      },
+      {
+        "file": "tests/e2e/core-features.spec.ts",
+        "hash": "7533552038885300103"
+      },
+      {
+        "file": "tests/e2e/helpers.ts",
+        "hash": "10302190463237582865"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "1516374132852153778"
+      }
+    ]
+  }
+}

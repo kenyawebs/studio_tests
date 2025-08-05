@@ -8,7 +8,7 @@
 
 ## Finish your CI setup
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/JeLKyjpcrm)
+[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/uwY71OeyKk)
 
 
 ## Run tasks
@@ -16,19 +16,19 @@
 To run the dev server for your app, use:
 
 ```sh
-npx nx dev connect-hub-org-monorepo
+npx nx dev org
 ```
 
 To create a production bundle:
 
 ```sh
-npx nx build connect-hub-org-monorepo
+npx nx build org
 ```
 
 To see all available targets to run for a project, run:
 
 ```sh
-npx nx show project connect-hub-org-monorepo
+npx nx show project org
 ```
 
 These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
