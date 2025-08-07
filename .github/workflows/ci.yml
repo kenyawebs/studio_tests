@@ -24,8 +24,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Use Nx to run lint for affected projects
       - name: Run linter
-        run: npm run lint
+        run: npx nx affected:lint --base=${{ github.event.pull_request.base.sha || github.sha }} --head=${{ github.sha }}
 
       - name: Run type-checker
         run: npm run typecheck
