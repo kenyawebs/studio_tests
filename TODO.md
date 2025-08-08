@@ -25,6 +25,18 @@ This document tracks our development roadmap. We have a stable, feature-rich app
 -   **Why:** To guarantee application stability and catch regressions as we add more complex features.
 
 ---
+## 🚧 **Technical Debt & Issues**
+
+### **1. Address "Firebase: Error (auth/popup-blocked)"**
+-   **What:** Investigate and fix the client-side error "Firebase: Error (auth/popup-blocked)" which prevents popup-based authentication methods (like Google Sign-In) from working for some users.
+-   **Why:** This is a critical blocker for user authentication and signup using popular methods.
+-   **Solutions:**
+    -   Instruct users to allow popups for the site in their browser settings and check browser extensions (like ad blockers).
+    -   Implement a redirect-based authentication flow as an alternative to the popup flow. Firebase Authentication supports redirect-based flows.
+    -   Consider offering alternative authentication methods that do not rely on popups (e.g., email/password).
+-   **Related:** Note that during recent troubleshooting, attempts were made to use the AI's `natural_language_write_file` tool to modify the CI workflow file (`.github/workflows/ci.yml`), but the tool experienced issues. The necessary changes to adapt the CI to use standard npm commands after cleaning up the incorrect monorepo setup were performed manually.
+
+---
 
 ## 🌟 **Future Feature Wishlist (Post-Priorities)**
 
