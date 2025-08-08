@@ -29,7 +29,7 @@ jobs:
         run: npm ci
 
       - name: Run linter
-        run: npx nx affected:lint --base=${{ github.event.pull_request.base.sha || github.sha }} --head=${{ github.sha }}
+        run: npm run lint
 
       - name: Run type-checker
         run: npm run typecheck
@@ -67,7 +67,7 @@ jobs:
           echo "NEXT_PUBLIC_FIREBASE_APP_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}" >> .env.local
 
       - name: Build the application
-        run: npx nx affected:build --base=${{ github.event.pull_request.base.sha || github.sha }} --head=${{ github.sha }}
+        run: npm run build
 
   e2e_tests:
     name: End-to-End Tests
@@ -105,4 +105,4 @@ jobs:
           echo "NEXT_PUBLIC_FIREBASE_APP_ID=${{ secrets.NEXT_PUBLIC_FIREBASE_APP_ID }}" >> .env.local
 
       - name: Run Playwright tests
-        run: npx nx affected:e2e --base=${{ github.event.pull_request.base.sha || github.sha }} --head=${{ github.sha }}
+        run: npm run e2e
