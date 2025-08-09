@@ -55,24 +55,16 @@ export default function LoginPage() {
   const [socialLoading, setSocialLoading] = useState<null | 'google' | 'facebook'>(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-  useEffect(() => {
-    setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
-  }, [rememberMe]);
-
   const handleAuthSuccess = () => {
-    // The main layout's AuthGuard will handle redirection
-    // to either /dashboard or /legal/accept.
-    // This component's only job is to get the user authenticated.
     router.push('/dashboard'); 
   };
-
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setErrorMessage("");
     try {
-      // Persistence is now set in the useEffect hook
+      await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
       await signInWithEmailAndPassword(auth, email, password);
       handleAuthSuccess();
     } catch (error: any) {
@@ -90,6 +82,7 @@ export default function LoginPage() {
       : new FacebookAuthProvider();
     
     try {
+      await setPersistence(auth, browserLocalPersistence); // Social logins should persist
       await signInWithPopup(auth, provider);
       handleAuthSuccess();
     } catch (error: any) {

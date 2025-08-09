@@ -157,7 +157,7 @@ export default function SignupPage() {
     let description = "An unexpected error occurred. Please try again.";
       switch (error.code) {
         case 'auth/email-already-in-use':
-          description = "This email address is already in use by another account.";
+          description = "This email is already in use. Try signing in instead.";
           break;
         case 'auth/invalid-email':
           description = "The email address is not valid. Please check and try again.";
@@ -169,7 +169,7 @@ export default function SignupPage() {
           description = "The password is too weak. Please use a stronger password.";
           break;
          case 'auth/account-exists-with-different-credential':
-          description = "An account already exists with the same email address but different sign-in credentials. Sign in using a provider associated with this email address.";
+          description = "An account already exists with this email. Please sign in using the method you originally used.";
           break;
         case 'auth/popup-closed-by-user':
           // Don't show toast for this common user action

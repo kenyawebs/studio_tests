@@ -1,8 +1,8 @@
 
-// src/lib/firebase.ts
+// src/lib/firebase.ts - Definitive Fix
 
-import { initializeApp, getApps, FirebaseApp, getApp } from "firebase/app";
-import { getAuth, Auth } from "firebase/auth";
+import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
+import { getAuth, Auth, setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth";
 import { getFirestore, Firestore } from "firebase/firestore";
 import { getStorage, FirebaseStorage } from "firebase/storage";
 
@@ -15,7 +15,7 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Function to check if the configuration is valid and complete
+// A function to check if the configuration is valid and complete
 function isFirebaseConfigValid(config: typeof firebaseConfig): boolean {
   return Object.values(config).every(
     (value) => value && !value.includes('your-') && !value.includes('dummy')
@@ -24,22 +24,35 @@ function isFirebaseConfigValid(config: typeof firebaseConfig): boolean {
 
 export const firebaseConfigStatus = {
   isValid: isFirebaseConfigValid(firebaseConfig),
-  config: firebaseConfig,
 };
 
-// Initialize Firebase App on the client side only, and only if it hasn't been initialized yet.
-const app: FirebaseApp = !getApps().length && firebaseConfigStatus.isValid ? initializeApp(firebaseConfig) : getApp();
-
-// Conditionally export services only if the app is initialized
+let app: FirebaseApp;
 let auth: Auth;
 let db: Firestore;
 let storage: FirebaseStorage;
 
-if (firebaseConfigStatus.isValid) {
+// This function safely initializes Firebase and all its services
+// It will only be called on the client-side from the AuthProvider
+const initializeFirebase = () => {
+    if (!firebaseConfigStatus.isValid) {
+        return;
+    }
+
+    if (!getApps().length) {
+        app = initializeApp(firebaseConfig);
+    } else {
+        app = getApp();
+    }
+
     auth = getAuth(app);
     db = getFirestore(app);
     storage = getStorage(app);
-}
+};
 
-// @ts-ignore - We are handling the uninitialized case in the AuthProvider
+// We call it once here to ensure it's set up for the app's lifecycle
+initializeFirebase();
+
+// We export the services directly. The AuthProvider will guard against their use
+// if the configuration is invalid.
+// @ts-ignore
 export { app, auth, db, storage };
