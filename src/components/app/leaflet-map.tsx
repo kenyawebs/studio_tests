@@ -41,7 +41,7 @@ export default function GoogleMapWrapper() {
     );
   }
 
-  const { isLoaded } = useJsApiLoader({
+  const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: apiKey,
   });
@@ -57,6 +57,18 @@ export default function GoogleMapWrapper() {
   const onUnmount = React.useCallback(function callback() {
     setMap(null);
   }, []);
+
+  if (loadError) {
+      return (
+          <Alert variant="destructive">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Map Loading Error</AlertTitle>
+            <AlertDescription>
+                Could not load Google Maps. Please check the API key and console for more details.
+            </AlertDescription>
+        </Alert>
+      )
+  }
 
   if (!isLoaded) {
     return <Skeleton className="w-full h-full" />;

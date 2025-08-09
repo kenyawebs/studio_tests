@@ -1,4 +1,3 @@
-// src/lib/firebase.ts - Definitive Fix
 
 import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
 import { getAuth, Auth } from "firebase/auth";
@@ -14,7 +13,6 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// A function to check if the configuration is valid and complete
 function isFirebaseConfigValid(config: typeof firebaseConfig): boolean {
   return Object.values(config).every(
     (value) => value && !value.includes('your-') && !value.includes('dummy')
@@ -30,7 +28,6 @@ let auth: Auth;
 let db: Firestore;
 let storage: FirebaseStorage;
 
-// This function should be called once from a client-side component.
 export function initializeFirebase() {
     if (firebaseConfigStatus.isValid && !getApps().length) {
         app = initializeApp(firebaseConfig);
@@ -45,6 +42,4 @@ export function initializeFirebase() {
     }
 }
 
-// We export the potentially uninitialized services.
-// The AuthProvider will guard their usage based on firebaseConfigStatus.isValid
 export { app, auth, db, storage };

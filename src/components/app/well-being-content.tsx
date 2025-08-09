@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "../ui/input";
 
 const resources = [
   {
@@ -126,7 +127,7 @@ function AiAssistantDialog({ title, description, trigger }: { title: string, des
                      <div className={`p-3 rounded-lg text-sm max-w-[80%] ${msg.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-background'}`}>
                         <p>{msg.text}</p>
                     </div>
-                     {msg.role === 'user' && isLoading && (
+                     {msg.role === 'user' && !isLoading && (
                         <Avatar className="h-8 w-8 border">
                             <AvatarFallback><UserCheck/></AvatarFallback>
                         </Avatar>
