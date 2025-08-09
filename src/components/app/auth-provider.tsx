@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from "react";
 import type { User } from "firebase/auth";
-import { auth, firebaseConfigStatus } from "@/lib/firebase";
+import { auth, firebaseConfigStatus, initializeFirebase } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { Sparkles, AlertTriangle } from "lucide-react";
 import { AuthContext } from "@/hooks/use-auth";
@@ -60,6 +60,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setAuthReady(true);
       return;
     }
+
+    initializeFirebase();
     
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -77,16 +79,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => unsubscribe();
   }, []);
 
+  if (!firebaseConfigStatus.isValid) {
+    return <FirebaseNotConfigured />;
+  }
+
   return (
-    <ClientOnly>
-        {!firebaseConfigStatus.isValid ? (
-            <FirebaseNotConfigured />
-        ) : (
-            <AuthContext.Provider value={{ user, loading, authReady, isAdmin }}>
-            {children}
-            </AuthContext.Provider>
-        )}
-    </ClientOnly>
+    <AuthContext.Provider value={{ user, loading, authReady, isAdmin }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 

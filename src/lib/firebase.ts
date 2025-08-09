@@ -1,4 +1,3 @@
-
 // src/lib/firebase.ts - Definitive Fix
 
 import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
@@ -31,15 +30,19 @@ let auth: Auth;
 let db: Firestore;
 let storage: FirebaseStorage;
 
-if (firebaseConfigStatus.isValid) {
-  if (!getApps().length) {
-    app = initializeApp(firebaseConfig);
-  } else {
-    app = getApp();
-  }
-  auth = getAuth(app);
-  db = getFirestore(app);
-  storage = getStorage(app);
+// This function should be called once from a client-side component.
+export function initializeFirebase() {
+    if (firebaseConfigStatus.isValid && !getApps().length) {
+        app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+        storage = getStorage(app);
+    } else if (getApps().length) {
+        app = getApp();
+        auth = getAuth(app);
+        db = getFirestore(app);
+        storage = getStorage(app);
+    }
 }
 
 // We export the potentially uninitialized services.

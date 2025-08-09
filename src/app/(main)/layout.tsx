@@ -1,8 +1,6 @@
 
 'use client';
 
-import { useEffect } from 'react';
-import { usePathname } from 'next/navigation';
 import { AppShell } from "@/components/app/app-shell";
 import { ClientOnly } from '@/components/app/client-only';
 import { AuthLoader } from '@/components/app/auth-provider';
@@ -13,13 +11,6 @@ import { AuthLoader } from '@/components/app/auth-provider';
 // between server and client components, which is a best practice in the Next.js App Router.
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-
-  useEffect(() => {
-    // Reset scroll position to top on every navigation
-    window.scrollTo(0, 0);
-  }, [pathname]);
-
   return (
     <ClientOnly fallback={<AuthLoader />}>
         <AppShell>{children}</AppShell>

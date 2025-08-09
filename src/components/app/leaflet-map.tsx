@@ -29,7 +29,7 @@ const markers = [
 export default function GoogleMapWrapper() {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
-  if (!apiKey) {
+  if (!apiKey || apiKey.includes("your-") || apiKey.includes("dummy")) {
     return (
         <Alert variant="destructive">
             <AlertTriangle className="h-4 w-4" />
@@ -49,13 +49,6 @@ export default function GoogleMapWrapper() {
   const [map, setMap] = React.useState<google.maps.Map | null>(null);
 
   const onLoad = React.useCallback(function callback(mapInstance: google.maps.Map) {
-    const bounds = new window.google.maps.LatLngBounds(center);
-    markers.forEach(marker => {
-      bounds.extend(new window.google.maps.LatLng(marker.lat, marker.lng));
-    });
-    // In a real app with dynamic markers, you would fit bounds here.
-    // For now, we'll just set a default zoom and center.
-    // mapInstance.fitBounds(bounds);
     mapInstance.setCenter(center);
     mapInstance.setZoom(12);
     setMap(mapInstance);
