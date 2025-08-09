@@ -15,10 +15,10 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-// Function to check if the configuration is valid
+// Function to check if the configuration is valid and complete
 function isFirebaseConfigValid(config: typeof firebaseConfig): boolean {
   return Object.values(config).every(
-    (value) => value && !value.includes('dummy-key') && !value.startsWith('your-')
+    (value) => value && !value.includes('your-') && !value.includes('dummy')
   );
 }
 
@@ -27,20 +27,19 @@ export const firebaseConfigStatus = {
   config: firebaseConfig,
 };
 
-let app: FirebaseApp | null = null;
-if (firebaseConfigStatus.isValid) {
-    app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-}
+// Initialize Firebase App on the client side only, and only if it hasn't been initialized yet.
+const app: FirebaseApp = !getApps().length && firebaseConfigStatus.isValid ? initializeApp(firebaseConfig) : getApp();
 
+// Conditionally export services only if the app is initialized
 let auth: Auth;
 let db: Firestore;
 let storage: FirebaseStorage;
 
-if (app) {
+if (firebaseConfigStatus.isValid) {
     auth = getAuth(app);
     db = getFirestore(app);
     storage = getStorage(app);
 }
 
-// @ts-ignore
+// @ts-ignore - We are handling the uninitialized case in the AuthProvider
 export { app, auth, db, storage };

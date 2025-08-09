@@ -29,7 +29,7 @@ const FirebaseNotConfigured = () => {
                         <li>In your project, go to Project Settings and add a <strong>Web</strong> application.</li>
                         <li>Firebase will provide a `firebaseConfig` object. You will need these keys.</li>
                         <li>In this code editor, create a new file in the root directory named <strong><code>.env.local</code></strong>.</li>
-                        <li>Copy the contents of <strong><code>.env.example</code></strong> (if it exists) or copy the block below into your new <strong><code>.env.local</code></strong> file.</li>
+                        <li>Copy the contents of <strong><code>.env.example</code></strong> or the block below into your new <strong><code>.env.local</code></strong> file.</li>
                         <li>Replace the placeholder values in `.env.local` with your actual credentials from Firebase.</li>
                     </ol>
                     <pre className="bg-background/50 p-4 rounded-md text-xs whitespace-pre-wrap">
@@ -40,7 +40,7 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project-id.appspot.com
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
 NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id`}
                     </pre>
-                    <p className="pt-2 font-semibold">After saving the <code>.env.local</code> file, the app will automatically restart and work correctly.</p>
+                    <p className="pt-2 font-semibold">After saving the <code>.env.local</code> file, restart the development server.</p>
                 </CardContent>
              </Card>
         </div>
@@ -55,6 +55,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    // Only attempt to set up the listener if the config is valid.
     if (!firebaseConfigStatus.isValid) {
       setLoading(false);
       setAuthReady(true);
@@ -77,6 +78,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => unsubscribe();
   }, []);
 
+  // Use ClientOnly to ensure this logic only runs on the client.
   return (
     <ClientOnly>
         {!firebaseConfigStatus.isValid ? (
