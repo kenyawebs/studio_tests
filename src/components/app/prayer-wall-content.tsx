@@ -21,6 +21,7 @@ import Link from "next/link";
 import { askPrayerAssistant, PrayerAssistantInput } from "@/ai/flows/prayer-assistant-flow";
 import { createPrayerRequest, PrayerRequest } from "@/lib/firestore";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Input } from "@/components/ui/input";
 
 const PrayerWallSkeleton = () => (
     <div className="space-y-4 mt-4">
@@ -362,5 +363,3 @@ function PrayerCard({ id, name, avatar, aiHint, request, prayCount, timestamp, c
         </Card>
     );
 }
-
-    

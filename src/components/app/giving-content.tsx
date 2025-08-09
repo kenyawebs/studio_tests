@@ -48,9 +48,9 @@ const InvestorOnboardingSection = () => {
     return (
         <div className="space-y-8">
             <div className="text-center">
-                <h2 className="text-3xl font-bold">Invest in Connect Hub's Future</h2>
+                <h2 className="text-3xl font-bold">Invest in Connect Hub&apos;s Future</h2>
                 <p className="mt-2 text-lg text-muted-foreground max-w-2xl mx-auto">
-                    Join us in building the world's most inclusive spiritual community platform. We are seeking partners aligned with our mission to create a positive, transformative impact.
+                    Join us in building the world&apos;s most inclusive spiritual community platform. We are seeking partners aligned with our mission to create a positive, transformative impact.
                 </p>
             </div>
 

@@ -11,6 +11,7 @@ import Link from "next/link";
 import { AuthLoader } from "@/components/app/auth-provider";
 import { useToast } from "@/hooks/use-toast";
 import { Sparkles } from "lucide-react";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 export default function AcceptTermsPage() {
   const { user, loading: authLoading } = useAuth();
@@ -59,7 +60,7 @@ export default function AcceptTermsPage() {
         </CardHeader>
         <CardContent className="space-y-4">
             <div className="p-4 border rounded-md bg-background text-sm text-muted-foreground space-y-2">
-                <p>By clicking "I Agree and Continue", you confirm that you have read, understood, and agree to be bound by our:</p>
+                <p>By clicking &quot;I Agree and Continue&quot;, you confirm that you have read, understood, and agree to be bound by our:</p>
                 <ul className="list-disc pl-5 font-semibold">
                     <li>
                         <Link href="/legal/terms" target="_blank" className="text-primary underline hover:text-primary/80">

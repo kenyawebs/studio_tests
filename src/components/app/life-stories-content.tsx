@@ -92,7 +92,7 @@ export function LifeStoriesContent() {
     }
   };
 
-  const scheduleAutoScroll = () => {
+  const scheduleAutoScroll = React.useCallback(() => {
     if (autoScrollTimeoutRef.current) {
       clearTimeout(autoScrollTimeoutRef.current);
     }
@@ -101,7 +101,7 @@ export function LifeStoriesContent() {
       setCurrentReelIndex(nextIndex);
       scrollToReel(nextIndex);
     }, 8000); // 8-second delay
-  };
+  }, [currentReelIndex]);
 
   useEffect(() => {
     if (!isAutoScrollPaused) {
@@ -111,7 +111,7 @@ export function LifeStoriesContent() {
       if (autoScrollTimeoutRef.current) clearTimeout(autoScrollTimeoutRef.current);
       if (userInteractionTimeoutRef.current) clearTimeout(userInteractionTimeoutRef.current);
     };
-  }, [currentReelIndex, isAutoScrollPaused]);
+  }, [currentReelIndex, isAutoScrollPaused, scheduleAutoScroll]);
   
   const handleUserScroll = () => {
     setIsAutoScrollPaused(true);

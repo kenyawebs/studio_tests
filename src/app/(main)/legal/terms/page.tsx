@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function TermsOfServicePage() {
@@ -41,7 +42,7 @@ export default function TermsOfServicePage() {
                 <ul>
                     <li>Respect cultural differences across regions</li>
                     <li>Use appropriate language for diverse audiences</li>
-                    <li>Support the "fishing net" inclusive approach</li>
+                    <li>Support the &quot;fishing net&quot; inclusive approach</li>
                 </ul>
 
                 <h2>4. PROHIBITED CONDUCT</h2>
@@ -84,7 +85,8 @@ export default function TermsOfServicePage() {
                 <ul>
                     <li>AI accuracy is not guaranteed.</li>
                     <li>Spiritual guidance is supplemental to human wisdom.</li>
-                    <li>Cultural sensitivity is best-effort, not perfect.</li>
+                    <li>Prayer matching is algorithmic, not supernatural.</li>
+                    <li>Spiritual growth tracking is for encouragement only.</li>
                 </ul>
 
                 <h2>7. REGIONAL TERMS</h2>
@@ -100,7 +102,7 @@ export default function TermsOfServicePage() {
                 <h2>8. LIMITATION OF LIABILITY</h2>
                  <h3>Platform Limitations:</h3>
                  <ul>
-                    <li>We provide the platform "as is".</li>
+                    <li>We provide the platform &quot;as is&quot;.</li>
                     <li>No guarantee of spiritual outcomes.</li>
                     <li>AI recommendations are not professional advice.</li>
                     <li>Technical issues may occur.</li>

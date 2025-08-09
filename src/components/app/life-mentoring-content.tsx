@@ -83,7 +83,7 @@ export function LifeMentoringContent() {
                               <DialogHeader>
                                 <DialogTitle>Request Mentorship from {mentor.name}</DialogTitle>
                                 <DialogDescription>
-                                    Share a bit about why you're seeking guidance. You can use the AI assistant to help you draft a clear and thoughtful request.
+                                    Share a bit about why you&apos;re seeking guidance. You can use the AI assistant to help you draft a clear and thoughtful request.
                                 </DialogDescription>
                               </DialogHeader>
                               <div className="space-y-4 py-4">
@@ -178,5 +178,3 @@ export function LifeMentoringContent() {
     </div>
   );
 }
-
-    

@@ -199,7 +199,7 @@ export default function LoginPage() {
       </CardContent>
       <CardFooter>
         <p className="text-sm text-center text-muted-foreground w-full">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href="/signup" className="underline text-primary">
               Sign up
             </Link>

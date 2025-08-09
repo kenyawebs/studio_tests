@@ -196,7 +196,7 @@ export function DashboardContent() {
                     <Card>
                         <CardHeader>
                             <CardTitle>The Vibe &amp; Core</CardTitle>
-                            <CardDescription>Content curated for you. Here's what's resonating in the community right now.</CardDescription>
+                            <CardDescription>Content curated for you. Here&apos;s what&apos;s resonating in the community right now.</CardDescription>
                         </CardHeader>
                         <CardContent>
                            <Carousel opts={{ align: "start" }} className="w-full">

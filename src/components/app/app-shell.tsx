@@ -120,7 +120,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </DialogDescription>
           </DialogHeader>
           <div className="py-4 text-sm">
-            By clicking "I Agree," you confirm you've read and agree to our:
+            By clicking &quot;I Agree,&quot; you confirm you&apos;ve read and agree to our:
             <ul className="list-disc list-inside mt-2 space-y-1">
               <li>
                 <Link href="/legal/terms" target="_blank" className="text-primary underline">
@@ -144,5 +144,3 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     </>
   );
 }
-
-    

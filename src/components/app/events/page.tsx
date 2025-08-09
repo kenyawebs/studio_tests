@@ -11,7 +11,7 @@ import Image from "next/image";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { CreateEventForm } from "@/components/app/create-event-form";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
@@ -107,7 +107,7 @@ export default function EventsPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-3xl font-bold">Events Hub</h1>
-          <p className="text-muted-foreground">Discover what's happening and get involved.</p>
+          <p className="text-muted-foreground">Discover what&apos;s happening and get involved.</p>
         </div>
         <Dialog>
           <DialogTrigger asChild>
@@ -117,6 +117,12 @@ export default function EventsPage() {
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[625px]">
+            <DialogHeader>
+              <DialogTitle>Create a New Event</DialogTitle>
+              <DialogDescription>
+                  Fill out the details below to create a new event. All events are subject to admin approval before being published.
+              </DialogDescription>
+            </DialogHeader>
             <CreateEventForm />
           </DialogContent>
         </Dialog>
@@ -212,10 +218,6 @@ function EventCard({ event, onUpdate }: { event: Event, onUpdate: (event: Event)
   const handleRsvp = () => {
     const newRsvpState = !isRsvpd;
     setIsRsvpd(newRsvpState);
-    onUpdate({
-      ...event,
-      rsvps: event.rsvps + (newRsvpState ? 1 : -1)
-    });
     toast({
       title: newRsvpState ? "You're Going!" : "RSVP Canceled",
       description: `You have successfully ${newRsvpState ? 'RSVP\'d for' : 'canceled your RSVP for'} "${event.title}".`

@@ -68,7 +68,7 @@ export default function ForgotPasswordPage() {
       <CardHeader>
         <CardTitle>Forgot Password</CardTitle>
         <CardDescription>
-          Enter your email and we'll send you a link to reset your password.
+          Enter your email and we&apos;ll send you a link to reset your password.
         </CardDescription>
       </CardHeader>
       <form onSubmit={handlePasswordReset}>

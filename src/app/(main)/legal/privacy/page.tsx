@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function PrivacyPolicyPage() {
@@ -110,7 +111,7 @@ export default function PrivacyPolicyPage() {
           <ul>
             <li>Right to know what data is collected</li>
             <li>Right to delete personal information</li>
-            <li>Right to opt-out of sale (we don't sell data)</li>
+            <li>Right to opt-out of sale (we don&apos;t sell data)</li>
           </ul>
 
           <h2>6. AI TRANSPARENCY & USAGE POLICY</h2>
@@ -147,7 +148,7 @@ export default function PrivacyPolicyPage() {
             <li>Legal compliance: As required by law</li>
           </ul>
 
-          <h2>8. CHILDREN'S PRIVACY</h2>
+          <h2>8. CHILDREN&apos;S PRIVACY</h2>
           <p>The platform is designed for users 13+ years old. Parental consent is required for users under 16 where applicable by law (e.g., GDPR). We provide enhanced protections for young users.</p>
 
           <h2>9. CONTACT INFORMATION</h2>

@@ -65,7 +65,11 @@ export default function GoogleMapWrapper() {
     setMap(null);
   }, []);
 
-  return isLoaded ? (
+  if (!isLoaded) {
+    return <Skeleton className="w-full h-full" />;
+  }
+
+  return (
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
@@ -82,7 +86,5 @@ export default function GoogleMapWrapper() {
         <MarkerF key={index} position={{ lat: marker.lat, lng: marker.lng }} title={marker.title} />
       ))}
     </GoogleMap>
-  ) : (
-    <Skeleton className="w-full h-full" />
   );
 }

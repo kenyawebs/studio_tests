@@ -155,31 +155,7 @@ export function SocialFeedContent() {
     const [hasMore, setHasMore] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
 
-    useEffect(() => {
-        loadPosts(true);
-    }, []);
-
-    const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            setImageFile(file);
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result as string);
-            };
-            reader.readAsDataURL(file);
-        }
-    };
-
-    const clearImage = () => {
-        setImageFile(null);
-        setImagePreview(null);
-        if (imageInputRef.current) {
-            imageInputRef.current.value = "";
-        }
-    };
-
-    const loadPosts = async (fromStart = false) => {
+    const loadPosts = React.useCallback(async (fromStart = false) => {
         if (!hasMore && !fromStart) return;
         setLoadingMore(true);
 
@@ -200,6 +176,30 @@ export function SocialFeedContent() {
         } finally {
             setLoading(false);
             setLoadingMore(false);
+        }
+    }, [hasMore, lastVisible, toast]);
+
+    useEffect(() => {
+        loadPosts(true);
+    }, [loadPosts]);
+
+    const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            setImageFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const clearImage = () => {
+        setImageFile(null);
+        setImagePreview(null);
+        if (imageInputRef.current) {
+            imageInputRef.current.value = "";
         }
     };
 
@@ -441,7 +441,7 @@ function ReportDialog({ open, onOpenChange, post }: { open: boolean, onOpenChang
           <DialogHeader>
             <DialogTitle>Report Content</DialogTitle>
             <DialogDescription>
-              Help us understand the problem. What's wrong with this post by {post.user?.name}?
+              Help us understand the problem. What&apos;s wrong with this post by {post.user?.name}?
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">

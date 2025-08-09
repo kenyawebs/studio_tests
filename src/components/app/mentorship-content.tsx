@@ -84,7 +84,7 @@ export function MentorshipContent() {
                               <DialogHeader>
                                 <DialogTitle>Request Mentorship from {mentor.name}</DialogTitle>
                                 <DialogDescription>
-                                    Share a bit about why you're seeking guidance. You can use the AI assistant to help you draft a clear and thoughtful request.
+                                    Share a bit about why you&apos;re seeking guidance. You can use the AI assistant to help you draft a clear and thoughtful request.
                                 </DialogDescription>
                               </DialogHeader>
                               <div className="space-y-4 py-4">
@@ -142,6 +142,12 @@ export function MentorshipContent() {
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[625px]">
+                        <DialogHeader>
+                          <DialogTitle>Apply to be a Mentor</DialogTitle>
+                          <DialogDescription>
+                            Thank you for your interest in investing in our community. Please fill out the form below.
+                          </DialogDescription>
+                        </DialogHeader>
                         <MentorApplicationForm />
                     </DialogContent>
                 </Dialog>

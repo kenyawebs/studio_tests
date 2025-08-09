@@ -42,7 +42,7 @@ const ScriptureSkeleton = () => (
 );
 
 
-export function BibleContent() {
+export function WisdomTextsContent() {
     const { toast } = useToast();
     const isAiConfigured = !!process.env.NEXT_PUBLIC_GOOGLE_AI_API_KEY;
 
@@ -93,12 +93,8 @@ export function BibleContent() {
             setIsScriptureLoading(false);
         }
     }, [toast]);
-
-    useEffect(() => {
-        handleSearch();
-    }, []); // Load initial scripture on mount
-
-    const handleSearch = () => {
+    
+    const handleSearch = useCallback(() => {
         let passage = `${book}+${chapter}`;
         if (fromVerse) {
             passage += `:${fromVerse}`;
@@ -107,7 +103,11 @@ export function BibleContent() {
             }
         }
         fetchScripture(passage);
-    };
+    }, [book, chapter, fromVerse, toVerse, fetchScripture]);
+
+    useEffect(() => {
+        handleSearch();
+    }, [handleSearch]);
 
     const fetchChapterCount = useCallback(async (currentBook: string) => {
         try {

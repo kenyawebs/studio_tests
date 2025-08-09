@@ -91,7 +91,7 @@ export function FaithReelsContent() {
     }
   };
 
-  const scheduleAutoScroll = () => {
+  const scheduleAutoScroll = React.useCallback(() => {
     if (autoScrollTimeoutRef.current) {
       clearTimeout(autoScrollTimeoutRef.current);
     }
@@ -100,7 +100,7 @@ export function FaithReelsContent() {
       setCurrentReelIndex(nextIndex);
       scrollToReel(nextIndex);
     }, 8000); // 8-second delay
-  };
+  }, [currentReelIndex]);
 
   useEffect(() => {
     if (!isAutoScrollPaused) {
@@ -110,7 +110,7 @@ export function FaithReelsContent() {
       if (autoScrollTimeoutRef.current) clearTimeout(autoScrollTimeoutRef.current);
       if (userInteractionTimeoutRef.current) clearTimeout(userInteractionTimeoutRef.current);
     };
-  }, [currentReelIndex, isAutoScrollPaused]);
+  }, [currentReelIndex, isAutoScrollPaused, scheduleAutoScroll]);
   
   const handleUserScroll = () => {
     setIsAutoScrollPaused(true);
@@ -172,7 +172,6 @@ export function FaithReelsContent() {
 
 function Reel({ user, videoUrl, aiHint, caption, audio, likes, comments }: (typeof reels)[0]) {
   const { toast } = useToast();
-  const [isLiked, setIsLiked] = React.useState(false);
   const [isFollowing, setIsFollowing] = React.useState(false);
   const [activeReaction, setActiveReaction] = useState<string | null>(null);
   
