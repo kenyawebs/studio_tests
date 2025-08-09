@@ -1,6 +1,7 @@
+
 // src/lib/firebase.ts
 
-import { initializeApp, getApps, FirebaseApp } from "firebase/app";
+import { initializeApp, getApps, FirebaseApp, getApp } from "firebase/app";
 import { getAuth, Auth } from "firebase/auth";
 import { getFirestore, Firestore } from "firebase/firestore";
 import { getStorage, FirebaseStorage } from "firebase/storage";
@@ -26,20 +27,19 @@ export const firebaseConfigStatus = {
   config: firebaseConfig,
 };
 
-let app: FirebaseApp;
+let app: FirebaseApp | null = null;
+if (firebaseConfigStatus.isValid) {
+    app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+}
+
 let auth: Auth;
 let db: Firestore;
 let storage: FirebaseStorage;
 
-if (typeof window !== "undefined" && firebaseConfigStatus.isValid) {
-  if (!getApps().length) {
-    app = initializeApp(firebaseConfig);
-  } else {
-    app = getApps()[0];
-  }
-  auth = getAuth(app);
-  db = getFirestore(app);
-  storage = getStorage(app);
+if (app) {
+    auth = getAuth(app);
+    db = getFirestore(app);
+    storage = getStorage(app);
 }
 
 // @ts-ignore

@@ -220,7 +220,7 @@ function EventCard({ event, onUpdate }: { event: Event, onUpdate: (event: Event)
     setIsRsvpd(newRsvpState);
     toast({
       title: newRsvpState ? "You're Going!" : "RSVP Canceled",
-      description: `You have successfully ${newRsvpState ? 'RSVP\'d for' : 'canceled your RSVP for'} "${event.title}".`
+      description: `You have successfully ${newRsvpState ? "RSVP'd for" : "canceled your RSVP for"} "${event.title}".`
     });
   };
 

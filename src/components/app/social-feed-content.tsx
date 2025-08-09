@@ -139,7 +139,7 @@ const EmptyFeed = ({ tab }: { tab: string }) => {
 };
 
 export function SocialFeedContent() {
-    const { user } = useAuth();
+    const { user, authReady } = useAuth();
     const { toast } = useToast();
     const [newPost, setNewPost] = useState("");
     const [posts, setPosts] = useState<Post[]>([]);

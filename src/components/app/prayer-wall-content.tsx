@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { collection, query, orderBy, onSnapshot, Timestamp } from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot, Timestamp, limit, startAfter, getDocs, DocumentSnapshot } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/hooks/use-auth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -22,6 +22,8 @@ import { askPrayerAssistant, PrayerAssistantInput } from "@/ai/flows/prayer-assi
 import { createPrayerRequest, PrayerRequest } from "@/lib/firestore";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
+
+const POSTS_PER_PAGE = 5;
 
 const PrayerWallSkeleton = () => (
     <div className="space-y-4 mt-4">
@@ -60,57 +62,62 @@ export function PrayerWallContent() {
     const [newRequest, setNewRequest] = useState("");
     const [posting, setPosting] = useState(false);
     
-    // AI Assistant State
     const [prayerTopic, setPrayerTopic] = useState("");
     const [prayerResponse, setPrayerResponse] = useState("");
     const [loadingPrayer, setLoadingPrayer] = useState(false);
 
-    // Real-time prayer requests
     const [requests, setRequests] = useState<PrayerRequest[]>([]);
     const [loading, setLoading] = useState(true);
+    const [lastVisible, setLastVisible] = useState<DocumentSnapshot | null>(null);
+    const [hasMore, setHasMore] = useState(true);
+    const [loadingMore, setLoadingMore] = useState(false);
+
     const [activeTab, setActiveTab] = useState("all");
 
-    useEffect(() => {
-        if (!authReady) {
-            return;
-        }
-        if (!user) {
-            setLoading(false);
-            setRequests([]);
-            return;
-        }
+    const fetchRequests = async (fromStart = false) => {
+        if (!hasMore && !fromStart) return;
+        setLoadingMore(!fromStart);
+        setLoading(fromStart);
 
-        const q = query(collection(db, "prayerRequests"), orderBy("timestamp", "desc"));
-        const unsubscribe = onSnapshot(q, 
-            (snapshot) => {
-                const fetchedRequests = snapshot.docs.map(doc => ({ ...doc.data(), id: doc.id } as PrayerRequest));
-                setRequests(fetchedRequests);
-                setLoading(false);
-            },
-            (error) => {
-                console.error("Error fetching prayer requests:", error);
-                if (error.code === "permission-denied") {
-                    toast({
-                        variant: "destructive",
-                        title: "Permissions Error",
-                        description: "You do not have permission to view these requests. This might be due to Firestore rules."
-                    });
-                } else if (error.code === 'failed-precondition') {
-                    toast({
-                        variant: "destructive",
-                        title: "Database Error",
-                        description: "A required database index is missing. Please create one in your Firebase console.",
-                        duration: 10000,
-                    });
-                } else {
-                    toast({ variant: "destructive", title: "Error", description: "Could not fetch prayer requests." });
-                }
-                setLoading(false);
+        try {
+            let q;
+            const requestsRef = collection(db, "prayerRequests");
+            
+            if (fromStart) {
+                q = query(requestsRef, orderBy("timestamp", "desc"), limit(POSTS_PER_PAGE));
+            } else {
+                q = query(requestsRef, orderBy("timestamp", "desc"), startAfter(lastVisible), limit(POSTS_PER_PAGE));
             }
-        );
 
-        return () => unsubscribe();
-    }, [user, authReady, toast]);
+            const documentSnapshots = await getDocs(q);
+
+            const newRequests = documentSnapshots.docs.map(doc => ({ ...doc.data(), id: doc.id } as PrayerRequest));
+
+            setLastVisible(documentSnapshots.docs[documentSnapshots.docs.length - 1]);
+            setHasMore(newRequests.length === POSTS_PER_PAGE);
+
+            if (fromStart) {
+                setRequests(newRequests);
+            } else {
+                setRequests(prev => [...prev, ...newRequests]);
+            }
+        } catch (error) {
+            console.error("Error fetching prayer requests:", error);
+            toast({ variant: "destructive", title: "Error", description: "Could not fetch requests." });
+        } finally {
+            setLoading(false);
+            setLoadingMore(false);
+        }
+    };
+    
+    useEffect(() => {
+        if (authReady && user) {
+            fetchRequests(true);
+        } else {
+            setLoading(false);
+        }
+    }, [user, authReady]);
+
 
     const handlePostRequest = async () => {
         if (!user || !newRequest.trim()) return;
@@ -122,6 +129,7 @@ export function PrayerWallContent() {
                 title: "Success!",
                 description: "Your post has been shared with the community.",
             });
+            fetchRequests(true); // Refresh the feed
         } catch (error) {
             console.error("Error posting request: ", error);
             toast({
@@ -169,6 +177,13 @@ export function PrayerWallContent() {
         return (
             <div className="space-y-4">
                 {filteredRequests.map(p => <PrayerCard key={p.id} {...p} />)}
+                {hasMore && (
+                    <div className="text-center">
+                        <Button onClick={() => fetchRequests()} disabled={loadingMore} variant="outline">
+                            {loadingMore ? <><Loader2 className="mr-2 h-4 w-4 animate-spin"/>Loading more...</> : "Load More"}
+                        </Button>
+                    </div>
+                )}
             </div>
         );
     }

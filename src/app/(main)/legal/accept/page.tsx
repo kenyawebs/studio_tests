@@ -11,7 +11,7 @@ import Link from "next/link";
 import { AuthLoader } from "@/components/app/auth-provider";
 import { useToast } from "@/hooks/use-toast";
 import { Sparkles } from "lucide-react";
-import { DialogTitle } from "@radix-ui/react-dialog";
+import { DialogTitle } from "@/components/ui/dialog";
 
 export default function AcceptTermsPage() {
   const { user, loading: authLoading } = useAuth();
