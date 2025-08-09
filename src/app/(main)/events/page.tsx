@@ -188,7 +188,7 @@ export default function EventsPage() {
                   <TabsTrigger value="social_impact">Impact</TabsTrigger>
                   <TabsTrigger value="wellness">Wellness</TabsTrigger>
                 </TabsList>
-                <TabsContent value={activeTab} className="mt-6">
+                <TabsContent value={activeTab} className="mt-4">
                   <div className="grid gap-4">
                       {filteredEvents.length > 0 ? (
                         filteredEvents.map((event) => (

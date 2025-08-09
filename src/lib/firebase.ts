@@ -1,8 +1,7 @@
-
 // src/lib/firebase.ts - Definitive Fix
 
 import { initializeApp, getApps, getApp, FirebaseApp } from "firebase/app";
-import { getAuth, Auth, setPersistence, browserLocalPersistence, browserSessionPersistence } from "firebase/auth";
+import { getAuth, Auth } from "firebase/auth";
 import { getFirestore, Firestore } from "firebase/firestore";
 import { getStorage, FirebaseStorage } from "firebase/storage";
 
@@ -31,28 +30,17 @@ let auth: Auth;
 let db: Firestore;
 let storage: FirebaseStorage;
 
-// This function safely initializes Firebase and all its services
-// It will only be called on the client-side from the AuthProvider
-const initializeFirebase = () => {
-    if (!firebaseConfigStatus.isValid) {
-        return;
-    }
+if (firebaseConfigStatus.isValid) {
+  if (!getApps().length) {
+    app = initializeApp(firebaseConfig);
+  } else {
+    app = getApp();
+  }
+  auth = getAuth(app);
+  db = getFirestore(app);
+  storage = getStorage(app);
+}
 
-    if (!getApps().length) {
-        app = initializeApp(firebaseConfig);
-    } else {
-        app = getApp();
-    }
-
-    auth = getAuth(app);
-    db = getFirestore(app);
-    storage = getStorage(app);
-};
-
-// We call it once here to ensure it's set up for the app's lifecycle
-initializeFirebase();
-
-// We export the services directly. The AuthProvider will guard against their use
-// if the configuration is invalid.
-// @ts-ignore
+// We export the potentially uninitialized services.
+// The AuthProvider will guard their usage based on firebaseConfigStatus.isValid
 export { app, auth, db, storage };
