@@ -118,7 +118,7 @@ export default function EventsPage() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-3xl font-bold">Events Hub</h1>
-          <p className="text-muted-foreground">Discover what's happening and get involved.</p>
+          <p className="text-muted-foreground">Discover what&apos;s happening and get involved.</p>
         </div>
         <Dialog>
           <DialogTrigger asChild>
