@@ -37,6 +37,7 @@ import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogClose } fro
 import { DialogContent } from "@radix-ui/react-dialog";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 const POSTS_PER_PAGE = 5;
 
