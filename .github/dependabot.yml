@@ -1,0 +1,37 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Keep npm dependencies updated
+  - package-ecosystem: "npm"
+    directory: "/" # Root where package.json lives
+    schedule:
+      interval: "weekly"
+    # Group minor/patch updates into a single PR for less noise
+    groups:
+      minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    # Auto-merge safe updates once CI passes
+    auto-merge:
+      dependency-type: "all"
+      update-types:
+        - "minor"
+        - "patch"
+
+  # Keep GitHub Actions up to date (your workflows)
+  - package-ecosystem: "github-actions"
+    directory: "/" # Root where workflow files live
+    schedule:
+      interval: "weekly"
+    auto-merge:
+      dependency-type: "all"
+      update-types:
+        - "minor"
+        - "patch"
