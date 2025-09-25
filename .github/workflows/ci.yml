@@ -1,4 +1,6 @@
 name: Connect Hub CI
+permissions:
+  contents: read
 
 on:
   push:
