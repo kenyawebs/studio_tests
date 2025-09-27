@@ -30,6 +30,13 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Checkbox } from "../ui/checkbox";
 
+/**
+ * Zod schema for the create volunteer opportunity form.
+ *
+ * This schema defines the validation rules for all the fields required to
+ * create a new volunteer opportunity, including details about the role,
+ * commitment, and any associated benefits or requirements.
+ */
 const formSchema = z.object({
   title: z.string().min(3, { message: "Title must be at least 3 characters." }),
   description: z.string().min(10, { message: "Description must be at least 10 characters." }),
@@ -55,6 +62,18 @@ const formSchema = z.object({
     path: ["stipend"],
 });
 
+/**
+ * Renders a form for creating a new volunteer opportunity.
+ *
+ * This component provides a detailed form for users or organizations to post
+ * new volunteer opportunities. It uses `react-hook-form` for state management
+ * and `zod` for validation. The form captures information about the role,
+ * responsibilities, required skills, time commitment, and any logistical
+ * benefits. Upon submission, it simulates sending the data for admin review
+ * and displays a success toast.
+ *
+ * @returns {JSX.Element} The create opportunity form component.
+ */
 export function CreateOpportunityForm() {
   const { toast } = useToast();
   

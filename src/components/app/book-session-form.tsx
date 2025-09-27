@@ -29,6 +29,13 @@ const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
 );
 
+/**
+ * Zod schema for the book session form.
+ *
+ * This schema defines the validation rules for the fields required to book a
+ * counseling or mentoring session, including personal details, contact preferences,
+ * and the nature of the request.
+ */
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
   email: z.string().email(),
@@ -44,6 +51,12 @@ const formSchema = z.object({
   providerPreference: z.string().optional(),
 });
 
+/**
+ * A mock list of available care providers.
+ *
+ * In a real application, this data would be fetched from a database.
+ * @type {string[]}
+ */
 const mockProviders = [
     "Dr. Evans (Certified Counselor)",
     "Pastor John (Pastoral Care)",
@@ -51,6 +64,18 @@ const mockProviders = [
     "Any available",
 ];
 
+/**
+ * Renders a form for booking a confidential session.
+ *
+ * This component provides a detailed form for users to request a counseling or
+ * mentoring session. It uses `react-hook-form` for form management and `zod`
+ * for validation. The form collects user details, contact preferences, availability,
+ * and the nature of their need. Upon submission, it simulates sending a
+ * confidential request and displays a confirmation toast. User information is
+ * pre-filled if the user is authenticated.
+ *
+ * @returns {JSX.Element} The book session form component.
+ */
 export function BookSessionForm() {
   const { toast } = useToast();
   const { user } = useAuth();

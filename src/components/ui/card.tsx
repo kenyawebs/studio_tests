@@ -2,6 +2,14 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * A container component that groups related content.
+ * This is the root component for a card.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The props for the component.
+ * @param {React.Ref<HTMLDivElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The card component.
+ */
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -17,6 +25,13 @@ const Card = React.forwardRef<
 ))
 Card.displayName = "Card"
 
+/**
+ * The header section of a card, typically containing a title and description.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The props for the component.
+ * @param {React.Ref<HTMLDivElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The card header component.
+ */
 const CardHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -29,6 +44,13 @@ const CardHeader = React.forwardRef<
 ))
 CardHeader.displayName = "CardHeader"
 
+/**
+ * The title for a card, to be used within a `CardHeader`.
+ *
+ * @param {React.HTMLAttributes<HTMLHeadingElement>} props - The props for the component.
+ * @param {React.Ref<HTMLHeadingElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The card title component.
+ */
 const CardTitle = React.forwardRef<
   HTMLHeadingElement,
   React.HTMLAttributes<HTMLHeadingElement>
@@ -44,6 +66,13 @@ const CardTitle = React.forwardRef<
 ))
 CardTitle.displayName = "CardTitle"
 
+/**
+ * The description for a card, to be used within a `CardHeader`.
+ *
+ * @param {React.HTMLAttributes<HTMLParagraphElement>} props - The props for the component.
+ * @param {React.Ref<HTMLParagraphElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The card description component.
+ */
 const CardDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
@@ -56,6 +85,13 @@ const CardDescription = React.forwardRef<
 ))
 CardDescription.displayName = "CardDescription"
 
+/**
+ * The main content area of a card.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The props for the component.
+ * @param {React.Ref<HTMLDivElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The card content component.
+ */
 const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -64,6 +100,13 @@ const CardContent = React.forwardRef<
 ))
 CardContent.displayName = "CardContent"
 
+/**
+ * The footer section of a card.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The props for the component.
+ * @param {React.Ref<HTMLDivElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The card footer component.
+ */
 const CardFooter = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>

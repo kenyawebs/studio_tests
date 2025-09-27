@@ -1,6 +1,15 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
+/**
+ * Renders the Privacy Policy page.
+ *
+ * This component displays the full text of the platform's privacy policy,
+ * detailing the information collected, how it's used, and the rights of users.
+ * It is formatted within a card for readability.
+ *
+ * @returns {JSX.Element} The privacy policy page component.
+ */
 export default function PrivacyPolicyPage() {
   return (
     <div className="max-w-4xl mx-auto">

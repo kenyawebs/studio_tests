@@ -25,6 +25,14 @@ import { Input } from "@/components/ui/input";
 
 const POSTS_PER_PAGE = 5;
 
+/**
+ * Renders a skeleton loading state for the community wall feed.
+ *
+ * This component displays a series of placeholder cards to indicate that
+ * posts are being loaded, providing a better user experience than a blank screen.
+ *
+ * @returns {JSX.Element} The prayer wall skeleton component.
+ */
 const PrayerWallSkeleton = () => (
     <div className="space-y-4 mt-4">
         {[...Array(3)].map((_, i) => (
@@ -45,6 +53,16 @@ const PrayerWallSkeleton = () => (
     </div>
 );
 
+/**
+ * Renders a message for an empty feed.
+ *
+ * This component is displayed when there are no posts to show for the
+ * selected filter, encouraging users to be the first to post.
+ *
+ * @param {{message: string}} props - The props for the component.
+ * @param {string} props.message - The message to display.
+ * @returns {JSX.Element} The empty feed component.
+ */
 const EmptyFeed = ({ message }: { message: string }) => (
     <div className="text-center py-12 text-muted-foreground">
         <Sparkles className="mx-auto h-12 w-12" />
@@ -53,7 +71,21 @@ const EmptyFeed = ({ message }: { message: string }) => (
     </div>
 );
 
-
+/**
+ * Renders the main content for the Community Wall.
+ *
+ * This is a feature-rich component that creates an interactive feed for
+ * prayer requests and encouragements. Key features include:
+ * - **Post Creation**: Authenticated users can submit new posts.
+ * - **Infinite Scroll**: Fetches and displays posts in paginated batches as the user scrolls.
+ * - **Filtering**: Users can filter the feed by post type (e.g., Requests, Answered).
+ * - **AI Integration**: A "Life Guidance AI" sidebar allows users to get AI-generated
+ *   prayers or messages of encouragement based on their input.
+ *
+ * The component manages state for posts, user input, loading, and AI interactions.
+ *
+ * @returns {JSX.Element} The community wall content component.
+ */
 export function CommunityWallContent() {
     const { user, authReady } = useAuth();
     const { toast } = useToast();
@@ -295,6 +327,18 @@ export function CommunityWallContent() {
     );
 }
 
+/**
+ * Renders a single card for a prayer request or testimony.
+ *
+ * This component displays the content of a single post, including the user's
+ * name and avatar, the post text, and the time it was posted. It also shows
+ * the post's type (e.g., Answered, Victory) with a corresponding icon and color
+ * accent. It includes interactive elements like a pray button, reaction buttons,
+ * and a collapsible comment section.
+ *
+ * @param {PrayerRequest} props - The prayer request object containing all post details.
+ * @returns {JSX.Element} The prayer card component.
+ */
 function PrayerCard({ id, name, avatar, aiHint, request, prayCount, timestamp, comments, type }: PrayerRequest) {
     const typeMeta = {
         'answered': { color: 'border-green-500', icon: <CheckCheck className="h-4 w-4 text-green-500"/>, label: 'Answered' },

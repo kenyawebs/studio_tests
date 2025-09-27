@@ -22,6 +22,10 @@ const givingHistory = [
     { id: 'tx3', date: "2024-07-01", amount: "Processing...", fund: "Tithe", status: "Pending Setup" },
 ]
 
+/**
+ * Renders the M-Pesa icon for the payment options.
+ * @returns {JSX.Element} The M-Pesa icon SVG.
+ */
 const MpesaIcon = () => (
     <svg className="mr-2 h-4 w-4" viewBox="0 0 256 256" fill="none">
         <path fill="#41B649" d="M128 0C94.2 0 61.1 13.3 37.5 37.5C13.3 61.1 0 94.2 0 128c0 33.8 13.3 66.9 37.5 100.5c23.6 23.6 56.7 37.5 100.5 37.5c33.8 0 66.9-13.3 100.5-37.5C242.7 194.9 256 161.8 256 128c0-33.8-13.3-66.9-37.5-100.5C194.9 13.3 161.8 0 128 0Z"/>
@@ -29,6 +33,10 @@ const MpesaIcon = () => (
     </svg>
 );
 
+/**
+ * Renders the PayPal icon for the payment options.
+ * @returns {JSX.Element} The PayPal icon SVG.
+ */
 const PayPalIcon = () => (
     <svg className="mr-2" width="24" height="24" viewBox="0 0 24 24">
         <path fill="#0070ba" d="M4.42 2.37a1.04 1.04 0 0 0-.42.06c-.4.16-.69.54-.78.96L.3 15.22c-.04.2-.04.42.02.63c.15.55.63.95 1.19.95h3.93c.47 0 .86-.34 1-.79l1.4-4.83H4.42V2.37z"/>
@@ -37,6 +45,16 @@ const PayPalIcon = () => (
     </svg>
 );
 
+/**
+ * Renders the investor onboarding section.
+ *
+ * This component provides a comprehensive overview for potential investors,
+ * outlining different investment tiers, their benefits, the company's revenue
+ * model, and strategic partnership opportunities. It is designed to attract
+ * and inform partners who align with the platform's mission.
+ *
+ * @returns {JSX.Element} The investor onboarding section component.
+ */
 const InvestorOnboardingSection = () => {
     const { toast } = useToast();
     const investmentTiers = [
@@ -137,6 +155,17 @@ const InvestorOnboardingSection = () => {
 };
 
 
+/**
+ * Renders the main donation interface.
+ *
+ * This component provides a comprehensive form for users to make donations.
+ * It allows users to select or enter a custom amount, choose a fund to
+ * donate to, set the frequency of the donation (one-time, weekly, etc.),
+ * and select a payment method. It also includes a mock giving history and
+ * a section explaining where the donations go, promoting transparency.
+ *
+ * @returns {JSX.Element} The donation section component.
+ */
 const DonationSection = () => {
   const { toast } = useToast();
   const [amount, setAmount] = useState("");
@@ -275,6 +304,16 @@ const DonationSection = () => {
   );
 }
 
+/**
+ * Renders the main content for the Giving page.
+ *
+ * This component acts as a container, using a tabbed interface to switch
+ * between the "Donate & Give" section and the "Invest & Partner" section.
+ * It manages the active tab state and renders the appropriate component
+ * (`DonationSection` or `InvestorOnboardingSection`) based on the user's selection.
+ *
+ * @returns {JSX.Element} The giving content component with tabs.
+ */
 export function GivingContent() {
     const [activeTab, setActiveTab] = useState("donate");
 

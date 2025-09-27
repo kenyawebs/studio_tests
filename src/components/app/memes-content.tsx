@@ -47,6 +47,16 @@ const memes = [
   { id: 8, category: 'encouragement', icon: '🙌', text: "Your current situation is not your final destination. Keep the faith.", bgColor: "from-sky-500 to-blue-600", likes: 7400, comments: 301 },
 ];
 
+/**
+ * Renders the main content for the Meme Center.
+ *
+ * This component provides a full-screen, vertical-scrolling feed of memes,
+ * similar in style to platforms like TikTok or Instagram Reels. It features a
+ * tabbed interface to filter memes by category. Users can interact with memes,
+ * and there is a placeholder for an AI meme generator feature.
+ *
+ * @returns {JSX.Element} The memes content component.
+ */
 export function MemesContent() {
     const [activeTab, setActiveTab] = React.useState("trending");
     
@@ -109,6 +119,18 @@ export function MemesContent() {
     )
 }
 
+/**
+ * Renders a single meme card within the feed.
+ *
+ * This component displays an individual text-based meme with a gradient
+ * background. It includes the meme text and interactive buttons for liking,
+ * commenting, and sharing. The like and comment counts are formatted to be
+ * more readable (e.g., "1.2K").
+ *
+ * @param {{meme: object}} props - The props for the component.
+ * @param {object} props.meme - The meme object containing its text, style, and stats.
+ * @returns {JSX.Element} The meme card component.
+ */
 function MemeCard({ meme }: { meme: { id: number, category: string, icon: string, text: string, bgColor: string, likes: number, comments: number } }) {
     const { toast } = useToast();
 

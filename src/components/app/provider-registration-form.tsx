@@ -26,6 +26,13 @@ const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
 );
 
+/**
+ * Zod schema for the provider registration form.
+ *
+ * This schema defines the validation rules for professionals registering as
+ * service providers on the platform. It covers personal and professional
+ * details, qualifications, services offered, and contact information.
+ */
 const formSchema = z.object({
   fullName: z.string().min(3, { message: "Full name is required." }),
   profession: z.string().min(3, { message: "Profession is required." }),
@@ -39,6 +46,18 @@ const formSchema = z.object({
     }),
 });
 
+/**
+ * Renders a form for professionals to register as service providers.
+ *
+ * This component provides a registration form for counselors, coaches, and
+ * other professionals to offer their services on the platform. It uses
+ * `react-hook-form` for state management and `zod` for validation. The form
+ * collects detailed information about the provider's qualifications and services.
+ * Upon submission, it simulates sending the registration for admin review and
+ * displays a confirmation toast.
+ *
+ * @returns {JSX.Element} The provider registration form component.
+ */
 export function ProviderRegistrationForm() {
   const { toast } = useToast();
   

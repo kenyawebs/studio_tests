@@ -21,6 +21,16 @@ const PrayerAssistantOutput = z.object({
 });
 export type PrayerAssistantOutput = z.infer<typeof PrayerAssistantOutput>;
 
+/**
+ * Helps users craft prayers.
+ *
+ * This function takes a user's topic or concern, processes it through the
+ * `prayerAssistantFlow`, and returns an AI-generated prayer or message of
+ * encouragement.
+ *
+ * @param {PrayerAssistantInput} input - The user's topic or concern.
+ * @returns {Promise<PrayerAssistantOutput>} A promise that resolves to the AI-generated prayer or message.
+ */
 export async function askPrayerAssistant(input: PrayerAssistantInput): Promise<PrayerAssistantOutput> {
   return prayerAssistantFlow(input);
 }

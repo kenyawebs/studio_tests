@@ -2,6 +2,14 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Renders a styled input field.
+ * This component forwards its ref to the underlying `input` element.
+ *
+ * @param {React.ComponentProps<"input">} props - The props for the component, extending standard input attributes.
+ * @param {React.Ref<HTMLInputElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The input component.
+ */
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
     return (

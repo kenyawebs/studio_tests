@@ -23,6 +23,16 @@ const GeocodeAddressOutputSchema = z.object({
 });
 export type GeocodeAddressOutput = z.infer<typeof GeocodeAddressOutputSchema>;
 
+/**
+ * Converts a physical address into latitude and longitude.
+ *
+ * This server-side function securely calls the Google Maps Geocoding API
+ * to convert a given address into its corresponding geographic coordinates.
+ *
+ * @param {GeocodeAddressInput} input - The address to be geocoded.
+ * @returns {Promise<GeocodeAddressOutput>} A promise that resolves to the latitude and longitude.
+ * @throws {Error} If the API key is missing, if the geocoding fails, or if an internal error occurs.
+ */
 export async function geocodeAddress(input: GeocodeAddressInput): Promise<GeocodeAddressOutput> {
   return geocodeAddressFlow(input);
 }

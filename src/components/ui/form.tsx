@@ -15,6 +15,10 @@ import {
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 
+/**
+ * The main form provider component from `react-hook-form`.
+ * All form components should be wrapped in this.
+ */
 const Form = FormProvider
 
 type FormFieldContextValue<
@@ -28,6 +32,13 @@ const FormFieldContext = React.createContext<FormFieldContextValue>(
   {} as FormFieldContextValue
 )
 
+/**
+ * A component that connects a form input to the form state.
+ * It wraps the `Controller` component from `react-hook-form`.
+ *
+ * @param {ControllerProps<TFieldValues, TName>} props - The props for the component.
+ * @returns {JSX.Element} The form field component.
+ */
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
@@ -41,6 +52,13 @@ const FormField = <
   )
 }
 
+/**
+ * A hook to access the form field's state and context.
+ * Must be used within a `<FormField />` component.
+ * It provides accessibility props and error state.
+ *
+ * @returns {object} An object containing the field's state and IDs.
+ */
 const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext)
   const itemContext = React.useContext(FormItemContext)
@@ -72,6 +90,14 @@ const FormItemContext = React.createContext<FormItemContextValue>(
   {} as FormItemContextValue
 )
 
+/**
+ * A container for a form field, including its label, input, description, and error message.
+ * It provides a unique ID to its children for accessibility.
+ *
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The props for the component.
+ * @param {React.Ref<HTMLDivElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The form item component.
+ */
 const FormItem = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -86,6 +112,13 @@ const FormItem = React.forwardRef<
 })
 FormItem.displayName = "FormItem"
 
+/**
+ * The label for a form field. It is automatically associated with the form control.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>} props - The props for the component.
+ * @param {React.Ref<React.ElementRef<typeof LabelPrimitive.Root>>} ref - The ref for the component.
+ * @returns {JSX.Element} The form label component.
+ */
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
@@ -103,6 +136,13 @@ const FormLabel = React.forwardRef<
 })
 FormLabel.displayName = "FormLabel"
 
+/**
+ * A wrapper for the form input control. It automatically adds accessibility attributes.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof Slot>} props - The props for the component.
+ * @param {React.Ref<React.ElementRef<typeof Slot>>} ref - The ref for the component.
+ * @returns {JSX.Element} The form control component.
+ */
 const FormControl = React.forwardRef<
   React.ElementRef<typeof Slot>,
   React.ComponentPropsWithoutRef<typeof Slot>
@@ -125,6 +165,13 @@ const FormControl = React.forwardRef<
 })
 FormControl.displayName = "FormControl"
 
+/**
+ * A description for a form field, providing additional context or instructions.
+ *
+ * @param {React.HTMLAttributes<HTMLParagraphElement>} props - The props for the component.
+ * @param {React.Ref<HTMLParagraphElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The form description component.
+ */
 const FormDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
@@ -142,6 +189,13 @@ const FormDescription = React.forwardRef<
 })
 FormDescription.displayName = "FormDescription"
 
+/**
+ * A component to display validation error messages for a form field.
+ *
+ * @param {React.HTMLAttributes<HTMLParagraphElement>} props - The props for the component.
+ * @param {React.Ref<HTMLParagraphElement>} ref - The ref for the component.
+ * @returns {JSX.Element | null} The form message component, or null if there is no error.
+ */
 const FormMessage = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>

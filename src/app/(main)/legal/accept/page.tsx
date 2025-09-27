@@ -13,6 +13,17 @@ import { useToast } from "@/hooks/use-toast";
 import { Sparkles } from "lucide-react";
 import { DialogTitle } from "@/components/ui/dialog";
 
+/**
+ * Renders the page for users to accept the terms and conditions.
+ *
+ * This page is shown to users who have not yet accepted the platform's
+ * Terms of Service and Privacy Policy. It displays links to the legal
+ * documents and requires the user to click a button to confirm their
+ * agreement. Upon acceptance, the user's profile is updated in Firestore,
+ * and they are redirected to the main dashboard.
+ *
+ * @returns {JSX.Element} The accept terms page component.
+ */
 export default function AcceptTermsPage() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();

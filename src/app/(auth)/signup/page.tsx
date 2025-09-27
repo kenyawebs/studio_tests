@@ -44,6 +44,13 @@ const passwordValidationRegex = new RegExp(
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/
 );
 
+/**
+ * Zod schema for the signup form.
+ *
+ * This schema defines the validation rules for the signup form fields,
+ * including email format, password complexity, password confirmation matching,
+ * and agreement to terms and conditions.
+ */
 const formSchema = z.object({
     email: z.string().email({ message: "Please enter a valid email address." }),
     password: z.string().min(8, { message: "Password must be at least 8 characters." })
@@ -59,7 +66,11 @@ const formSchema = z.object({
     path: ["confirmPassword"],
 });
 
-
+/**
+ * Renders the Google icon.
+ * @param {React.SVGProps<SVGSVGElement>} props - SVG properties.
+ * @returns {JSX.Element} The Google icon SVG.
+ */
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px" {...props}>
         <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
@@ -69,12 +80,28 @@ const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
+/**
+ * Renders the Facebook icon.
+ * @param {React.SVGProps<SVGSVGElement>} props - SVG properties.
+ * @returns {JSX.Element} The Facebook icon SVG.
+ */
 const FacebookIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path d="M23.998 12c0-6.627-5.373-12-12-12S0 5.373 0 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.61 22.954 23.998 17.99 23.998 12z" fill="currentColor"/>
     </svg>
 );
 
+/**
+ * Renders a password requirement validation indicator.
+ *
+ * This component displays a checkmark or an X icon next to a piece of text,
+ * visually indicating whether a specific password requirement has been met.
+ *
+ * @param {{isValid: boolean; children: React.ReactNode}} props - The props for the component.
+ * @param {boolean} props.isValid - Whether the requirement is met.
+ * @param {React.ReactNode} props.children - The text describing the requirement.
+ * @returns {JSX.Element} The password requirement component.
+ */
 const PasswordRequirement = ({ isValid, children }: { isValid: boolean; children: React.ReactNode }) => (
     <div className={`flex items-center text-xs ${isValid ? 'text-green-600' : 'text-muted-foreground'}`}>
         {isValid ? <CheckCircle className="h-3 w-3 mr-1.5" /> : <XCircle className="h-3 w-3 mr-1.5" />}
@@ -82,7 +109,17 @@ const PasswordRequirement = ({ isValid, children }: { isValid: boolean; children
     </div>
 );
 
-
+/**
+ * Renders the signup page.
+ *
+ * This component provides a user registration form that supports both
+ * email/password and social (Google, Facebook) signup methods. It features
+ * real-time password strength validation, requires agreement to terms,
+ * handles user profile creation in Firestore, and provides clear error
+ * feedback to the user.
+ *
+ * @returns {JSX.Element} The signup page component.
+ */
 export default function SignupPage() {
   const router = useRouter();
   const { toast } = useToast();

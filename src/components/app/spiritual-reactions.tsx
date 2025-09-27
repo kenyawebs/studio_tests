@@ -19,6 +19,31 @@ interface SpiritualReactionsProps {
     userReaction?: SpiritualReaction;
 }
 
+/**
+ * Renders a set of spiritual reaction buttons for a post.
+ *
+ * This component displays a row of interactive buttons (e.g., Praying, Believing)
+ * that allow users to react to a social feed post. It manages the state of
+ * reactions optimistically for a responsive user experience while updating the
+ * backend.
+ *
+ * Key features:
+ * - **Optimistic UI**: The UI updates instantly when a user clicks a reaction,
+ *   providing immediate feedback. The state is reverted if the backend call fails.
+ * - **Stateful Reactions**: Remembers and displays the user's current reaction
+ *   to a post. Clicking the same reaction again removes it.
+ * - **Real-time Counts**: Displays the count for each reaction type. (Note:
+ *   This implementation uses initial counts and local updates; a full real-time
+ *   solution would involve snapshot listeners for the counts).
+ * - **Authentication Check**: Prevents non-authenticated users from reacting
+ *   and prompts them to log in.
+ *
+ * @param {SpiritualReactionsProps} props - The props for the component.
+ * @param {string} props.postId - The unique identifier of the post being reacted to.
+ * @param {object} props.reactions - An object containing the initial counts for each reaction type.
+ * @param {SpiritualReaction} [props.userReaction] - The current user's reaction, if any.
+ * @returns {JSX.Element} The spiritual reactions component.
+ */
 export function SpiritualReactions({ postId, reactions: initialReactions, userReaction }: SpiritualReactionsProps) {
     const { user } = useAuth();
     const { toast } = useToast();

@@ -21,6 +21,17 @@ import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
+/**
+ * Renders the user navigation dropdown menu in the application header.
+ *
+ * This component displays the user's avatar as a trigger for a dropdown menu.
+ * The menu shows the user's name and email, a badge if they are an admin,
+ * and provides links to the profile and settings pages. It also includes a
+ * "Log out" option that signs the user out of the application using Firebase
+ * Authentication. If no user is authenticated, the component renders nothing.
+ *
+ * @returns {JSX.Element | null} The user navigation component, or null if no user is logged in.
+ */
 export function UserNav() {
   const { user, isAdmin } = useAuth();
   const router = useRouter();

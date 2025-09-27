@@ -1,5 +1,16 @@
 import { Sparkles } from "lucide-react";
 
+/**
+ * The layout for authentication pages.
+ *
+ * This component provides a consistent layout for pages like login, signup,
+ * and forgot password. It centers the content vertically and horizontally
+ * and displays the application logo.
+ *
+ * @param {{children: React.ReactNode}} props - The props for the component.
+ * @param {React.ReactNode} props.children - The content of the specific auth page to be rendered.
+ * @returns {JSX.Element} The authentication layout component.
+ */
 export default function AuthLayout({
   children,
 }: {

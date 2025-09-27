@@ -5,8 +5,19 @@ import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * A set of layered sections of content, known as tab panels, that are displayed one at a time.
+ * This is the root component for the tabs.
+ * @see https://www.radix-ui.com/primitives/docs/components/tabs
+ */
 const Tabs = TabsPrimitive.Root
 
+/**
+ * A list of tab triggers that are used to switch between tab content.
+ * @param {React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>} props - The props for the component.
+ * @param {React.Ref<React.ElementRef<typeof TabsPrimitive.List>>} ref - The ref for the component.
+ * @returns {JSX.Element} The tabs list component.
+ */
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
@@ -22,6 +33,12 @@ const TabsList = React.forwardRef<
 ))
 TabsList.displayName = TabsPrimitive.List.displayName
 
+/**
+ * The button that activates its associated tab content.
+ * @param {React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>} props - The props for the component.
+ * @param {React.Ref<React.ElementRef<typeof TabsPrimitive.Trigger>>} ref - The ref for the component.
+ * @returns {JSX.Element} The tabs trigger component.
+ */
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
@@ -37,6 +54,12 @@ const TabsTrigger = React.forwardRef<
 ))
 TabsTrigger.displayName = TabsPrimitive.Trigger.displayName
 
+/**
+ * The content panel that is displayed when its associated tab is activated.
+ * @param {React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>} props - The props for the component.
+ * @param {React.Ref<React.ElementRef<typeof TabsPrimitive.Content>>} ref - The ref for the component.
+ * @returns {JSX.Element} The tabs content component.
+ */
 const TabsContent = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TabsPrimitive.Content>

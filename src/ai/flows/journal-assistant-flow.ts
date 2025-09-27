@@ -22,6 +22,16 @@ const JournalAssistantOutputSchema = z.object({
 });
 export type JournalAssistantOutput = z.infer<typeof JournalAssistantOutputSchema>;
 
+/**
+ * Helps users write journal entries.
+ *
+ * This function takes a topic and entry type from the user, processes it
+ * through the `journalAssistantFlow`, and returns an AI-generated suggestion
+ * to help the user start journaling.
+ *
+ * @param {JournalAssistantInput} input - The user's topic and desired entry type.
+ * @returns {Promise<JournalAssistantOutput>} A promise that resolves to the AI-generated journal suggestion.
+ */
 export async function getJournalSuggestion(input: JournalAssistantInput): Promise<JournalAssistantOutput> {
   return journalAssistantFlow(input);
 }

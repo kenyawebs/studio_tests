@@ -26,6 +26,21 @@ const markers = [
   { lat: -1.28325, lng: 36.81667, title: 'Weekend Growth Seminar' }
 ];
 
+/**
+ * Renders a Google Map with markers.
+ *
+ * This component acts as a wrapper for the `@react-google-maps/api` library.
+ * It handles the loading of the Google Maps script, displays loading and error
+ * states, and checks for the presence of a valid Google Maps API key in the
+ * environment variables. If the key is missing or invalid, it displays an
+ * alert to the developer. Once loaded, it displays a map centered on a
+ * default location with a set of predefined markers.
+ *
+ * Note: The filename `leaflet-map.tsx` is a misnomer; this component uses
+ * Google Maps, not Leaflet.
+ *
+ * @returns {JSX.Element} The Google Map component, a loading skeleton, or an error message.
+ */
 export default function GoogleMapWrapper() {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 

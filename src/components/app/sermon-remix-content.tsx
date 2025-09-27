@@ -41,6 +41,28 @@ const featuredPodcasts = [
     { name: "Unbelievable?", link: "https://open.spotify.com/show/0fchdD6Db3Tz7ePO2t8a4e" },
 ]
 
+/**
+ * Renders the main content for the Sermon Remix Studio.
+ *
+ * This component provides a user interface for creating short, shareable video
+ * clips from sermons. It is structured with a main editing panel and a sidebar
+ * for content selection.
+ *
+ * Key features:
+ * - **Video Editor**: A mock-up of a video timeline with controls for trimming,
+ *   adding music, text, and effects.
+ * - **Content Selection**: Users can import a sermon via URL or select from a
+ *   list of recent sermons.
+ * - **Featured Content**: The sidebar displays featured preacher channels and
+ *   podcasts to provide users with inspiration and source material.
+ * - **Export & Share**: Includes buttons to simulate downloading the final
+ *   remix or sharing it.
+ *
+ * Note: Most of the functionality is currently a placeholder and will show a
+ * "Coming Soon" notification.
+ *
+ * @returns {JSX.Element} The sermon remix content component.
+ */
 export function SermonRemixContent() {
   const { toast } = useToast();
   

@@ -107,6 +107,14 @@ type UserStats = {
     posts: number;
 };
 
+/**
+ * Renders a skeleton loading state for the user stats section.
+ *
+ * This component displays a grid of placeholder elements to indicate that
+ * user statistics are being fetched, providing a better user experience.
+ *
+ * @returns {JSX.Element} The stat card skeleton component.
+ */
 const StatCardSkeleton = () => (
     <div className="grid grid-cols-3 md:grid-cols-6 gap-2 text-center w-full">
         {[...Array(6)].map((_, i) => (
@@ -119,7 +127,23 @@ const StatCardSkeleton = () => (
     </div>
 );
 
-
+/**
+ * Renders the main content for the user dashboard.
+ *
+ * This is a comprehensive component that serves as the user's personalized hub.
+ * It dynamically fetches and displays user-specific statistics, such as the number
+ * of posts and prayers. The dashboard is organized into several sections:
+ * - A welcome header with the user's avatar and name.
+ * - A grid of key user statistics (e.g., Posts, Following, Streak).
+ * - A "Vibe & Core" section with a carousel of curated, engaging content.
+ * - A "Quick Links" section for easy navigation to major features.
+ * - A "Resource Library" highlighting well-being tools.
+ * - A "Community Wall" snippet showing recent prayer requests.
+ *
+ * The component handles its own loading states for asynchronous data.
+ *
+ * @returns {JSX.Element} The dashboard content component.
+ */
 export function DashboardContent() {
     const { user, authReady } = useAuth();
     const [stats, setStats] = useState<UserStats | null>(null);

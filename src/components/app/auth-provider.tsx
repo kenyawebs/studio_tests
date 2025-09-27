@@ -10,6 +10,16 @@ import { AuthContext } from "@/hooks/use-auth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClientOnly } from "./client-only";
 
+/**
+ * Renders a full-page error and setup guide when Firebase is not configured.
+ *
+ * This component is displayed as a fallback when the application detects that
+ * the necessary Firebase environment variables are missing. It provides clear,
+ * step-by-step instructions for the developer to create a Firebase project,
+ * obtain the configuration keys, and set them up correctly in a `.env.local` file.
+ *
+ * @returns {JSX.Element} The Firebase configuration guide component.
+ */
 const FirebaseNotConfigured = () => {
     return (
         <div className="flex h-screen w-full flex-col items-center justify-center bg-secondary/50 p-4">
@@ -47,7 +57,19 @@ NEXT_PUBLIC_FIREBASE_APP_ID="your-app-id"`}
     );
 };
 
-
+/**
+ * Provides authentication state to its children components.
+ *
+ * This component wraps the application and manages the user's authentication
+ * state using Firebase Authentication. It listens for changes in the auth state,
+ * sets the current user, and determines if the user has administrative privileges
+ * by checking their ID token claims. The provided context includes the user object,
+ * loading states, and admin status.
+ *
+ * @param {{children: React.ReactNode}} props - The props for the component.
+ * @param {React.ReactNode} props.children - The child components that need access to the auth context.
+ * @returns {JSX.Element} The authentication context provider.
+ */
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -90,6 +112,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
+/**
+ * Renders a full-screen, animated loading indicator.
+ *
+ * This component is used as a placeholder throughout the application,
+ * particularly during initial load, authentication checks, and page
+ * transitions. It provides a visually engaging experience to the user,
+ * indicating that background processes are running.
+ *
+ * @returns {JSX.Element} The authentication loader component.
+ */
 export const AuthLoader = () => {
     return (
         <div className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden">

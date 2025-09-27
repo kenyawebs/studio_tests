@@ -34,6 +34,13 @@ const areasOfExpertise = [
     { id: "prayer", label: "Prayer & Intercession" },
 ] as const;
 
+/**
+ * Zod schema for the mentor application form.
+ *
+ * This schema defines the validation rules for the fields required for a user
+ * to apply as a mentor, including their name, motivation, experience, and
+ * areas of expertise.
+ */
 const formSchema = z.object({
   fullName: z.string().min(3, { message: "Please enter your full name." }),
   reason: z.string().min(20, { message: "Please provide a more detailed reason (at least 20 characters)." }),
@@ -43,6 +50,18 @@ const formSchema = z.object({
   }),
 });
 
+/**
+ * Renders a form for users to apply to become a mentor.
+ *
+ * This component provides a detailed application form for individuals who wish
+ * to become mentors on the platform. It uses `react-hook-form` for state
+ * management and `zod` for validation. The form collects the applicant's name,
+ * their motivation for mentoring, relevant experience, and their selected areas
+ * of expertise. Upon submission, it simulates sending the application for
+ * admin review and displays a confirmation toast.
+ *
+ * @returns {JSX.Element} The mentor application form component.
+ */
 export function MentorApplicationForm() {
   const { toast } = useToast();
   

@@ -1,12 +1,18 @@
 
 /**
- * @fileOverview A service for interacting with external Bible APIs.
+ * @fileOverview A service for interacting with an external Bible API.
+ * This service provides functions to fetch scripture passages.
  */
 
 /**
- * Looks up the text of a given Bible passage using a public API.
- * @param passage - The scripture reference (e.g., "John 3:16").
- * @returns A string containing the text of the passage.
+ * Looks up the text of a given Bible passage using the public `bible-api.com` API.
+ *
+ * This function takes a scripture reference, fetches the corresponding text,
+ * and formats it into a single string with verse numbers. It includes error
+ * handling for failed API requests or if the passage is not found.
+ *
+ * @param {string} passage - The scripture reference to look up (e.g., "John 3:16").
+ * @returns {Promise<string>} A promise that resolves to a string containing the formatted text of the passage, or an error message if the lookup fails.
  */
 export async function lookupScripture(passage: string): Promise<string> {
     try {
