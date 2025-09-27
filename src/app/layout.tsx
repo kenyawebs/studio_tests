@@ -8,6 +8,17 @@ export const metadata: Metadata = {
   description: 'A modern, inclusive, and AI-powered platform for community engagement, personal growth, and holistic well-being.',
 };
 
+/**
+ * The root layout for the entire application.
+ *
+ * This component wraps all pages and provides the basic HTML structure,
+ * including the `<html>` and `<body>` tags. It also sets up global fonts
+ * and wraps the application in the `Providers` component.
+ *
+ * @param {Readonly<{children: React.ReactNode}>} props - The props for the component.
+ * @param {React.ReactNode} props.children - The child components to be rendered within the layout.
+ * @returns {JSX.Element} The root layout component.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{

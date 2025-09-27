@@ -39,6 +39,16 @@ import {
 import { Button } from "../ui/button";
 import { LogOut, Settings } from "lucide-react";
 
+/**
+ * Defines the structure for a navigation menu item.
+ * @typedef {object} MenuItem
+ * @property {string} href - The URL path for the link.
+ * @property {string} label - The text label displayed in the sidebar.
+ * @property {React.ElementType} icon - The icon component to display.
+ * @property {string} tooltip - The text to show in a tooltip on hover.
+ * @property {string} [color] - An optional Tailwind CSS color class for the icon.
+ * @property {boolean} [adminOnly] - If true, the item is only shown to admin users.
+ */
 type MenuItem = {
   href: string;
   label: string;
@@ -48,6 +58,10 @@ type MenuItem = {
   adminOnly?: boolean;
 };
 
+/**
+ * The primary navigation items displayed at the top of the sidebar.
+ * @type {MenuItem[]}
+ */
 const menuItems: MenuItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard, tooltip: "Dashboard", color: "text-sky-500" },
   { href: "/social-feed", label: "Testimony Feed", icon: Newspaper, tooltip: "Testimony Feed", color: "text-blue-500" },
@@ -57,6 +71,10 @@ const menuItems: MenuItem[] = [
   { href: "/sermon-remix", label: "Sermon Remix", icon: Scissors, tooltip: "Sermon Remix", color: "text-violet-500" },
 ];
 
+/**
+ * The secondary navigation items displayed below the primary items.
+ * @type {MenuItem[]}
+ */
 const secondaryMenuItems: MenuItem[] = [
   { href: "/events", label: "Events Hub", icon: Calendar, tooltip: "Events", color: "text-purple-500" },
   { href: "/giving", label: "Giving", icon: Gift, tooltip: "Giving", color: "text-red-500" },
@@ -67,10 +85,24 @@ const secondaryMenuItems: MenuItem[] = [
   { href: "/well-being", label: "Well-being", icon: HeartPulse, tooltip: "Well-being", color: "text-cyan-500" },
 ];
 
+/**
+ * The admin-specific navigation items.
+ * @type {MenuItem[]}
+ */
 const adminMenuItems: MenuItem[] = [
     { href: "/admin", label: "Admin Panel", icon: Shield, tooltip: "Admin Panel", color: "text-destructive", adminOnly: true},
 ]
 
+/**
+ * Renders the main application sidebar navigation.
+ *
+ * This component constructs the sidebar, including the header, primary and
+ * secondary navigation links, and the footer with settings and logout buttons.
+ * It dynamically highlights the active menu item based on the current URL
+ * pathname and conditionally renders admin-only links based on user roles.
+ *
+ * @returns {JSX.Element} The sidebar navigation component.
+ */
 export function SidebarNav() {
   const pathname = usePathname();
   const router = useRouter();

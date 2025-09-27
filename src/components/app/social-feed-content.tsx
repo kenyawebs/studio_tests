@@ -50,6 +50,16 @@ const testimonyCategories: { value: TestimonyCategory | 'all', label: string }[]
     { value: 'growth', label: 'Growth' }
 ];
 
+/**
+ * Retrieves display properties for a given testimony category.
+ *
+ * This utility function returns the color, icon, and label associated with a
+ * specific post category, allowing for consistent and dynamic styling of
+ * category badges throughout the application.
+ *
+ * @param {string} category - The category name (e.g., 'breakthrough', 'healing').
+ * @returns {{color: string; icon: string; label: string}} An object with display properties.
+ */
 const getCategoryDisplay = (category: string) => {
     const categoryMap = {
         breakthrough: { 
@@ -87,6 +97,14 @@ const getCategoryDisplay = (category: string) => {
     return categoryMap[category as keyof typeof categoryMap] || categoryMap.growth;
 };
 
+/**
+ * Renders a skeleton loading state for the social feed.
+ *
+ * This component displays a series of placeholder post cards to provide a
+ * visual cue that content is being loaded, improving the user experience.
+ *
+ * @returns {JSX.Element} The post skeleton component.
+ */
 const PostSkeleton = () => (
     <div className="space-y-6">
         {[...Array(3)].map((_, i) => (
@@ -116,6 +134,16 @@ const PostSkeleton = () => (
     </div>
 );
 
+/**
+ * Renders a message for an empty feed based on the active filter.
+ *
+ * This component is displayed when no posts match the current filter criteria,
+ * providing a user-friendly message and encouraging engagement.
+ *
+ * @param {{tab: string}} props - The props for the component.
+ * @param {string} props.tab - The active tab or filter criteria.
+ * @returns {JSX.Element} The empty feed component.
+ */
 const EmptyFeed = ({ tab }: { tab: string }) => {
     const messages = {
         all: "The feed is quiet... for now",
@@ -139,6 +167,24 @@ const EmptyFeed = ({ tab }: { tab: string }) => {
     );
 };
 
+/**
+ * Renders the main content for the Social Feed page.
+ *
+ * This component provides the full experience for the testimony and milestone
+ * feed. It allows authenticated users to create new posts with text and images,
+ * view a paginated feed of posts from the community, and filter posts by
+ * type and category.
+ *
+ * Key features:
+ * - **Post Creation**: A card with a textarea and image upload functionality.
+ * - **Infinite Scroll**: A "Load More" button fetches older posts on demand.
+ * - **Filtering**: A tabbed interface combined with a dropdown menu allows for
+ *   robust filtering of the feed content.
+ * - **Real-time Data**: Fetches posts from Firestore and can be extended to
+ *   listen for real-time updates.
+ *
+ * @returns {JSX.Element} The social feed content component.
+ */
 export function SocialFeedContent() {
     const { user, authReady } = useAuth();
     const { toast } = useToast();
@@ -408,6 +454,20 @@ export function SocialFeedContent() {
     );
 }
 
+/**
+ * Renders a dialog for reporting inappropriate content.
+ *
+ * This component provides a form for users to report a post. It includes a
+ * dropdown to select a reason for the report and an optional text area for
+ * additional details. Submitting the report simulates an API call and shows
+ * a confirmation toast.
+ *
+ * @param {{open: boolean; onOpenChange: (open: boolean) => void; post: Post}} props - The props for the component.
+ * @param {boolean} props.open - Whether the dialog is open.
+ * @param {(open: boolean) => void} props.onOpenChange - Callback to control the dialog's open state.
+ * @param {Post} props.post - The post being reported.
+ * @returns {JSX.Element} The report dialog component.
+ */
 function ReportDialog({ open, onOpenChange, post }: { open: boolean, onOpenChange: (open: boolean) => void, post: Post }) {
     const { toast } = useToast();
     const [reason, setReason] = useState("");
@@ -484,6 +544,20 @@ function ReportDialog({ open, onOpenChange, post }: { open: boolean, onOpenChang
     );
   }
 
+/**
+ * Renders a single post card in the social feed.
+ *
+ * This component displays the content of a single post, including the user's
+ * information, the post content and image, and the time it was posted. It
+ * features a dynamically styled category badge and a dropdown menu for actions
+ * like reporting the post. It also integrates the `SpiritualReactions`
+ * component to handle user interactions.
+ *
+ * @param {{post: Post; timeAgo: (date: any) => string}} props - The props for the component.
+ * @param {Post} props.post - The post data to display.
+ * @param {(date: any) => string} props.timeAgo - A function to format the timestamp into a relative time string.
+ * @returns {JSX.Element} The post card component.
+ */
 function PostCard({ post, timeAgo }: { post: Post; timeAgo: (date: any) => string }) {
     const category = getCategoryDisplay(post.category || 'growth');
     const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);

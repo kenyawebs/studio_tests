@@ -30,6 +30,15 @@ const entryTypes = [
     "Life Reflection", "Dream Exploration", "Personal Vision", "Life Insight", "Future Planning", "Wisdom Received"
 ];
 
+/**
+ * Renders a skeleton loading state for the list of past journal entries.
+ *
+ * This component provides a visual placeholder while the user's journal
+ * entries are being fetched, improving the user experience by indicating
+ * that content is loading.
+ *
+ * @returns {JSX.Element} The journal skeleton component.
+ */
 const JournalSkeleton = () => (
     <div className="space-y-3">
         {[...Array(3)].map((_, i) => (
@@ -42,6 +51,21 @@ const JournalSkeleton = () => (
     </div>
 );
 
+/**
+ * Renders the main content for the Personal Journal page.
+ *
+ * This component provides a comprehensive interface for users to create, view,
+ * and manage their journal entries. It includes:
+ * - A form for writing new entries with a title, content, type, and tags.
+ * - A toggle to make entries public or private.
+ * - An AI-powered assistant that can provide writing prompts and suggestions.
+ * - A real-time list of the user's past entries, fetched from Firestore.
+ *
+ * The component handles all state management for the form, AI interactions,
+ * and the list of entries, including loading and saving states.
+ *
+ * @returns {JSX.Element} The personal journal content component.
+ */
 export function PersonalJournalContent() {
     const { user, authReady } = useAuth();
     const { toast } = useToast();

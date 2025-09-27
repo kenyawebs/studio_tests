@@ -5,6 +5,14 @@ import * as AvatarPrimitive from "@radix-ui/react-avatar"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * An image element with a fallback for representing a user or entity.
+ * This is the root container for the avatar.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>} props - The props for the component.
+ * @param {React.Ref<React.ElementRef<typeof AvatarPrimitive.Root>>} ref - The ref for the component.
+ * @returns {JSX.Element} The avatar root component.
+ */
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
@@ -20,6 +28,13 @@ const Avatar = React.forwardRef<
 ))
 Avatar.displayName = AvatarPrimitive.Root.displayName
 
+/**
+ * The image to be displayed within the avatar.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>} props - The props for the component.
+ * @param {React.Ref<React.ElementRef<typeof AvatarPrimitive.Image>>} ref - The ref for the component.
+ * @returns {JSX.Element} The avatar image component.
+ */
 const AvatarImage = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Image>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
@@ -32,6 +47,14 @@ const AvatarImage = React.forwardRef<
 ))
 AvatarImage.displayName = AvatarPrimitive.Image.displayName
 
+/**
+ * A fallback that is rendered when the avatar image fails to load.
+ * Typically used to display initials.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>} props - The props for the component.
+ * @param {React.Ref<React.ElementRef<typeof AvatarPrimitive.Fallback>>} ref - The ref for the component.
+ * @returns {JSX.Element} The avatar fallback component.
+ */
 const AvatarFallback = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Fallback>,
   React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>

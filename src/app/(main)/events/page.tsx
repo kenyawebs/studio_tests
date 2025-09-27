@@ -81,6 +81,17 @@ const categories = [
 
 type Event = typeof initialEvents[0];
 
+/**
+ * Renders the Events Hub page.
+ *
+ * This interactive page allows users to discover, filter, and search for community
+ * events. It features a two-column layout with a map and filter controls on one
+ * side, and a list of event cards on the other. Users can switch between different
+ * event categories, search by keyword, and create new events via a dialog form.
+ * The page is designed to be a central point for community engagement and involvement.
+ *
+ * @returns {JSX.Element} The events page component.
+ */
 export default function EventsPage() {
   const [events, setEvents] = React.useState(initialEvents);
   const [filteredEvents, setFilteredEvents] = React.useState(initialEvents);
@@ -206,6 +217,20 @@ export default function EventsPage() {
   );
 }
 
+/**
+ * Renders a single event card.
+ *
+ * This component displays the details of a single event, including its title,
+ * description, date, and location. It provides interactive elements for users
+ * to RSVP, like the event, and share it. The component manages its own state
+ * for RSVP and like status, and calls the `onUpdate` prop when the like count
+ * changes to update the parent component's state.
+ *
+ * @param {{event: Event; onUpdate: (event: Event) => void}} props - The props for the component.
+ * @param {Event} props.event - The event object to display.
+ * @param {(event: Event) => void} props.onUpdate - A callback function to update the event in the parent state.
+ * @returns {JSX.Element} The event card component.
+ */
 function EventCard({ event, onUpdate }: { event: Event, onUpdate: (event: Event) => void }) {
   const { toast } = useToast();
   const [isRsvpd, setIsRsvpd] = React.useState(false);

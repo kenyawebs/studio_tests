@@ -17,7 +17,16 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/use-auth';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
-// Use DocumentData and cast as needed
+/**
+ * Represents the structure of a user's data fetched from Firestore.
+ * @typedef {DocumentData & object} UserData
+ * @property {string} uid - The unique identifier for the user.
+ * @property {string} displayName - The user's display name.
+ * @property {string} email - The user's email address.
+ * @property {string} photoURL - The URL of the user's profile picture.
+ * @property {{toDate: () => Date}} createdAt - The timestamp of when the user account was created.
+ * @property {boolean} termsAccepted - Whether the user has accepted the terms and conditions.
+ */
 type UserData = DocumentData & {
     uid: string;
     displayName: string;
@@ -27,6 +36,14 @@ type UserData = DocumentData & {
     termsAccepted: boolean;
 };
 
+/**
+ * Renders a skeleton loading state for the user table.
+ *
+ * This component displays a set of placeholder rows to indicate that
+ * user data is being loaded, providing a better user experience than a blank screen.
+ *
+ * @returns {JSX.Element} The user table skeleton component.
+ */
 const UserTableSkeleton = () => (
     <div className="space-y-2">
         {[...Array(5)].map((_, i) => (
@@ -43,7 +60,17 @@ const UserTableSkeleton = () => (
     </div>
 );
 
-
+/**
+ * Renders the admin dashboard page.
+ *
+ * This page is accessible only to users with administrative privileges. It provides
+ * an overview of key metrics and tools for user management. The component fetches
+ * all user data from Firestore and displays it in a sortable, searchable table.
+ * It includes placeholder functionality for admin actions like making another user
+ * an admin or disabling an account, demonstrating the UI and flow for such actions.
+ *
+ * @returns {JSX.Element | null} The admin dashboard page component, or null if the user is not an authorized admin.
+ */
 export default function AdminPage() {
     const [users, setUsers] = useState<UserData[]>([]);
     const [loading, setLoading] = useState(true);

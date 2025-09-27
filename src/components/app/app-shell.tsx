@@ -16,6 +16,23 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { updateUserProfile } from '@/lib/firestore';
 
+/**
+ * The main application shell component.
+ *
+ * This component acts as the primary layout for the authenticated application,
+ * wrapping the page content with a sidebar, header, and global providers.
+ * It is responsible for handling critical cross-cutting concerns:
+ * - **Authentication Guarding**: It ensures that only authenticated users can
+ *   access protected routes, redirecting to `/login` if necessary.
+ * - **Admin Route Protection**: It checks for administrative privileges and
+ *   redirects non-admin users away from `/admin` routes.
+ * - **Terms of Service Enforcement**: It verifies if a user has accepted the
+ *   latest terms and displays a modal to enforce acceptance if they have not.
+ *
+ * @param {{children: React.ReactNode}} props - The props for the component.
+ * @param {React.ReactNode} props.children - The page content to be rendered within the shell.
+ * @returns {JSX.Element} The application shell component.
+ */
 export function AppShell({ children }: { children: React.ReactNode }) {
   const { user, loading, authReady, isAdmin } = useAuth();
   const router = useRouter();

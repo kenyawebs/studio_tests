@@ -8,14 +8,33 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * The root component for a sheet, which is a side panel that slides in from any side of the screen.
+ * Based on the Radix UI Dialog primitive.
+ */
 const Sheet = SheetPrimitive.Root
 
+/**
+ * The button that opens the sheet.
+ */
 const SheetTrigger = SheetPrimitive.Trigger
 
+/**
+ * The button that closes the sheet.
+ */
 const SheetClose = SheetPrimitive.Close
 
+/**
+ * A portal that renders its children into a new element appended to `document.body`.
+ */
 const SheetPortal = SheetPrimitive.Portal
 
+/**
+ * A semi-transparent overlay that is rendered behind the sheet.
+ * @param {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>} props - The props for the component.
+ * @param {React.Ref<React.ElementRef<typeof SheetPrimitive.Overlay>>} ref - The ref for the component.
+ * @returns {JSX.Element} The sheet overlay component.
+ */
 const SheetOverlay = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>
@@ -31,6 +50,10 @@ const SheetOverlay = React.forwardRef<
 ))
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
+/**
+ * Defines the visual styles for the SheetContent component variants.
+ * This uses `class-variance-authority` to create different styles for each side (`top`, `bottom`, `left`, `right`).
+ */
 const sheetVariants = cva(
   "fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:duration-500",
   {
@@ -50,10 +73,20 @@ const sheetVariants = cva(
   }
 )
 
+/**
+ * Props for the SheetContent component.
+ * Extends the props from the Radix UI Dialog Content and the variants defined by `sheetVariants`.
+ */
 interface SheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
     VariantProps<typeof sheetVariants> {}
 
+/**
+ * The main content of the sheet.
+ * @param {SheetContentProps} props - The props for the component.
+ * @param {React.Ref<React.ElementRef<typeof SheetPrimitive.Content>>} ref - The ref for the component.
+ * @returns {JSX.Element} The sheet content component.
+ */
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
   SheetContentProps
@@ -75,6 +108,11 @@ const SheetContent = React.forwardRef<
 ))
 SheetContent.displayName = SheetPrimitive.Content.displayName
 
+/**
+ * A container for the sheet's title and description.
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The props for the component.
+ * @returns {JSX.Element} The sheet header component.
+ */
 const SheetHeader = ({
   className,
   ...props
@@ -89,6 +127,11 @@ const SheetHeader = ({
 )
 SheetHeader.displayName = "SheetHeader"
 
+/**
+ * A container for the sheet's action buttons.
+ * @param {React.HTMLAttributes<HTMLDivElement>} props - The props for the component.
+ * @returns {JSX.Element} The sheet footer component.
+ */
 const SheetFooter = ({
   className,
   ...props
@@ -103,6 +146,12 @@ const SheetFooter = ({
 )
 SheetFooter.displayName = "SheetFooter"
 
+/**
+ * The title of the sheet.
+ * @param {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>} props - The props for the component.
+ * @param {React.Ref<React.ElementRef<typeof SheetPrimitive.Title>>} ref - The ref for the component.
+ * @returns {JSX.Element} The sheet title component.
+ */
 const SheetTitle = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>
@@ -115,6 +164,12 @@ const SheetTitle = React.forwardRef<
 ))
 SheetTitle.displayName = SheetPrimitive.Title.displayName
 
+/**
+ * The description of the sheet.
+ * @param {React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>} props - The props for the component.
+ * @param {React.Ref<React.ElementRef<typeof SheetPrimitive.Description>>} ref - The ref for the component.
+ * @returns {JSX.Element} The sheet description component.
+ */
 const SheetDescription = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>

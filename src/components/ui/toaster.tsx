@@ -10,6 +10,12 @@ import {
   ToastViewport,
 } from "@/components/ui/toast"
 
+/**
+ * Renders a list of toasts based on the state from the `useToast` hook.
+ * This component should be placed at the root of the application.
+ *
+ * @returns {JSX.Element} The toaster component which displays all active toasts.
+ */
 export function Toaster() {
   const { toasts } = useToast()
 

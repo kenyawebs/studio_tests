@@ -5,7 +5,10 @@ import { db } from "./firebase";
 import { classifyPost } from "@/ai/flows/classify-post-flow";
 import { CulturalIntelligenceService } from "@/services/cultural-intelligence";
 
-// ORIGINAL WORKING USER PROFILE (unchanged)
+/**
+ * Defines the structure for a user's profile data in Firestore.
+ * @typedef {object} UserProfileData
+ */
 export type UserProfileData = {
     uid: string;
     email: string | null;
@@ -22,7 +25,10 @@ export type UserProfileData = {
     region?: string;
 };
 
-// ORIGINAL WORKING JOURNAL ENTRY (unchanged)
+/**
+ * Defines the structure for a user's journal entry in Firestore.
+ * @typedef {object} JournalEntryData
+ */
 export type JournalEntryData = {
     userId: string;
     title: string;
@@ -33,11 +39,22 @@ export type JournalEntryData = {
     timestamp: any;
 };
 
-// SPIRITUAL TYPES (new but optional)
+/**
+ * Defines the possible types of spiritual reactions to a post.
+ * @typedef {'praying' | 'believing' | 'encouraging' | 'inspired'} SpiritualReaction
+ */
 export type SpiritualReaction = 'praying' | 'believing' | 'encouraging' | 'inspired';
+
+/**
+ * Defines the possible categories for a testimony post.
+ * @typedef {'breakthrough' | 'healing' | 'provision' | 'restoration' | 'calling' | 'growth'} TestimonyCategory
+ */
 export type TestimonyCategory = 'breakthrough' | 'healing' | 'provision' | 'restoration' | 'calling' | 'growth';
 
-// FIXED POST TYPE (with proper timestamp handling)
+/**
+ * Defines the structure for a social feed post in Firestore.
+ * @typedef {object} Post
+ */
 export type Post = {
     id: string;
     userId: string;
@@ -54,7 +71,6 @@ export type Post = {
     imageUrl?: string;
     aiHint?: string;
     
-    // NEW: Optional spiritual features (won't break existing data)
     type?: 'testimony' | 'prayer_request' | 'text' | 'question';
     category?: TestimonyCategory;
     reactions?: {
@@ -66,13 +82,15 @@ export type Post = {
     userReaction?: { [key: string]: SpiritualReaction }; // Changed to handle multiple users
     prayCount?: number;
 
-    // Phase 1D: Silent cultural intelligence
     metadata?: {
         [key: string]: any;
     };
 };
 
-// SAFE PRAYER REQUEST (unchanged)
+/**
+ * Defines the structure for a prayer request on the community wall.
+ * @typedef {object} PrayerRequest
+ */
 export type PrayerRequest = {
     id: string;
     userId: string;
@@ -87,7 +105,12 @@ export type PrayerRequest = {
     type: 'request' | 'testimony' | 'verdict' | 'answered';
 };
 
-// ALL ORIGINAL FUNCTIONS (unchanged)
+/**
+ * Creates a user profile document in Firestore if one doesn't already exist.
+ * @param {User} user - The Firebase authenticated user object.
+ * @param {Record<string, any>} [additionalData={}] - Any additional data to include in the profile.
+ * @returns {Promise<void>}
+ */
 export const createUserProfile = async (user: User, additionalData: Record<string, any> = {}) => {
     if (!user || !db) return;
 
@@ -117,6 +140,11 @@ export const createUserProfile = async (user: User, additionalData: Record<strin
     }
 };
 
+/**
+ * Retrieves a user's profile data from Firestore.
+ * @param {string} uid - The user's unique ID.
+ * @returns {Promise<Partial<UserProfileData> | null>} The user's profile data, or null if not found.
+ */
 export const getUserProfile = async (uid: string): Promise<Partial<UserProfileData> | null> => {
     if (!db) return null;
     const userRef = doc(db, `users/${uid}`);
@@ -124,6 +152,12 @@ export const getUserProfile = async (uid: string): Promise<Partial<UserProfileDa
     return docSnap.exists() ? docSnap.data() as Partial<UserProfileData> : null;
 };
 
+/**
+ * Updates a user's profile data in Firestore.
+ * @param {string} uid - The user's unique ID.
+ * @param {Partial<UserProfileData>} data - The data to update.
+ * @returns {Promise<void>}
+ */
 export const updateUserProfile = async (uid: string, data: Partial<UserProfileData>) => {
     if (!db || !uid) {
         throw new Error("User not authenticated or Firestore not available.");
@@ -149,6 +183,12 @@ export const updateUserProfile = async (uid: string, data: Partial<UserProfileDa
     }
 };
 
+/**
+ * Updates a user's profile photo URL in Firestore.
+ * @param {string} uid - The user's unique ID.
+ * @param {string} photoURL - The new photo URL.
+ * @returns {Promise<void>}
+ */
 export const updateUserProfilePhoto = async (uid: string, photoURL: string) => {
     if (!db || !uid) {
         throw new Error("User not authenticated or Firestore not available.");
@@ -165,6 +205,12 @@ export const updateUserProfilePhoto = async (uid: string, photoURL: string) => {
     }
 };
 
+/**
+ * Creates a new journal entry for a user in Firestore.
+ * @param {User} user - The authenticated user object.
+ * @param {Omit<JournalEntryData, 'userId' | 'timestamp'>} entryData - The data for the new journal entry.
+ * @returns {Promise<void>}
+ */
 export const createJournalEntry = async (user: User, entryData: Omit<JournalEntryData, 'userId' | 'timestamp'>) => {
     if (!db || !user) {
         throw new Error("User must be logged in to create a journal entry.");
@@ -188,6 +234,12 @@ export const createJournalEntry = async (user: User, entryData: Omit<JournalEntr
     }
 };
 
+/**
+ * Updates the prayer count for a prayer request using a distributed counter.
+ * @param {string} prayerId - The ID of the prayer request.
+ * @param {1 | -1} incrementValue - The value to increment or decrement by.
+ * @returns {Promise<void>}
+ */
 export const updatePrayerCount = async (prayerId: string, incrementValue: 1 | -1) => {
     if (!db) {
         console.error("Firestore is not initialized.");
@@ -203,6 +255,12 @@ export const updatePrayerCount = async (prayerId: string, incrementValue: 1 | -1
     }
 };
 
+/**
+ * Creates a new prayer request on the community wall.
+ * @param {User} user - The authenticated user object.
+ * @param {string} request - The text of the prayer request.
+ * @returns {Promise<void>}
+ */
 export const createPrayerRequest = async (user: User, request: string) => {
     if (!db || !user) {
         throw new Error("User must be logged in to create a prayer request.");
@@ -227,7 +285,14 @@ export const createPrayerRequest = async (user: User, request: string) => {
     }
 };
 
-// ENHANCED CREATE POST WITH SPIRITUAL FEATURES (safe)
+/**
+ * Creates a new social post, classifies its content using AI, and adds cultural metadata.
+ * @param {User} user - The authenticated user object.
+ * @param {string} content - The text content of the post.
+ * @param {string} [imageUrl] - The URL of an image attached to the post.
+ * @param {string} [aiHint] - A hint for AI processing of the image.
+ * @returns {Promise<void>}
+ */
 export const createSocialPost = async (user: User, content: string, imageUrl?: string, aiHint?: string) => {
   if (!db || !user) {
     throw new Error("User must be logged in to create a post.");
@@ -279,7 +344,12 @@ export const createSocialPost = async (user: User, content: string, imageUrl?: s
   }
 };
 
-
+/**
+ * Toggles a user's like on a post in a transaction-safe manner.
+ * @param {string} postId - The ID of the post to like or unlike.
+ * @param {string} userId - The ID of the user performing the action.
+ * @returns {Promise<void>}
+ */
 export const toggleLikePost = async (postId: string, userId: string) => {
     if (!db) throw new Error("Firestore is not initialized.");
     
@@ -314,7 +384,13 @@ export const toggleLikePost = async (postId: string, userId: string) => {
     }
 };
 
-// NEW: SPIRITUAL REACTION SYSTEM (safe)
+/**
+ * Toggles a user's spiritual reaction on a post in a transaction-safe manner.
+ * @param {string} postId - The ID of the post.
+ * @param {string} userId - The ID of the user.
+ * @param {SpiritualReaction} reactionType - The type of reaction to apply.
+ * @returns {Promise<void>}
+ */
 export const togglePostReaction = async (postId: string, userId: string, reactionType: SpiritualReaction) => {
     if (!db) throw new Error("Firestore is not initialized.");
     
@@ -356,6 +432,11 @@ export const togglePostReaction = async (postId: string, userId: string, reactio
     }
 };
 
+/**
+ * Retrieves key statistics for a user, such as post and journal counts.
+ * @param {string} uid - The user's unique ID.
+ * @returns {Promise<{journalEntries: number; prayerRequests: number; posts: number;}>} An object containing the user's stats.
+ */
 export const getUserStats = async (uid: string) => {
     if (!db || !uid) {
         throw new Error("User not authenticated or Firestore not available.");
@@ -387,6 +468,12 @@ export const getUserStats = async (uid: string) => {
     }
 };
 
+/**
+ * Fetches a paginated list of social feed posts from Firestore.
+ * @param {number} postsLimit - The number of posts to fetch per page.
+ * @param {DocumentSnapshot | null} lastVisible - The last visible document from the previous fetch, for pagination.
+ * @returns {Promise<{posts: Post[]; lastVisible: DocumentSnapshot | undefined;}>} An object containing the fetched posts and the last visible document.
+ */
 export const getSocialFeedPosts = async (postsLimit: number, lastVisible: DocumentSnapshot | null) => {
     if (!db) {
         throw new Error("Firestore not initialized.");

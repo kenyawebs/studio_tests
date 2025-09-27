@@ -10,6 +10,29 @@ import { cn } from "@/lib/utils";
 import { updatePrayerCount } from "@/lib/firestore";
 import { useAuth } from "@/hooks/use-auth";
 
+/**
+ * Renders a stateful, interactive "Pray" button.
+ *
+ * This component allows authenticated users to "pray" for a specific item,
+ * identified by `prayerId`. It displays the current prayer count and a heart
+ * icon that fills in when the user clicks it.
+ *
+ * Key features:
+ * - **Real-time Count**: Listens for real-time updates to the prayer count from
+ *   Firestore using a snapshot listener.
+ * - **Client-side Persistence**: Remembers a user's "prayed" status for an item
+ *   using `localStorage` to prevent multiple prayers from the same user on the
+ *   same device and maintain the UI state across page loads.
+ * - **Optimistic UI**: The UI updates immediately upon clicking, providing instant
+ *   feedback to the user while the backend update is processed.
+ * - **Backend Update**: Triggers a server function (`updatePrayerCount`) to
+ *   increment or decrement a distributed counter in Firestore, ensuring scalability.
+ *
+ * @param {{prayerId: string; count: number}} props - The props for the component.
+ * @param {string} props.prayerId - The unique identifier of the prayer request.
+ * @param {number} props.count - The initial prayer count to display.
+ * @returns {JSX.Element} The pray button component.
+ */
 export function PrayButton({ prayerId, count }: { prayerId: string, count: number }) {
   const { user } = useAuth();
   const [isPrayed, setIsPrayed] = useState(false);

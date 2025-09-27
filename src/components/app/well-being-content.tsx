@@ -81,6 +81,19 @@ const providers = [
      { name: "David Chen", avatar: "https://placehold.co/100x100/a7f3d0/065f46.png", aiHint: "man outdoors", credentials: "Certified Mediator", specialties: ["Conflict Resolution", "Mediation"], verified: true, approach: "Helps parties find common ground and peaceful resolutions.", languages: ["English"], availability: "Flexible", rate: "90" },
 ];
 
+/**
+ * Renders a dialog with an AI-powered chat assistant.
+ *
+ * This component provides a conversational interface for users to get initial
+ * guidance on various well-being topics. It simulates a chat with an AI,
+ * where users can ask questions and receive pre-defined, helpful responses.
+ *
+ * @param {{title: string; description: string; trigger: React.ReactNode}} props - The props for the component.
+ * @param {string} props.title - The topic or title for the AI session.
+ * @param {string} props.description - A brief description of the topic.
+ * @param {React.ReactNode} props.trigger - The React element that will open the dialog.
+ * @returns {JSX.Element} The AI assistant dialog component.
+ */
 function AiAssistantDialog({ title, description, trigger }: { title: string, description: string, trigger: React.ReactNode }) {
   const [messages, setMessages] = React.useState<{ role: 'user' | 'bot', text: string }[]>([]);
   const [input, setInput] = React.useState('');
@@ -156,6 +169,19 @@ function AiAssistantDialog({ title, description, trigger }: { title: string, des
   );
 }
 
+/**
+ * Renders a dialog displaying a detailed profile for a service provider.
+ *
+ * This component shows more information about a specific provider, including
+ * their photo, credentials, specialties, and approach. It also includes a
+ * button that opens another dialog containing the `BookSessionForm` to allow
+ * users to request a consultation directly from the profile view.
+ *
+ * @param {{provider: object; trigger: React.ReactNode}} props - The props for the component.
+ * @param {object} props.provider - The provider object containing all profile details.
+ * @param {React.ReactNode} props.trigger - The React element that will open the dialog.
+ * @returns {JSX.Element} The provider profile dialog component.
+ */
 function ProviderProfileDialog({ provider, trigger }: { provider: typeof providers[0], trigger: React.ReactNode }) {
   return (
     <Dialog>
@@ -223,6 +249,16 @@ const helplines = {
     ]
 }
 
+/**
+ * Renders a dialog displaying global support and crisis helplines.
+ *
+ * This component provides a quick-access list of important helplines for
+ * users in immediate crisis. It separates lines for general crisis/suicide
+ * support from mental health support and includes international and
+ * region-specific numbers.
+ *
+ * @returns {JSX.Element} The call helpline dialog component.
+ */
 function CallHelplineDialog() {
     return (
         <Dialog>
@@ -266,6 +302,21 @@ function CallHelplineDialog() {
 }
 
 
+/**
+ * Renders the main content for the Well-being Hub page.
+ *
+ * This component provides a centralized hub for mental and spiritual well-being
+ * resources. It is organized into several key sections:
+ * - A primary call-to-action for booking a confidential session.
+ * - A section for professionals to register as service providers.
+ * - A directory of verified providers that users can browse and contact.
+ * - A library of resources on various topics, each with an integrated AI
+ *   assistant for initial guidance.
+ * - A prominent "Emergency Support" card with a dialog linking to crisis
+ *   helplines.
+ *
+ * @returns {JSX.Element} The well-being content component.
+ */
 export function WellBeingContent() {
   return (
     <div className="space-y-8">

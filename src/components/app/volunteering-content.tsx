@@ -75,6 +75,17 @@ const opportunities = [
     },
 ];
 
+/**
+ * Renders the main content for the Community Impact Hub.
+ *
+ * This component provides a comprehensive interface for users to discover and
+ * engage with volunteer opportunities. It features a two-column layout with a
+ * map and filter controls on the left, and a grid of available opportunities
+ * on the right. Users can also suggest new opportunities or post their own
+ * through integrated dialog forms.
+ *
+ * @returns {JSX.Element} The volunteering content component.
+ */
 export function VolunteeringContent() {
   return (
     <div className="space-y-6">
@@ -159,6 +170,19 @@ export function VolunteeringContent() {
   );
 }
 
+/**
+ * Renders a single card for a volunteer opportunity.
+ *
+ * This component displays the details of a specific volunteer opportunity,
+ * including its title, description, location, commitment, and required skills.
+ * It also dynamically generates badges for additional details like age restrictions
+ * or if food is provided. Users can like an opportunity and apply for it via a
+ * dialog that contains the `VolunteerApplicationForm`.
+ *
+ * @param {{opportunity: object}} props - The props for the component.
+ * @param {object} props.opportunity - The opportunity object to display.
+ * @returns {JSX.Element} The opportunity card component.
+ */
 function OpportunityCard({ opportunity }: { opportunity: typeof opportunities[0] }) {
   const [isLiked, setIsLiked] = React.useState(false);
   const Icon = opportunityIcons[opportunity.ministry as keyof typeof opportunityIcons] || opportunityIcons.Default;

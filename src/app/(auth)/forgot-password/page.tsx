@@ -19,6 +19,16 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 
+/**
+ * Renders the forgot password page.
+ *
+ * This component provides a form for users to enter their email address
+ * to receive a password reset link. It handles the form submission,
+ * calls the Firebase service to send the reset email, and displays
+ * notifications to the user based on the outcome.
+ *
+ * @returns {JSX.Element} The forgot password page component.
+ */
 export default function ForgotPasswordPage() {
   const router = useRouter();
   const { toast } = useToast();

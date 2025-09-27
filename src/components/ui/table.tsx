@@ -2,6 +2,12 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * The root `<table>` component, wrapped in a div for overflow handling.
+ * @param {React.HTMLAttributes<HTMLTableElement>} props - The props for the component.
+ * @param {React.Ref<HTMLTableElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The table component.
+ */
 const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
@@ -16,6 +22,12 @@ const Table = React.forwardRef<
 ))
 Table.displayName = "Table"
 
+/**
+ * The `<thead>` element for a table.
+ * @param {React.HTMLAttributes<HTMLTableSectionElement>} props - The props for the component.
+ * @param {React.Ref<HTMLTableSectionElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The table header component.
+ */
 const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
@@ -24,6 +36,12 @@ const TableHeader = React.forwardRef<
 ))
 TableHeader.displayName = "TableHeader"
 
+/**
+ * The `<tbody>` element for a table.
+ * @param {React.HTMLAttributes<HTMLTableSectionElement>} props - The props for the component.
+ * @param {React.Ref<HTMLTableSectionElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The table body component.
+ */
 const TableBody = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
@@ -36,6 +54,12 @@ const TableBody = React.forwardRef<
 ))
 TableBody.displayName = "TableBody"
 
+/**
+ * The `<tfoot>` element for a table.
+ * @param {React.HTMLAttributes<HTMLTableSectionElement>} props - The props for the component.
+ * @param {React.Ref<HTMLTableSectionElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The table footer component.
+ */
 const TableFooter = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
@@ -51,6 +75,12 @@ const TableFooter = React.forwardRef<
 ))
 TableFooter.displayName = "TableFooter"
 
+/**
+ * The `<tr>` element for a table.
+ * @param {React.HTMLAttributes<HTMLTableRowElement>} props - The props for the component.
+ * @param {React.Ref<HTMLTableRowElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The table row component.
+ */
 const TableRow = React.forwardRef<
   HTMLTableRowElement,
   React.HTMLAttributes<HTMLTableRowElement>
@@ -66,6 +96,12 @@ const TableRow = React.forwardRef<
 ))
 TableRow.displayName = "TableRow"
 
+/**
+ * The `<th>` element for a table header.
+ * @param {React.ThHTMLAttributes<HTMLTableCellElement>} props - The props for the component.
+ * @param {React.Ref<HTMLTableCellElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The table head component.
+ */
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
   React.ThHTMLAttributes<HTMLTableCellElement>
@@ -81,6 +117,12 @@ const TableHead = React.forwardRef<
 ))
 TableHead.displayName = "TableHead"
 
+/**
+ * The `<td>` element for a table.
+ * @param {React.TdHTMLAttributes<HTMLTableCellElement>} props - The props for the component.
+ * @param {React.Ref<HTMLTableCellElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The table cell component.
+ */
 const TableCell = React.forwardRef<
   HTMLTableCellElement,
   React.TdHTMLAttributes<HTMLTableCellElement>
@@ -93,6 +135,12 @@ const TableCell = React.forwardRef<
 ))
 TableCell.displayName = "TableCell"
 
+/**
+ * The `<caption>` element for a table.
+ * @param {React.HTMLAttributes<HTMLTableCaptionElement>} props - The props for the component.
+ * @param {React.Ref<HTMLTableCaptionElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The table caption component.
+ */
 const TableCaption = React.forwardRef<
   HTMLTableCaptionElement,
   React.HTMLAttributes<HTMLTableCaptionElement>

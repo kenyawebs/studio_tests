@@ -20,6 +20,26 @@ import { LocationInput } from "./location-input";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 
+/**
+ * Renders the user settings page.
+ *
+ * This component provides a comprehensive interface for users to manage their
+ * personal information and account settings. It fetches the user's profile data
+ * from Firestore and pre-fills the form.
+ *
+ * Key features:
+ * - **Profile Editing**: Allows users to update their display name, birthday,
+ *   location, church, favorite scripture, and bio.
+ * - **Avatar Upload**: Provides functionality for users to upload a new profile
+ *   picture, which updates both Firebase Auth and Firestore.
+ * - **Account Management**: Includes a "Danger Zone" for deactivating or
+ *   permanently deleting the user's account, with confirmation dialogs to
+ *   prevent accidental actions.
+ * - **Loading States**: Displays a skeleton loader while the initial profile
+ *   data is being fetched.
+ *
+ * @returns {JSX.Element} The settings page content component.
+ */
 export function SettingsContent() {
     const { user } = useAuth();
     const { toast } = useToast();

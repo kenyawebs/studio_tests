@@ -30,6 +30,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 
 
+/**
+ * Renders the Google icon.
+ * @param {React.SVGProps<SVGSVGElement>} props - SVG properties.
+ * @returns {JSX.Element} The Google icon SVG.
+ */
 const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px" {...props}>
         <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
@@ -39,12 +44,29 @@ const GoogleIcon = (props: React.SVGProps<SVGSVGElement>) => (
     </svg>
 );
 
+/**
+ * Renders the Facebook icon.
+ * @param {React.SVGProps<SVGSVGElement>} props - SVG properties.
+ * @returns {JSX.Element} The Facebook icon SVG.
+ */
 const FacebookIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" {...props}>
       <path d="M23.998 12c0-6.627-5.373-12-12-12S0 5.373 0 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.61 22.954 23.998 17.99 23.998 12z" fill="currentColor"/>
     </svg>
 );
 
+/**
+ * Renders the login page.
+ *
+ * This component provides a comprehensive login interface for users,
+ * supporting email/password authentication as well as social logins via
+ * Google and Facebook. It includes features like "Remember me" to persist
+ * user sessions, handles various authentication errors gracefully by
+ * displaying informative messages, and redirects users to the dashboard
+ * upon successful authentication.
+ *
+ * @returns {JSX.Element} The login page component.
+ */
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();

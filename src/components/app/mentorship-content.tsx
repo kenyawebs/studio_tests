@@ -29,6 +29,21 @@ const recentPosts = [
   { user: "Sarah Kim", title: "Bringing your values into your workplace", snippet: "How can we be a positive influence? It starts with excellence and integrity..." },
 ]
 
+/**
+ * Renders the main content for the Life Mentoring Network page.
+ *
+ * This component provides a comprehensive interface for users to engage with
+ * the mentorship program. It features a two-column layout:
+ * - The main column allows users to search and filter for mentors, displaying
+ *   the results as a grid of profile cards. Users can request mentorship from
+ *   a specific mentor via a dialog form, which includes an AI assistant to
+ *   help draft the request.
+ * - The sidebar column includes a call-to-action for users to apply to become
+ *   mentors themselves, a list of recent wisdom posts from existing mentors,
+ *   and a placeholder for a community discussion panel.
+ *
+ * @returns {JSX.Element} The life mentoring content component.
+ */
 export function MentorshipContent() {
   const { toast } = useToast();
 

@@ -23,6 +23,13 @@ import { useToast } from "@/hooks/use-toast";
 import { Input } from "../ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
+/**
+ * Zod schema for the suggest opportunity form.
+ *
+ * This schema defines the validation rules for the fields required to suggest
+ * a new community impact opportunity, including its title, description,
+ * expected impact, and urgency.
+ */
 const formSchema = z.object({
   title: z.string().min(5, { message: "Please provide a short, descriptive title." }),
   description: z.string().min(20, { message: "Please describe the opportunity and the problem it solves (at least 20 characters)." }),
@@ -31,7 +38,18 @@ const formSchema = z.object({
   resources: z.string().optional(),
 });
 
-
+/**
+ * Renders a form for users to suggest a new community impact opportunity.
+ *
+ * This component provides a structured form for users to submit their ideas
+ * for new volunteer or community service initiatives. It uses `react-hook-form`
+ * for state management and `zod` for validation. The form collects details
+ * about the proposed idea, its potential impact, and its urgency. Upon
+ * submission, it simulates sending the suggestion for admin review and
+ * displays a confirmation toast.
+ *
+ * @returns {JSX.Element} The suggest opportunity form component.
+ */
 export function SuggestOpportunityForm() {
   const { toast } = useToast();
   

@@ -3,6 +3,14 @@ import * as React from 'react';
 
 import {cn} from '@/lib/utils';
 
+/**
+ * Renders a styled multi-line text input field.
+ * This component forwards its ref to the underlying `textarea` element.
+ *
+ * @param {React.ComponentProps<'textarea'>} props - The props for the component, extending standard textarea attributes.
+ * @param {React.Ref<HTMLTextAreaElement>} ref - The ref for the component.
+ * @returns {JSX.Element} The textarea component.
+ */
 const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<'textarea'>>(
   ({className, ...props}, ref) => {
     return (

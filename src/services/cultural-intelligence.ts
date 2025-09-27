@@ -2,10 +2,22 @@
 import type { User } from "firebase/auth";
 import type { UserProfileData } from "@/lib/firestore";
 
+/**
+ * A type representing a dictionary of detected spiritual terms, categorized by theme.
+ * @typedef {object.<string, string[]>} SpiritualTerms
+ */
 type SpiritualTerms = {
     [key: string]: string[];
 }
 
+/**
+ * Defines the structure for the cultural metadata collected from user content.
+ * @typedef {object} CulturalMetadata
+ * @property {any} [languagePatterns] - Placeholder for detected language patterns.
+ * @property {SpiritualTerms} [spiritualTerms] - Detected spiritual terms and their categories.
+ * @property {any} [expressions] - Placeholder for detected cultural expressions.
+ * @property {string} collectedAt - The ISO timestamp of when the metadata was collected.
+ */
 type CulturalMetadata = {
     languagePatterns?: any;
     spiritualTerms?: SpiritualTerms;
@@ -13,9 +25,21 @@ type CulturalMetadata = {
     collectedAt: string;
 }
 
+/**
+ * A service class for analyzing content to gather cultural and linguistic insights.
+ * This service is designed to operate silently in the background to enrich user data
+ * without affecting the primary user experience.
+ */
 export class CulturalIntelligenceService {
   /**
-   * Silently collects cultural metadata without impacting Firebase's core flow
+   * Collects cultural metadata from user-generated content.
+   * This method analyzes the text for language patterns, spiritual terminology,
+   * and cultural expressions to build a richer understanding of the user's context.
+   *
+   * @param {string} content - The text content to analyze.
+   * @param {User} user - The authenticated user object.
+   * @param {Partial<UserProfileData>} [userProfile] - The user's profile data, if available.
+   * @returns {Promise<CulturalMetadata>} A promise that resolves to the collected metadata.
    */
   static async collectCulturalMetadata(
     content: string, 
@@ -46,18 +70,35 @@ export class CulturalIntelligenceService {
     }
   }
 
+  /**
+   * Placeholder for a function to detect language patterns.
+   * @private
+   * @param {string} content - The text content to analyze.
+   * @returns {object} An empty object as a placeholder.
+   */
   private static detectLanguagePatterns(content: string) {
       // Placeholder for future implementation
       return {};
   }
   
+  /**
+   * Placeholder for a function to detect cultural expressions.
+   * @private
+   * @param {string} content - The text content to analyze.
+   * @returns {object} An empty object as a placeholder.
+   */
   private static detectCulturalExpressions(content: string) {
       // Placeholder for future implementation
       return {};
   }
 
   /**
-   * Analyzes spiritual terminology without affecting core classification
+   * Analyzes the content for specific spiritual terms and categorizes them.
+   * This method uses a predefined dictionary of terms relevant to different spiritual themes.
+   *
+   * @private
+   * @param {string} content - The text content to analyze.
+   * @returns {SpiritualTerms} A dictionary of detected terms grouped by category.
    */
   private static analyzeSpiritualTerminology(content: string): SpiritualTerms {
     const GLOBAL_SOUTH_TERMS = {

@@ -9,6 +9,10 @@ import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
+/**
+ * A mapping of route paths to their corresponding page titles.
+ * @type {{ [key: string]: string }}
+ */
 const titles: { [key: string]: string } = {
   "/dashboard": "Dashboard",
   "/social-feed": "Testimony & Milestone Feed",
@@ -26,6 +30,16 @@ const titles: { [key: string]: string } = {
   "/admin": "Admin Dashboard",
 };
 
+/**
+ * Renders the main application header.
+ *
+ * This component is displayed at the top of the main application layout.
+ * It includes a sidebar trigger for mobile, the current page title, a search bar,
+ * and the user navigation menu. The title is dynamically set based on the current
+ * URL pathname. The search bar allows users to search within the current page context.
+ *
+ * @returns {JSX.Element} The header component.
+ */
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();

@@ -36,6 +36,14 @@ const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
 );
 
+/**
+ * Zod schema for the create event form.
+ *
+ * This schema defines the validation rules for all the fields required to
+ * create a new event. It includes conditional validation to ensure that a
+ * location is provided for physical events and a URL is provided for online
+ * events.
+ */
 const formSchema = z.object({
   title: z.string().min(3, { message: "Title must be at least 3 characters." }),
   description: z.string().min(10, { message: "Description must be at least 10 characters." }),
@@ -64,6 +72,18 @@ const formSchema = z.object({
     path: ["url"],
 });
 
+/**
+ * Renders a form for creating a new event.
+ *
+ * This component provides a comprehensive form for users to submit new events
+ * for admin review. It uses `react-hook-form` for state management and `zod`
+ * for validation. The form includes fields for event details, type, date, time,
+ * and venue information, with conditional logic to show either a location input
+ * for physical events or a URL input for online events. Upon submission, it
+ * simulates sending the data for review and displays a success toast.
+ *
+ * @returns {JSX.Element} The create event form component.
+ */
 export function CreateEventForm() {
   const { toast } = useToast();
   const [venueType, setVenueType] = useState("physical");

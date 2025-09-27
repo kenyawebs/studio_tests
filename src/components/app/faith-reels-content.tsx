@@ -74,6 +74,18 @@ const reels = [
   },
 ];
 
+/**
+ * Renders the main content for the Faith Reels/Life Stories feature.
+ *
+ * This component creates a full-screen, vertical-scrolling video feed similar
+ * to platforms like TikTok or Instagram Reels. It manages the state for the
+ * currently displayed reel and handles both automatic and manual scrolling.
+ * Autoplay is scheduled and paused based on user interaction to provide a
+ * seamless viewing experience. It also includes a dialog for users to upload
+ * or import their own content.
+ *
+ * @returns {JSX.Element} The Faith Reels content component.
+ */
 export function FaithReelsContent() {
   const [currentReelIndex, setCurrentReelIndex] = useState(0);
   const [isAutoScrollPaused, setIsAutoScrollPaused] = useState(false);
@@ -170,6 +182,16 @@ export function FaithReelsContent() {
 }
 
 
+/**
+ * Renders a single reel video.
+ *
+ * This component displays an individual video in the feed, complete with its
+ * background, user information, caption, and interactive elements. It manages
+_ * its own state for following the user and for the selected reaction.
+ *
+ * @param {(typeof reels)[0]} props - The props for the component, containing all reel data.
+ * @returns {JSX.Element} The Reel component.
+ */
 function Reel({ user, videoUrl, aiHint, caption, audio, likes, comments }: (typeof reels)[0]) {
   const { toast } = useToast();
   const [isFollowing, setIsFollowing] = React.useState(false);

@@ -6,6 +6,14 @@ import { Circle } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * A set of checkable buttons, known as radio buttons, where no more than one can be checked at a time.
+ * This is the root container for the radio group.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>} props - The props for the component.
+ * @param {React.Ref<React.ElementRef<typeof RadioGroupPrimitive.Root>>} ref - The ref for the component.
+ * @returns {JSX.Element} The radio group component.
+ */
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
@@ -20,6 +28,13 @@ const RadioGroup = React.forwardRef<
 })
 RadioGroup.displayName = RadioGroupPrimitive.Root.displayName
 
+/**
+ * An item within a radio group that can be checked.
+ *
+ * @param {React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>} props - The props for the component.
+ * @param {React.Ref<React.ElementRef<typeof RadioGroupPrimitive.Item>>} ref - The ref for the component.
+ * @returns {JSX.Element} The radio group item component.
+ */
 const RadioGroupItem = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>

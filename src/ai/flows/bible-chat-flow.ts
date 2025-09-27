@@ -23,6 +23,15 @@ const BibleChatOutputSchema = z.object({
 export type BibleChatOutput = z.infer<typeof BibleChatOutputSchema>;
 
 
+/**
+ * Handles the Bible chat process.
+ *
+ * This function takes a user's question as input, processes it through the
+ * `bibleChatFlow`, and returns an AI-generated answer.
+ *
+ * @param {BibleChatInput} input - The user's question.
+ * @returns {Promise<BibleChatOutput>} The AI-generated answer.
+ */
 export async function askBibleAi(input: BibleChatInput): Promise<BibleChatOutput> {
   return bibleChatFlow(input);
 }

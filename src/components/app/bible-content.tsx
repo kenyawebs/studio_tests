@@ -29,6 +29,15 @@ const topicalVerses = {
     "Love": ["1 Corinthians 13:4-8", "John 15:13", "1 John 4:19"]
 };
 
+/**
+ * Renders a skeleton loading state for the scripture display area.
+ *
+ * This component provides a visual placeholder while the scripture text is being
+ * fetched from the API, improving the user experience by indicating that content
+ * is on its way.
+ *
+ * @returns {JSX.Element} The scripture skeleton component.
+ */
 const ScriptureSkeleton = () => (
     <div className="space-y-4">
         <Skeleton className="h-8 w-1/2" />
@@ -41,7 +50,25 @@ const ScriptureSkeleton = () => (
     </div>
 );
 
-
+/**
+ * Renders the main content for the Wisdom Texts page.
+ *
+ * This is a comprehensive component that provides multiple ways for users to
+ * interact with ancient wisdom texts. It integrates three main features:
+ * 1.  **Wisdom Reader**: Allows users to select a book, chapter, and verse range
+ *     to read scripture directly. It fetches and displays the text from an
+ *     external Bible API.
+ * 2.  **Topical Guide**: Provides a curated list of topics (e.g., Hope, Peace)
+ *     and fetches relevant verses for the selected topic.
+ * 3.  **Life Wisdom AI**: An AI-powered chat interface where users can ask
+ *     questions about passages or topics to get insights and explanations.
+ *
+ * The component manages the state for all these features, including loading,
+ * user input, and data fetching. It also handles the UI display for when
+ * AI features are not configured.
+ *
+ * @returns {JSX.Element} The wisdom texts content component.
+ */
 export function WisdomTextsContent() {
     const { toast } = useToast();
     const isAiConfigured = !!process.env.NEXT_PUBLIC_GOOGLE_AI_API_KEY;

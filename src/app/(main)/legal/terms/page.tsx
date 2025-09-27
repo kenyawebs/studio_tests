@@ -1,6 +1,15 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
+/**
+ * Renders the Terms of Service page.
+ *
+ * This component displays the full text of the platform's terms of service,
+ * outlining the rules and responsibilities for users. It is formatted
+ * within a card for readability.
+ *
+ * @returns {JSX.Element} The terms of service page component.
+ */
 export default function TermsOfServicePage() {
   return (
     <div className="max-w-4xl mx-auto">

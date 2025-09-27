@@ -29,6 +29,12 @@ const phoneRegex = new RegExp(
   /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
 );
 
+/**
+ * Zod schema for the volunteer application form.
+ *
+ * This schema defines the validation rules for the fields required to apply
+ * for a volunteer opportunity, including personal details and interest level.
+ */
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
   email: z.string().email(),
@@ -40,10 +46,27 @@ const formSchema = z.object({
   message: z.string().optional(),
 });
 
+/**
+ * Props for the VolunteerApplicationForm component.
+ * @typedef {object} VolunteerApplicationFormProps
+ * @property {string} opportunityTitle - The title of the opportunity the user is applying for.
+ */
 type VolunteerApplicationFormProps = {
     opportunityTitle: string;
 }
 
+/**
+ * Renders a form for applying to a specific volunteer opportunity.
+ *
+ * This component provides a streamlined application form for users interested
+ * in a volunteer role. It uses `react-hook-form` for state management and `zod`
+ * for validation. The form is pre-filled with the authenticated user's name
+ * and email. Upon submission, it simulates sending the application to the
+ * opportunity organizer and displays a confirmation toast.
+ *
+ * @param {VolunteerApplicationFormProps} props - The props for the component.
+ * @returns {JSX.Element} The volunteer application form component.
+ */
 export function VolunteerApplicationForm({ opportunityTitle }: VolunteerApplicationFormProps) {
   const { toast } = useToast();
   const { user } = useAuth();

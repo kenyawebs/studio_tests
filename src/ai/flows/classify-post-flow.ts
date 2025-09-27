@@ -23,6 +23,15 @@ const ClassifyPostOutputSchema = z.object({
 export type ClassifyPostOutput = z.infer<typeof ClassifyPostOutputSchema>;
 
 
+/**
+ * Analyzes post text and returns a category.
+ *
+ * This function takes the content of a user's post, processes it through the
+ * `classifyPostFlow`, and returns a classification category.
+ *
+ * @param {ClassifyPostInput} input - The post content to be classified.
+ * @returns {Promise<ClassifyPostOutput>} The classification category.
+ */
 export async function classifyPost(input: ClassifyPostInput): Promise<ClassifyPostOutput> {
   return classifyPostFlow(input);
 }
